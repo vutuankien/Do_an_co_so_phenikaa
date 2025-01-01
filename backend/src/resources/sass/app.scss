@@ -1,0 +1,13 @@
+@import './variable';
+// @import "./header";;
+@import './sidebar';
+@import './main_content';
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+label {
+    font-size: 15px;
+    font-weight: 600;
+}

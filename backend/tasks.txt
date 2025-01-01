@@ -1,0 +1,15 @@
+Quản lý cái j bây h
+How to design UI
+
+- mỹ phẩm
+    -add infor
+    - update
+    - view table
+- blog
+    -add infor
+    - update
+    - view table
+-account
+    -add infor
+    - update
+    - view table

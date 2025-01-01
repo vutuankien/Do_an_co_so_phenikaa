@@ -1,0 +1,30 @@
+.main-content {
+    left: 500px;
+    top: 90px;
+}
+
+//reponsive
+//tablet
+@media only screen and (max-width: 992px) {
+    .main-content {
+        left: 80px;
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 20px;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .main-content {
+        left: 80px;
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            // column-gap: 20px;
+        }
+    }
+}

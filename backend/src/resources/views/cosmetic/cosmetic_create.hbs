@@ -1,0 +1,79 @@
+<div class="container px-4">
+    <div class="d-flex align-items-center gap-2">
+        <a href="/cosmetic" class="text-black fs-5 fw-bolder"><i class="bi bi-arrow-left fw-bolder fs-5"></i></a>
+        <h3>Back</h3>
+    </div>
+
+    <div class="mt-4">
+        <form>
+            <div class="mb-2">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" >
+            </div>
+            <div class="mb-2">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" id="description" name="description" style="height: 80px; width:full"></textarea>
+            </div>
+            <div class="d-flex gap-5">
+                <div class="mb-2">
+                    <label for="category" class="form-label me-2">Category</label>
+                    <br>
+                    <select name="category" id="category" class="py-2 px-2 rounded">
+                        <option value="" class="rounded-pill">Select Category of the cosmetic</option>
+                        <option value="lipstick" class="rounded-pill">Lip Stick</option>
+                        <option value="skincare" class="rounded-pill">Skin Care</option>
+                        <option value="makeup" class="rounded-pill">Make Up</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" class="form-control" id="stock" name="stock" min="0">
+                </div>
+                <div class="mb-2">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="text" class="form-control" id="rating" name="rating">
+                </div>
+                <div class="mb-2">
+                    <label for="size" class="form-label">Size</label>
+                    <input type="text" class="form-control" id="size" name="size">
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label for="brand" class="form-label">Brand</label>
+                <input type="text" class="form-control" id="brand" name="brand">
+            </div>
+            <div class="mb-2">
+                <label for="image" class="form-label">Image</label>
+                <input type="text" class="form-control" id="image" name="image">
+            </div>
+            <div class="d-flex gap-5">
+                <div class="mb-2">
+                    <label for="name" class="form-label">
+                        Expiration Date
+                    </label>
+                    <input type="date" class="form-control" id="name" name="name" placeholder="Select Expiration Date">
+                </div>
+                <div class="mb-2">
+                    <label for="name" class="form-label">Manufacturing Date</label>
+                    <input type="date" class="form-control" id="name" name="name">
+                </div>
+            </div>
+            <div class="d-flex gap-4 my-4">
+
+                <div>
+                    <input type="checkbox" name="isNewArrived" id="newArrived">
+                    <span>New Arrived</span>
+                </div>
+
+                <div><input type="checkbox" name="isBestSeller" id="bestSeller">
+                    <span>Best Seller</span>
+                </div>
+
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

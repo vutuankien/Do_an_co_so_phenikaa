@@ -1,0 +1,74 @@
+<div class="container px-3">
+  <div class="w-100 d-flex justify-content-between">
+    <h3>Cosmetic</h3>
+    <button class="btn btn-primary">
+      <a href="/cosmetic/create" class="text-white text-decoration-none text-capitalize">Add Cosmetic</a>
+    </button>
+
+  </div>
+
+  <table class="table table-bordered border rounded-5  mt-3 table-hover " style="cursor: pointer;">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">STT</th>
+        <th scope="col" class="text-center">Name</th>
+        <th scope="col" class="text-center">Category</th>
+        <th scope="col" class="text-center">Brand</th>
+        <th scope="col" class="text-center">Stock</th>
+        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cosmetics}}
+      <tr data-href="/cosmetic/{{this.slug}}">
+        <th scope="row" class="text-center">{{sum @index 1}}</th>
+        <td class="text-center"> {{this.name}}</td>
+        <td class="text-center">{{this.category}}</td>
+        <td class="text-center">{{this.brand}}</td>
+        <td class="text-center">{{this.stock}}</td>
+        <td class="text-center">${{this.price}}</td>
+        <td class="text-center">
+          <button class="btn btn-success"><i class="bi bi-pencil-fill"></i>Edit</button>
+          <button class="btn btn-danger"><i class="bi bi-trash3"></i>Delete</button>
+        </td>
+      </tr>
+
+      {{/each}}
+
+    </tbody>
+  </table>
+
+  <div class="pagination d-flex justify-content-end gap-1">
+    {{#each (range 1 totalPages)}}
+    <button class="btn btn-primary {{#if (eq this ../currentPage)}}active{{/if}}"
+      onclick="window.location.href='?page={{this}}&limit=5'">
+      {{this}}
+    </button>
+    {{/each}}
+  </div>
+
+  <div class="mt-5">
+    <button class="btn btn-primary">Export as Excel</button>
+    <button class="btn btn-primary"><a href="/cosmetic/api" class="text-white text-decoration-none">Xem API</a></button>
+  </div>
+</div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+      row.addEventListener("click", function (e) {
+        if (!e.target.closest("button")) {
+          const href = this.getAttribute("data-href");
+          if (href) {
+            window.location.href = href;
+          }
+        }
+      });
+    });
+  });
+</script>
