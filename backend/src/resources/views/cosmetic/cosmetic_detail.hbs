@@ -1,10 +1,40 @@
 <div>
-    <h1>{{cosmetic.name}}</h1>
+    {{!-- <h1>{{cosmetic.name}}</h1>
+    <img src="{{cosmetic.image}}" alt="">
     <p>{{cosmetic.category}}</p>
     <p>{{cosmetic.brand}}</p>
     <p>{{cosmetic.stock}}</p>
     <p>{{cosmetic.price}}</p>
-    <p>{{cosmetic.description}}</p>
-    <img src="{{cosmetic.image}}" alt="">
-    <button class="btn btn-success"><i class="bi bi-pencil-fill"></i>Edit</button>
+    <p>{{cosmetic.isBestSeller}}</p>
+    <p>{{cosmetic.isNewArrival}}</p>
+    <p>{{cosmetic.description}}</p> --}}
+    <h1>{{cosmetic.name}}</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <img src="{{cosmetic.image}}" alt="" style="width:100%">
+        </div>
+        <div class="col-lg-6">
+            <p class="fs-4 fw-bolder">{{cosmetic.description}}</p>
+            <p class="fs-5 fw-bold">Brand: {{cosmetic.brand}}</p>
+            <p class="fs-5 fw-bold">Số lượng còn lại:{{cosmetic.stock}}</p>
+            <p class="fs-5 fw-bold">${{cosmetic.price}}</p>
+            <div class="d-flex gap-3">
+                <p class="fs-5 fw-bold">
+                {{#if cosmetic.isNewArrival}}
+                <i class="bi bi-check2 text-success fs-4 fw-bolder"></i><span>New Arrival</span>
+                {{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i><span>New Arrival</span>
+                {{/if}}
+            </p>
+            <p class="fs-5 fw-bold">
+                {{#if cosmetic.isBestSeller}}
+                <i class="bi bi-check2 text-success fs-4 fw-bolder"></i><span>Best Seller</span>
+                {{else}}
+                <i class="bi bi-x text-danger fs-4 fw-bolder"></i><span>Best Seller</span>
+                {{/if}}
+            </p>
+            </div>
+        </div>
+    </div>
+    
+    
 </div>

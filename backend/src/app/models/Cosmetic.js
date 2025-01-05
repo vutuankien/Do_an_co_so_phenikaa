@@ -11,13 +11,13 @@ const CosmeticSchema = new Schema(
     {
         _id: { type: Number },
         name: { type: String, maxLength: 255, require: true },
-        description: { type: String, require: true, maxLength: 300 },
+        description: { type: String, require: true, maxLength: 500 },
         category: { type: String, require: true, maxLength: 100 },
         brand: { type: String, require: true, maxLength: 100 },
         stock: { type: Number, require: true },
         image: { type: String, require: true, maxLength: 300 },
-        isNewArrival: { type: Boolean, default: false },
-        isBestSeller: { type: Boolean, default: false },
+        isNewArrival: { type: Boolean },
+        isBestSeller: { type: Boolean },
         price: { type: Number, require: true },
         size: { type: String, maxLength: 100 },
         slug: { type: String, require: true, unique: true },
@@ -52,7 +52,7 @@ CosmeticSchema.pre('save', function (next) {
         .lean();
 
     if (existCosmetic) {
-        cosmeticSlug = `${cosmeticSlug}_${uid()}`;
+        cosmeticSlug = `${cosmeticSlug}_${uid.randomUUID(5)}`;
     }
     cosmetic.slug = cosmeticSlug;
     next();

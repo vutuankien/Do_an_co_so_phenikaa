@@ -4,7 +4,7 @@ class CosmeticController {
     // [GET] /cosmetic
     index(req, res, next) {
         const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 5; // Lấy số lượng hiển thị mỗi trang từ query, mặc định là 2
+        const limit = parseInt(req.query.limit) || 5;
         const skip = page * limit;
 
         Promise.all([
@@ -44,6 +44,88 @@ class CosmeticController {
             .then((cosmetics) => {
                 res.status(200).json(cosmetics);
             })
+            .catch((err) => next(err));
+    }
+
+    // [POST] /cosmetic/api/storeAPI
+    store(req, res, next) {
+        const {
+            name,
+            price,
+            description,
+            image,
+            slug,
+            brand,
+            stock,
+            category,
+            rating,
+            size,
+            expirationDate,
+            manufacturingDate,
+        } = req.body;
+
+        // Chuyển đổi giá trị checkbox
+        const isNewArrival = req.body.isNewArrival === 'true';
+        const isBestSeller = req.body.isBestSeller === 'true';
+
+        const newCosmetic = new Cosmetic({
+            name,
+            price,
+            description,
+            image,
+            slug,
+            brand,
+            stock,
+            category,
+            rating,
+            size,
+            expirationDate,
+            manufacturingDate,
+            isNewArrival,
+            isBestSeller,
+        });
+
+        newCosmetic
+            .save()
+            .then((cosmetic) => {
+                console.log('Saved Cosmetic:', cosmetic);
+                res.redirect('/cosmetic');
+            })
+            .catch((err) => next(err));
+    }
+
+    //[GET] /cosmetic/:id/edit
+    edit(req, res, next) {
+        Cosmetic.findById(req.params.id)
+            .then((cosmetic) => {
+                if (!cosmetic) {
+                    return res.status(404).send('Cosmetic not found');
+                }
+                const expirationDate = cosmetic.expirationDate
+                    ? cosmetic.expirationDate.toISOString().split('T')[0]
+                    : '';
+                const manufacturingDate = cosmetic.manufacturingDate
+                    ? cosmetic.manufacturingDate.toISOString().split('T')[0]
+                    : '';
+                const cosmeticData = {
+                    ...cosmetic.toObject(),
+                    expirationDate,
+                    manufacturingDate,
+                };
+                res.render('cosmetic/cosmetic_edit', {
+                    cosmetic: cosmeticData,
+                });
+            })
+            .catch((err) => next(err));
+    }
+
+    update(req, res, next) {
+        req.body.isNewArrival = req.body.isNewArrival === 'true';
+        req.body.isBestSeller = req.body.isBestSeller === 'true';
+
+        Cosmetic.findByIdAndUpdate(req.params.id, req.body, { new: true })
+            .lean()
+            .then(() => res.redirect('/cosmetic'))
             .catch((err) => next(err));
     }
 }

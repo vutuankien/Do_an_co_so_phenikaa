@@ -22,6 +22,9 @@ app.engine(
         extname: '.hbs',
         defaultLayout: 'main',
         helpers: require('./helpers/handlebars'),
+        runtimeOptions: {
+            allowProtoMethodsByDefault: true,
+        },
     }),
 );
 

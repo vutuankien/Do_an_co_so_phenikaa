@@ -15,6 +15,8 @@
         <th scope="col" class="text-center">Category</th>
         <th scope="col" class="text-center">Brand</th>
         <th scope="col" class="text-center">Stock</th>
+        <th scope="col" class="text-center">New Arrived</th>
+        <th scope="col" class="text-center">Best Seller</th>
         <th scope="col" class="text-center">Price</th>
         <th scope="col" class="text-center">Actions</th>
       </tr>
@@ -27,9 +29,13 @@
         <td class="text-center">{{this.category}}</td>
         <td class="text-center">{{this.brand}}</td>
         <td class="text-center">{{this.stock}}</td>
+        <td class="text-center">{{#if this.isNewArrival}}<i class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
+        <!-- Điều chỉnh hiển thị isBestSeller -->
+        
+        <td class="text-center">{{#if this.isBestSeller}}<i class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
         <td class="text-center">${{this.price}}</td>
         <td class="text-center">
-          <button class="btn btn-success"><i class="bi bi-pencil-fill"></i>Edit</button>
+          <button class="btn btn-success"><a href="/cosmetic/{{this._id}}/edit" class="text-white text-decoration-none"><i class="bi bi-pencil-fill"></i>Edit</a></button>
           <button class="btn btn-danger"><i class="bi bi-trash3"></i>Delete</button>
         </td>
       </tr>

@@ -5,14 +5,15 @@
     </div>
 
     <div class="mt-4">
-        <form>
+        <form method="POST" action="/cosmetic/store">
             <div class="mb-2">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" >
+                <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="mb-2">
                 <label for="description" class="form-label">Description</label>
-                <textarea type="text" class="form-control" id="description" name="description" style="height: 80px; width:full"></textarea>
+                <textarea type="text" class="form-control" id="description" name="description"
+                    style="height: 80px; width:full"></textarea>
             </div>
             <div class="d-flex gap-5">
                 <div class="mb-2">
@@ -37,6 +38,10 @@
                     <label for="size" class="form-label">Size</label>
                     <input type="text" class="form-control" id="size" name="size">
                 </div>
+                <div class="mb-2">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price" name="price">
+                </div>
             </div>
 
             <div class="mb-2">
@@ -49,26 +54,26 @@
             </div>
             <div class="d-flex gap-5">
                 <div class="mb-2">
-                    <label for="name" class="form-label">
-                        Expiration Date
-                    </label>
-                    <input type="date" class="form-control" id="name" name="name" placeholder="Select Expiration Date">
+                    <label for="expirationDate" class="form-label">Expiration Date</label>
+                    <input type="date" class="form-control" id="expirationDate" name="expirationDate">
                 </div>
                 <div class="mb-2">
-                    <label for="name" class="form-label">Manufacturing Date</label>
-                    <input type="date" class="form-control" id="name" name="name">
+                    <label for="manufacturingDate" class="form-label">Manufacturing Date</label>
+                    <input type="date" class="form-control" id="manufacturingDate" name="manufacturingDate">
                 </div>
             </div>
             <div class="d-flex gap-4 my-4">
 
                 <div>
-                    <input type="checkbox" name="isNewArrived" id="newArrived">
-                    <span>New Arrived</span>
+                    <input type="checkbox" name="isNewArrival" id="newArrival" value="true">
+                    <span>New Arrival</span>
                 </div>
-
-                <div><input type="checkbox" name="isBestSeller" id="bestSeller">
+                <div>
+                    <input type="checkbox" name="isBestSeller" id="bestSeller" value="true">
                     <span>Best Seller</span>
                 </div>
+
+
 
 
             </div>
@@ -77,3 +82,19 @@
         </form>
     </div>
 </div>
+
+
+
+<script>
+    const isNewArrival = document.querySelector('input[name="isNewArrival"]');
+    const isBestSeller = document.querySelector('input[name="isBestSeller"]');
+
+    isBestSeller.addEventListener('change', () => {
+        isBestSeller.value = isBestSeller.checked ? "true" : "false";
+    });
+
+    isNewArrival.addEventListener('change', () => {
+        isNewArrival.value = isNewArrival.checked ? "true" : "false";
+    });
+
+</script>
