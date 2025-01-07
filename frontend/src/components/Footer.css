@@ -1,0 +1,138 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  padding: 30px 30px 0 30px;
+  width: 100vw;
+  background-color: #1d1c21;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 80%;
+  max-width: 1200px;
+  height: auto;
+}
+.about {
+  width: 25%;
+}
+
+.about h1 {
+  color: #4a474f;
+  font-size: 14px;
+}
+
+.footer-content-title {
+  font-size: 18px;
+  padding-bottom: 20px;
+}
+.turn-page {
+  padding-bottom: 5px;
+  color: #4a474f;
+  text-decoration: none;
+  font-size: 14px;
+}
+.turn-page:hover {
+  color: #fb9dab;
+  transition: 0.3s;
+}
+
+.turn-page.active {
+  color: #fb9dab;
+  font-weight: bold;
+}
+
+.pages {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-post {
+  width: 25%;
+  gap: 30px;
+}
+
+.recent-post-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+}
+.recent-post-content-img {
+  width: 30%;
+}
+.recent-post-content-title {
+  width: 70%;
+  font-size: 12px;
+  font-weight: 500;
+}
+.recent-post-content-title:hover {
+  color: #fb9dab;
+  transition: 0.3s;
+}
+
+.recent-post-content img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.collection {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 40px;
+  border-top: 2px solid gray;
+  padding: 40px 0;
+}
+
+.footer-bottom-logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  gap: 10px;
+}
+
+.footer-bottom-logo a:hover {
+  color: #fb9dab;
+}
+
+.footer-rights {
+  color: #4a474f;
+}
+
+.social-platform {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 50%;
+  gap: 20px;
+}
+
+.social-platform-logo {
+  width: 20px;
+  height: 20px;
+}
+
+.social-platform-logo:hover {
+  stroke: #fb9dab;
+  fill: #fb9dab;
+}
