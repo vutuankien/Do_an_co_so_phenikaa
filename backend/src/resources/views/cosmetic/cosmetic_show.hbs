@@ -23,15 +23,30 @@
     <thead>
       <tr>
         {{!-- <th scope="col" class="text-center"></th> --}}
-        <th scope="col" class="text-center">STT</th>
-        <th scope="col" class="text-center">Name</th>
-        <th scope="col" class="text-center">Category</th>
-        <th scope="col" class="text-center">Brand</th>
-        <th scope="col" class="text-center">Stock</th>
+        <th scope="col" class="text-center">
+          STT
+          {{!-- {{{sortable '_id' _sort}}} --}}
+        </th>
+        <th scope="col" class="text-center">Name
+          {{{sortable 'name' _sort}}}
+        </th>
+
+        <th scope="col" class="text-center">Category
+          {{{sortable 'category' _sort}}}
+        </th>
+
+        <th scope="col" class="text-center">Brand
+          {{{sortable 'brand' _sort}}}
+        </th>
+        <th scope="col" class="text-center">Stock
+          {{{sortable 'stock' _sort}}}
+        </th>
         <th scope="col" class="text-center">New Arrived</th>
         <th scope="col" class="text-center">Best Seller</th>
         <th scope="col" class="text-center">Favorite</th>
-        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Price
+          {{{sortable 'price' _sort}}}
+        </th>
         <th scope="col" class="text-center">Actions</th>
       </tr>
     </thead>
@@ -76,12 +91,15 @@
 
   <div class="pagination d-flex justify-content-end gap-1">
     {{#each (range 1 totalPages)}}
-    <button class="btn btn-primary {{#if (eq this ../currentPage)}}active{{/if}}"
-      onclick="window.location.href='?page={{this}}&limit=5'">
-      {{this}}
-    </button>
+    <div class="page-item {{#if (eq this ../currentPage)}}active{{/if}}">
+      <a class="page-link"
+        href="?page={{this}}&limit={{../limit}}&_sort&column={{../sort.column}}&type={{../sort.type}}">
+        {{this}}
+      </a>
+    </div>
     {{/each}}
   </div>
+
 
   <div class="mt-5">
     <button class="btn btn-primary">Export as Excel</button>

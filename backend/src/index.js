@@ -6,6 +6,7 @@ const handlebars = require('express-handlebars').engine;
 const route = require('./routes');
 const db = require('./config/db/index');
 const methodOverride = require('method-override');
+const SortMiddleware = require('./app/middlewares/SortMiddleware');
 
 //**Connected to database */
 db.connect();
@@ -14,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
+app.use(SortMiddleware);
 //config engine
 app.engine(
     'hbs',

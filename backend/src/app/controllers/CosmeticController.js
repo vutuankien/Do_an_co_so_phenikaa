@@ -3,22 +3,33 @@ const Cosmetic = require('../models/Cosmetic');
 class CosmeticController {
     // [GET] /cosmetic
     index(req, res, next) {
-        const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 5;
-        const skip = page * limit;
+        const page = parseInt(req.query.page) || 1; // Ensure default page is 1
+        const limit = parseInt(req.query.limit) || 5; // Ensure default limit is 5
+        const skip = (page - 1) * limit; // Calculate skip value for pagination
+
+        // Get sorting details from the middleware
+        const sort = {};
+        if (res.locals._sort.enabled) {
+            sort[res.locals._sort.column] =
+                res.locals._sort.type === 'desc' ? -1 : 1;
+        }
 
         Promise.all([
-            Cosmetic.find({}).lean().skip(skip).limit(limit),
+            // Fetch cosmetics with pagination and sorting
+            Cosmetic.find({}).lean().skip(skip).limit(limit).sort(sort),
+            // Count total documents for pagination
             Cosmetic.countDocuments({}),
-            Cosmetic.countDocumentsWithDeleted({ deleted: true }), // Đếm tổng số tài liệu
+            // Count deleted documents
+            Cosmetic.countDocumentsWithDeleted({ deleted: true }),
         ])
             .then(([cosmetics, totalCosmetics, deletedCount]) => {
-                const totalPages = Math.ceil(totalCosmetics / limit); // Tính tổng số trang
+                const totalPages = Math.ceil(totalCosmetics / limit); // Calculate total pages
                 res.render('cosmetic/cosmetic_show', {
                     cosmetics,
-                    currentPage: page + 1,
+                    currentPage: page,
                     totalPages,
                     deletedCount,
+                    sort: res.locals._sort, // Pass sorting info to the view
                 });
             })
             .catch((err) => next(err));

@@ -9,14 +9,14 @@ module.exports = {
     sortable: (field, sort) => {
         const sortType = field === sort.column ? sort.type : 'default';
         const types = {
-            default: 'desc',
+            default: 'asc', // Default to ascending order
             asc: 'desc',
             desc: 'asc',
         };
         const icons = {
-            default: 'bi-arrows-vertical',
-            asc: 'bi bi-sort-alpha-up',
-            desc: 'bi bi-sort-alpha-down',
+            default: 'bi-arrows-vertical', // Neutral icon
+            asc: 'bi bi-sort-alpha-up', // Ascending icon
+            desc: 'bi bi-sort-alpha-down', // Descending icon
         };
         const icon = icons[sortType];
         const type = types[sortType];
@@ -24,10 +24,10 @@ module.exports = {
             `?_sort&column=${field}&type=${type}`,
         );
 
-        const output = `<a href="${href}">
-                    <i class="${icon}"></i>
-                </a>`;
-
-        return new Handlebars.SafeString(output);
+        return new Handlebars.SafeString(
+            `<a href="${href}">
+                <i class="${icon}"></i>
+            </a>`,
+        );
     },
 };
