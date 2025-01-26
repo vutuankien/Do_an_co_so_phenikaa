@@ -18,6 +18,7 @@ const CosmeticSchema = new Schema(
         image: { type: String, require: true, maxLength: 300 },
         isNewArrival: { type: Boolean },
         isBestSeller: { type: Boolean },
+        isFavorite: { type: Boolean },
         price: { type: Number, require: true },
         size: { type: String, maxLength: 100 },
         slug: { type: String, require: true, unique: true },

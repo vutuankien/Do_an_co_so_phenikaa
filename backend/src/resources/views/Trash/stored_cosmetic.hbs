@@ -1,0 +1,175 @@
+<div class="container px-3">
+    <div class="w-100 d-flex justify-content-between">
+        <h3>Cosmetic</h3>
+    </div>
+
+    <div>
+        <p><a href="/cosmetic" class="fs-4 text-primary text-decoration-none">Danh sách sản phẩm</a></p>
+    </div>
+
+
+    <table class="table table-bordered border rounded-5  mt-3 table-hover " style="cursor: pointer;">
+        <thead>
+            <tr>
+                {{!-- <th scope="col" class="text-center"></th> --}}
+                <th scope="col" class="text-center">STT</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Category</th>
+                <th scope="col" class="text-center">Brand</th>
+                <th scope="col" class="text-center">Stock</th>
+                <th scope="col" class="text-center">New Arrived</th>
+                <th scope="col" class="text-center">Best Seller</th>
+                <th scope="col" class="text-center">Favorite</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each cosmetics}}
+            <tr data-href="/cosmetic/{{this.slug}}">
+                <th scope="row" class="text-center">{{sum @index 1}}</th>
+                <td class="text-center">{{this.name}}</td>
+                <td class="text-center">{{this.category}}</td>
+                <td class="text-center">{{this.brand}}</td>
+                <td class="text-center">{{this.stock}}</td>
+                <td class="text-center">
+                    {{#if this.isNewArrival}}
+                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i>
+                    {{else}}
+                    <i class="bi bi-x text-danger fs-4 fw-bolder"></i>
+                    {{/if}}
+                </td>
+                <td class="text-center">
+                    {{#if this.isBestSeller}}
+                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i>
+                    {{else}}
+                    <i class="bi bi-x text-danger fs-4 fw-bolder"></i>
+                    {{/if}}
+                </td>
+                <td class="text-center">
+                    {{#if this.isFavorite}}
+                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i>
+                    {{else}}
+                    <i class="bi bi-x text-danger fs-4 fw-bolder"></i>
+                    {{/if}}
+                </td>
+                <td class="text-center">${{this.price}}</td>
+                <td class="text-center">
+                    <button class="btn btn-success btn-restore" data-id="{{this._id}}">
+                        <i class="bi bi-pencil-fill"></i> Restored
+                    </button>
+                    <button class="btn btn-danger delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <i class="bi bi-trash3 me-1"></i> Delete Forever
+                    </button>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="10" class="text-center">Bạn chưa đăng sản phẩm nào
+                    <a href="/cosmetic/create" class="btn btn-link">Create Cosmetic</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+
+    <div class="pagination d-flex justify-content-end gap-1">
+        {{#each (range 1 totalPages)}}
+        <button class="btn btn-primary {{#if (eq this ../currentPage)}}active{{/if}}"
+            onclick="window.location.href='?page={{this}}&limit=5'">
+            {{this}}
+        </button>
+        {{/each}}
+    </div>
+
+    <div class="mt-5">
+        <button class="btn btn-primary">Export as Excel</button>
+        <button class="btn btn-primary"><a href="/cosmetic/api" class="text-white text-decoration-none">Xem
+                API</a></button>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Dangerous!!!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc muốn xóa vĩnh viễn nội dung trên không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger confirm-delete">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="POST" id="delete-form"></form>
+<form method="POST" id="restore-form"></form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            row.addEventListener("click", function (e) {
+                if (!e.target.closest("button") && e.target.tagName !== "INPUT") {
+                    const href = this.getAttribute("data-href");
+                    if (href) {
+                        window.location.href = href;
+                    }
+                }
+            });
+        });
+
+    });
+
+    const staticBackdrop = document.getElementById('staticBackdrop');
+    const deletedForm = document.getElementById('delete-form')
+    let cosmeticId;
+    // Xử lý modal "Delete Forever"
+    if (staticBackdrop) {
+        staticBackdrop.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Nút kích hoạt modal
+            cosmeticId = button.getAttribute('data-id'); // Lấy id sản phẩm
+        });
+    }
+
+    // Xử lý nút "Confirm Delete"
+    const confirmBtn = document.querySelector('.confirm-delete');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (cosmeticId) {
+                deletedForm.action = `/cosmetic/${cosmeticId}/force?_method=DELETE`;
+                deletedForm.submit();
+            }
+        });
+    }
+
+
+
+    // Restore Item
+    // Restore Item
+    const restoreBtns = document.querySelectorAll('.btn-restore');
+    const restoreForm = document.querySelector('#restore-form');
+    restoreBtns.forEach((item) => {
+        item.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default link behavior
+            const currentCosmeticId = item.getAttribute('data-id');
+            console.log("Current Id restore: ", currentCosmeticId);
+            restoreForm.action = `/cosmetic/${currentCosmeticId}/restore?_method=PATCH`; // Update form action
+            restoreForm.submit();
+        });
+    });
+
+
+
+</script>
