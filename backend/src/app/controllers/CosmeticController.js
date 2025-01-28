@@ -1,10 +1,12 @@
 const Cosmetic = require('../models/Cosmetic');
-
+const XLSX = require('xlsx');
+const { faker } = require('@faker-js/faker');
+// const faker = require('faker')
 class CosmeticController {
     // [GET] /cosmetic
     index(req, res, next) {
         const page = parseInt(req.query.page) || 1; // Ensure default page is 1
-        const limit = parseInt(req.query.limit) || 5; // Ensure default limit is 5
+        const limit = parseInt(req.query.limit) || 10; // Ensure default limit is 5
         const skip = (page - 1) * limit; // Calculate skip value for pagination
 
         // Get sorting details from the middleware
@@ -171,6 +173,19 @@ class CosmeticController {
         Cosmetic.findByIdAndDelete(req.params.id)
             .then(() => res.redirect('back'))
             .catch(next);
+    }
+
+    exportData(req, res, next) {
+        var wb = XLSX.utils.book_new();
+        Cosmetic.find({})
+            .lean()
+            .then((cosmetics) => {
+                var ws = XLSX.utils.json_to_sheet(cosmetics);
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'cosmetics.xlsx');
+                res.download('cosmetics.xlsx');
+            })
+            .catch((err) => next(err));
     }
 }
 

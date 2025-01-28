@@ -1,0 +1,14 @@
+<form method="POST" id="blog"></form>
+<button class="btn btn-primary btn_post_blog">Add Blog</button>
+
+<script>
+    const exportBtn = document.querySelector('.btn_post_blog');
+    const exportForm = document.querySelector('#blog');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            exportForm.action = '/blog/add';
+            exportForm.submit();
+        });
+    }
+</script>

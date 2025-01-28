@@ -11,3 +11,72 @@ label {
     font-size: 15px;
     font-weight: 600;
 }
+
+.table th,
+.table td {
+    white-space: nowrap;
+    /* Ngăn chữ xuống dòng */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Hiển thị dấu ... khi quá dài */
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 5%;
+}
+
+/* Cột STT */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 15%;
+}
+
+/* Name */
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 15%;
+}
+
+/* Category */
+.table th:nth-child(4),
+.table td:nth-child(4) {
+    width: 15%;
+}
+
+/* Brand */
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 10%;
+}
+
+/* Stock */
+.table th:nth-child(6),
+.table td:nth-child(6),
+.table th:nth-child(7),
+.table td:nth-child(7),
+.table th:nth-child(8),
+.table td:nth-child(8) {
+    width: 10%;
+    text-align: center;
+}
+
+/* New Arrived, Best Seller, Favorite */
+.table th:nth-child(9),
+.table td:nth-child(9) {
+    width: 10%;
+}
+
+/* Price */
+.table th:nth-child(10),
+.table td:nth-child(10) {
+    width: 15%;
+}
+
+/* Actions */
+
+.table th,
+.table td {
+    padding: 8px;
+    text-align: center;
+}
