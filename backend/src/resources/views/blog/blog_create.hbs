@@ -1,0 +1,81 @@
+<div class="container px-4">
+    <div class="d-flex align-items-center gap-2">
+        <a href="/blog" class="text-black fs-5 fw-bolder"><i class="bi bi-arrow-left fw-bolder fs-5"></i></a>
+        <h3>Back</h3>
+    </div>
+
+    <div class="mt-4">
+        <form method="POST" action="/blog/create">
+            <div class="mb-2">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="mb-2">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" id="description" name="description"
+                    style="height: 80px; width:full"></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="content" class="form-label">Content</label>
+                <textarea type="text" class="form-control" id="content" name="content"
+                    style="height: 80px; width:full"></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="category" class="form-label me-2">Tag</label>
+                <br>
+                <select name="tags" id="tags" class="py-2 px-2 rounded">
+                    <option value="" class="rounded-pill">Select Tags of the Blog</option>
+                    <option value="hair care" class="rounded-pill">Hair Care</option>
+                    <option value="skin care" class="rounded-pill">Skin Care</option>
+                    <option value="life style" class="rounded-pill">Life Style</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="author" class="form-label">Author</label>
+                <input type="text" class="form-control" id="author" name="author" min="0">
+            </div>
+            <div class="mb-2">
+                <label for="image" class="form-label">Image</label>
+                <input type="text" class="form-control" id="image" name="image">
+            </div>
+
+            <div class="d-flex gap-4 my-4">
+
+                <div>
+                    <input type="checkbox" name="isPublished" id="isPublished" value="true">
+                    <span>Published</span>
+                </div>
+                <div>
+                    <input type="checkbox" name="isFeatured" id="isFeatured" value="true">
+                    <span>Featured</span>
+                </div>
+                <div>
+                    <input type="checkbox" name="isFavorited" id="favorited" value="true">
+                    <span>Favorited</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    const isPublished = document.querySelector('input[name="isPublished"]');
+    const isFeatured = document.querySelector('input[name="isFeatured"]');
+    const isFavorited = document.querySelector('input[name="isFavorited"]');
+
+    isPublished.addEventListener('change', () => {
+        isPublished.value = isPublished.checked ? "true" : "false";
+    });
+
+    isFeatured.addEventListener('change', () => {
+        isFeatured.value = isFeatured.checked ? "true" : "false";
+    });
+    isFavorited.addEventListener('change', () => {
+        isFavorited.value = isFavorited.checked ? "true" : "false";
+    });
+
+</script>
