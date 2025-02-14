@@ -1,16 +1,15 @@
-// firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-// Cấu hình Firebase của ứng dụng
+// Cấu hình Firebase sử dụng biến môi trường từ .env
 const firebaseConfig = {
-  apiKey: "AIzaSyBeyvvYdNbZtMogDvpBIkuzzaUXpDTf38A",
-  authDomain: "first-login-a5e79.firebaseapp.com",
-  projectId: "first-login-a5e79",
-  storageBucket: "first-login-a5e79.appspot.com", 
-  messagingSenderId: "948088825390",
-  appId: "1:948088825390:web:059352174b15d5bf4321bf",
-  measurementId: "G-M6LPTVV1KM",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 // Khởi tạo Firebase

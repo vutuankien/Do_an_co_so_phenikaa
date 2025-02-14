@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
-const Port = 3000;
 const path = require('path');
 const handlebars = require('express-handlebars').engine;
 const route = require('./routes');
@@ -11,25 +10,31 @@ const SortMiddleware = require('./app/middlewares/SortMiddleware');
 const connectCloudinary = require('./config/cloudinary');
 require('dotenv').config();
 
-//**Connected to database */
+const PORT = process.env.PORT || 3000;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'default_secret_key'; // Thêm giá trị mặc định
+
+// **Kết nối database & Cloudinary**
 db.connect();
 connectCloudinary();
 
+// **Middleware**
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(SortMiddleware);
-//config engine
+
+// **Cấu hình session**
 app.use(
     session({
-        secret: process.env.SESSION_SECRET, // Chuỗi bí mật
+        secret: SESSION_SECRET, // Chuỗi bí mật (có giá trị mặc định)
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false }, // Để test trên localhost
     }),
 );
 
+// **Cấu hình Handlebars**
 app.engine(
     'hbs',
     handlebars({
@@ -42,10 +47,13 @@ app.engine(
     }),
 );
 
-route(app);
-
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
-app.listen(3000, () => {
-    console.log(`Server is running on port http://localhost:${Port}`);
+
+// **Khai báo route**
+route(app);
+
+// **Chạy server**
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
