@@ -1,7 +1,18 @@
-import React from "react";
+import Breadcrumb from "../components/Breadcrumb";
+import Sidebar from "../components/Sidebar";
+import ProductList from "../components/ProductList";
+import "./Shop.css";
 
 const Shop = () => {
-  return <div></div>;
+  return (
+    <div className="shop_container">
+      <Breadcrumb />
+      <div className="shop_content">
+        <Sidebar />
+        <ProductList />
+      </div>
+    </div>
+  );
 };
 
 export default Shop;

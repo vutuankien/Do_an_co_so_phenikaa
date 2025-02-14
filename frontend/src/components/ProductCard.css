@@ -1,0 +1,33 @@
+.product-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.product-image {
+  max-width: 100%;
+}
+
+.sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  color: white;
+  padding: 5px;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.sale-price {
+  color: red;
+  margin-left: 5px;
+}

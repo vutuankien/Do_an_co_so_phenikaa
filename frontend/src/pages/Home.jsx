@@ -1,13 +1,37 @@
-import { useState } from "react";
-import { assets, productThemes } from "./../assets/assets";
+import { useState, useEffect } from "react";
+import { assets } from "./../assets/assets";
 import "./Home.css";
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragStartX, setDragStartX] = useState(null);
-  const [activeNavbar, setActiveNavbar] = useState("Best sellers");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantities, setQuantities] = useState({});
+  const [activeNavbar, setActiveNavbar] = useState("Best sellers");
+  const [productThemes, setProductThemes] = useState({});
+  const [likedProducts, setLikedProducts] = useState(new Set());
+
+  useEffect(() => {
+    fetch("http://localhost:5000/productThemes")
+      .then((response) => response.json())
+      .then((data) => setProductThemes(data))
+      .catch((error) => console.error("Error fetching product themes:", error));
+  }, []);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/wishlist");
+        const wishlist = await response.json();
+        const likedSet = new Set(wishlist.map((item) => String(item.id)));
+        setLikedProducts(likedSet);
+      } catch (error) {
+        console.error("Lỗi khi tải wishlist:", error);
+      }
+    };
+
+    fetchWishlist();
+  }, []);
 
   const slides = [
     { id: 1, image: assets.banner_img1, alt: "Slide 1" },
@@ -52,14 +76,46 @@ const Home = () => {
     setActiveNavbar(title);
   };
 
-  const handleZoom = (product) => {
-    console.log(`Zoom vào sản phẩm: ${product.title}`);
-    alert(`Zoom vào sản phẩm: ${product.title}`);
-  };
+  const handleLike = async (product) => {
+    try {
+      const response = await fetch("http://localhost:5000/wishlist", {
+        cache: "no-store",
+      });
+      const wishlist = await response.json();
+      const existingItem = wishlist.find(
+        (item) => String(item.id) === String(product.id)
+      );
 
-  const handleLike = (product) => {
-    console.log(`Thích sản phẩm: ${product.title}`);
-    alert(`Thêm vào danh sách yêu thích: ${product.title}`);
+      if (existingItem) {
+        await fetch(`http://localhost:5000/wishlist/${existingItem.id}`, {
+          method: "DELETE",
+        });
+        setLikedProducts((prevLiked) => {
+          const newLiked = new Set(prevLiked);
+          newLiked.delete(String(product.id));
+          return newLiked;
+        });
+      } else {
+        await fetch("http://localhost:5000/wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: String(product.id),
+            title: product.title,
+            image: product.image,
+            price: product.onSale ? product.salePrice : product.price,
+          }),
+        });
+
+        setLikedProducts((prevLiked) => {
+          const newLiked = new Set(prevLiked);
+          newLiked.add(String(product.id));
+          return newLiked;
+        });
+      }
+    } catch (error) {
+      console.error("Lỗi khi thêm vào danh sách yêu thích:", error);
+    }
   };
 
   const handleView = (product) => {
@@ -69,10 +125,56 @@ const Home = () => {
     setSelectedProduct(null);
   };
 
-  const handleAddToCart = (product) => {
-    const quantity = quantities[product.id] || 1;
-    console.log(`Thêm sản phẩm: ${product.title}, Số lượng: ${quantity}`);
-    alert(`Thêm sản phẩm vào giỏ: ${product.title}, Số lượng: ${quantity}`);
+  const handleAddToCart = async (product) => {
+    try {
+      const quantity = quantities[product.id] || 1;
+
+      const response = await fetch("http://localhost:5000/cart", {
+        cache: "no-store",
+      });
+      const cart = await response.json();
+
+      console.log("Giỏ hàng hiện tại:", cart);
+
+      const existingItem = cart.find(
+        (item) => String(item.id) === String(product.id)
+      );
+
+      if (existingItem) {
+        console.log("Cập nhật số lượng sản phẩm:", existingItem);
+
+        await fetch(`http://localhost:5000/cart/${existingItem.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity: existingItem.quantity + quantity }),
+        });
+
+        alert(`Cập nhật số lượng ${product.title} trong giỏ hàng.`);
+      } else {
+        console.log("Thêm sản phẩm mới vào giỏ hàng");
+
+        await fetch("http://localhost:5000/cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: product.id,
+            title: product.title,
+            image: product.image,
+            price: product.onSale ? product.salePrice : product.price,
+            quantity: quantity,
+          }),
+        });
+
+        alert(`Đã thêm ${quantity} sản phẩm "${product.title}" vào giỏ hàng.`);
+      }
+
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [product.id]: 1,
+      }));
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+    }
   };
 
   const handleQuantityChange = (e, product) => {
@@ -180,14 +282,10 @@ const Home = () => {
               <div className="hover-buttons">
                 <div className="hover-btn-function">
                   <button
-                    onClick={() => handleZoom(product)}
-                    className="hover-btn zoom-btn"
-                  >
-                    <img src={assets.zoom_icon} alt="zoom-icon" />
-                  </button>
-                  <button
                     onClick={() => handleLike(product)}
-                    className="hover-btn like-btn"
+                    className={`hover-btn like-btn ${
+                      likedProducts.has(String(product.id)) ? "liked" : ""
+                    }`}
                   >
                     <img src={assets.like_icon} alt="like-icon" />
                   </button>
@@ -199,6 +297,8 @@ const Home = () => {
                   </button>
                 </div>
               </div>
+
+              {/* Thông tin sản phẩm */}
               <div className="product-info">
                 <p className="product-category">{product.category}</p>
                 <h3 className="product-title">{product.title}</h3>
@@ -213,10 +313,12 @@ const Home = () => {
                   )}
                 </div>
               </div>
+
+              {/* Nút Add to Cart */}
               <div className="product-footer">
                 <button
-                  onClick={() => handleAddToCart(product)}
                   className="add-to-cart-btn"
+                  onClick={() => handleAddToCart(product)}
                 >
                   <img src={assets.cart_icon2} alt="add-cart-button" />
                   ADD TO CART
@@ -264,8 +366,8 @@ const Home = () => {
                 <input
                   type="number"
                   min="1"
-                  value={quantities[selectedProduct.id] || 1}
                   className="quantity-input"
+                  value={quantities[selectedProduct?.id] || 1}
                   onChange={(e) => handleQuantityChange(e, selectedProduct)}
                 />
 
@@ -278,13 +380,6 @@ const Home = () => {
                 </button>
               </div>
               <div className="product-actions">
-                <button
-                  onClick={() => handleLike(selectedProduct)}
-                  className="action-btn zoom-btn"
-                >
-                  <img src={assets.zoom_icon} alt="zoom-icon" />
-                  ADD TO COMPARE
-                </button>
                 <button
                   onClick={() => handleLike(selectedProduct)}
                   className="action-btn zoom-btn"

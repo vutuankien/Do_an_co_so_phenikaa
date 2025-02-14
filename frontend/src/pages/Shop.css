@@ -1,0 +1,32 @@
+.shop_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.breadcrumb {
+  display: flex;
+  width: 100%;
+}
+
+.shop_content {
+  display: flex;
+  width: 100%;
+  padding: 80px 10rem 0 10rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar_box {
+  padding: 0;
+}
+
+.shop_content .sidebar_box {
+  width: 40%;
+}
+
+.shop_content .content {
+  width: 60%;
+}

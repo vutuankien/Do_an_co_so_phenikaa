@@ -1,5 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 .home-container {
-  padding-top: 50px;
+  width: 100vw;
+  max-width: 100%;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .banner-container {
@@ -288,15 +301,19 @@
 }
 
 .product-title {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: 10px;
 }
 
 .product-price {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  text-align: left;
+  gap: 5px;
 }
 
 .original-price {
@@ -366,6 +383,14 @@
   padding: 0 10px;
 }
 
+.liked {
+  visibility: visible;
+  background-color: #fb9dab !important;
+  color: white !important;
+  border: none;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
 /* Nút Thêm vào giỏ hàng */
 .add-to-cart-btn {
   width: 100%;
@@ -409,7 +434,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 10px 20px 10px 30px;
+  padding: 10px 20px 10px 10px;
 }
 
 .product-footer img {
@@ -582,7 +607,7 @@
 
 .product-actions {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   width: 70%;
 }
@@ -598,7 +623,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   overflow: hidden;
   gap: 10px;

@@ -1,0 +1,637 @@
+{
+  "productThemes": {
+    "Best sellers": [
+      {
+        "id": 1,
+        "image": "../src/assets/product1.jpg",
+        "title": "Volumizing eyebrow mascara",
+        "category": [
+          "Eyes",
+          "Face"
+        ],
+        "tags": [
+          "Brush",
+          "Mascara"
+        ],
+        "price": "$48.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      },
+      {
+        "id": 2,
+        "image": "../src/assets/product2.jpg",
+        "title": "Eye-reviving dark circle concealer - beige chair",
+        "category": [
+          "Face",
+          "Lips",
+          "Skin"
+        ],
+        "tags": [
+          "Brush",
+          "Palettes"
+        ],
+        "price": "$66.00",
+        "salePrice": "$33.00",
+        "onSale": true
+      },
+      {
+        "id": 3,
+        "image": "../src/assets/product3.jpg",
+        "title": "Waterproof Eyeliner",
+        "category": [
+          "Eyes",
+          "Face"
+        ],
+        "tags": [
+          "Brush",
+          "Concealer"
+        ],
+        "price": "$39.00",
+        "salePrice": "$33.00",
+        "onSale": true
+      },
+      {
+        "id": 4,
+        "image": "../src/assets/product4.jpg",
+        "title": "Long-wear cream eyeliner - noir",
+        "category": [
+          "Eyes",
+          "Skin"
+        ],
+        "tags": [
+          "Lipstick",
+          "Mascara"
+        ],
+        "price": "$28.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      },
+      {
+        "id": 5,
+        "image": "../src/assets/product5.jpg",
+        "title": "Waterproof vinyl eyeliner - prune",
+        "category": [
+          "Brushes",
+          "Eyes",
+          "Face"
+        ],
+        "tags": [
+          "Lipstick",
+          "Mascara"
+        ],
+        "price": "$43.00",
+        "salePrice": null,
+        "onSale": false
+      },
+      {
+        "id": 6,
+        "image": "../src/assets/product6.jpg",
+        "title": "L’oreal Tendertalk Lip Balm",
+        "category": [
+          "Face",
+          "Lips"
+        ],
+        "tags": [
+          "Lipstick",
+          "Mascara"
+        ],
+        "price": "$66.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      },
+      {
+        "id": 7,
+        "image": "../src/assets/product7.jpg",
+        "title": "Sephora Cream Color Base",
+        "category": [
+          "Brushes",
+          "Skin"
+        ],
+        "tags": [
+          "Concealer",
+          "Palettes"
+        ],
+        "price": "$39.00",
+        "salePrice": null,
+        "onSale": false
+      },
+      {
+        "id": 8,
+        "image": "../src/assets/product8.jpg",
+        "title": "Mineralize Charged Water Charcoal Spray",
+        "category": [
+          "Brushes",
+          "Face",
+          "Skin"
+        ],
+        "tags": [
+          "Concealer",
+          "Mascara",
+          "Palettes"
+        ],
+        "price": "$98.00",
+        "salePrice": null,
+        "onSale": false
+      }
+    ],
+    "New arrivals": [
+      {
+        "id": 3,
+        "image": "../src/assets/product3.jpg",
+        "title": "Waterproof Eyeliner",
+        "category": [
+          "Eyes",
+          "Face"
+        ],
+        "price": "$39.00",
+        "salePrice": null,
+        "onSale": false
+      },
+      {
+        "id": 6,
+        "image": "../src/assets/product6.jpg",
+        "title": "L’oreal Tendertalk Lip Balm",
+        "category": [
+          "Face",
+          "Lips"
+        ],
+        "tags": [
+          "Lipstick",
+          "Mascara"
+        ],
+        "price": "$66.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      },
+      {
+        "id": 8,
+        "image": "../src/assets/product8.jpg",
+        "title": "Mineralize Charged Water Charcoal Spray",
+        "category": [
+          "Brushes",
+          "Face",
+          "Skin"
+        ],
+        "tags": [
+          "Concealer",
+          "Mascara",
+          "Palettes"
+        ],
+        "price": "$98.00",
+        "salePrice": null,
+        "onSale": false
+      }
+    ],
+    "Items sale": [
+      {
+        "id": 1,
+        "image": "../src/assets/product1.jpg",
+        "title": "Volumizing eyebrow mascara",
+        "category": [
+          "Eyes",
+          "Face"
+        ],
+        "tags": [
+          "Brush",
+          "Mascara"
+        ],
+        "price": "$48.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      },
+      {
+        "id": 2,
+        "image": "../src/assets/product2.jpg",
+        "title": "Eye-reviving dark circle concealer - beige chair",
+        "category": [
+          "Face",
+          "Lips",
+          "Skin"
+        ],
+        "tags": [
+          "Brush",
+          "Palettes"
+        ],
+        "price": "$66.00",
+        "salePrice": "$33.00",
+        "onSale": true
+      },
+      {
+        "id": 3,
+        "image": "../src/assets/product3.jpg",
+        "title": "Waterproof Eyeliner",
+        "category": [
+          "Eyes",
+          "Face"
+        ],
+        "tags": [
+          "Brush",
+          "Concealer"
+        ],
+        "price": "$39.00",
+        "salePrice": "$33.00",
+        "onSale": true
+      },
+      {
+        "id": 4,
+        "image": "../src/assets/product4.jpg",
+        "title": "Long-wear cream eyeliner - noir",
+        "category": [
+          "Eyes",
+          "Skin"
+        ],
+        "tags": [
+          "Lipstick",
+          "Mascara"
+        ],
+        "price": "$28.00",
+        "salePrice": "$22.00",
+        "onSale": true
+      }
+    ]
+  },
+  "product": [
+    {
+      "id": "1",
+      "image": "../src/assets/product1.jpg",
+      "title": "Volumizing eyebrow mascara",
+      "category": [
+        "Eyes",
+        "Face"
+      ],
+      "tags": [
+        "Brush",
+        "Mascara"
+      ],
+      "price": "$48.00",
+      "salePrice": "$22.00",
+      "onSale": true,
+      "color": "Sparkling Black",
+      "brand": "Sephora",
+      "country": "Italy",
+      "feature": "Hypoallergenic"
+    },
+    {
+      "id": "2",
+      "image": "../src/assets/product2.jpg",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "category": [
+        "Face",
+        "Lips",
+        "Skin"
+      ],
+      "tags": [
+        "Brush",
+        "Palettes"
+      ],
+      "price": "$66.00",
+      "salePrice": "$33.00",
+      "onSale": true,
+      "color": "Kasbah",
+      "brand": "Sephora",
+      "country": "Italy",
+      "feature": "Gluten Free"
+    },
+    {
+      "id": "3",
+      "image": "../src/assets/product3.jpg",
+      "title": "Waterproof Eyeliner",
+      "category": [
+        "Eyes",
+        "Face"
+      ],
+      "tags": [
+        "Brush",
+        "Concealer"
+      ],
+      "price": "$39.00",
+      "salePrice": "$33.00",
+      "onSale": true,
+      "color": "Indian Pink",
+      "brand": "Revlon",
+      "country": "France",
+      "feature": "Hypoallergenic"
+    },
+    {
+      "id": "4",
+      "image": "../src/assets/product4.jpg",
+      "title": "Long-wear cream eyeliner - noir",
+      "category": [
+        "Eyes",
+        "Skin"
+      ],
+      "tags": [
+        "Lipstick",
+        "Mascara"
+      ],
+      "price": "$28.00",
+      "salePrice": "$22.00",
+      "onSale": true,
+      "color": "Sparkling Black",
+      "brand": "Sephora",
+      "country": "France",
+      "feature": "No Phthalates"
+    },
+    {
+      "id": "5",
+      "image": "../src/assets/product5.jpg",
+      "title": "Waterproof vinyl eyeliner - prune",
+      "category": [
+        "Brushes",
+        "Eyes",
+        "Face"
+      ],
+      "tags": [
+        "Lipstick",
+        "Mascara"
+      ],
+      "price": "$43.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": [
+        "Kasbah",
+        "Indian Pink",
+        "Nude"
+      ],
+      "brand": "MAC",
+      "country": "Italy",
+      "feature": "Hypoallergenic"
+    },
+    {
+      "id": "6",
+      "image": "../src/assets/product6.jpg",
+      "title": "L’oreal Tendertalk Lip Balm",
+      "category": [
+        "Face",
+        "Lips"
+      ],
+      "tags": [
+        "Lipstick",
+        "Mascara"
+      ],
+      "price": "$66.00",
+      "salePrice": "$22.00",
+      "onSale": true,
+      "color": "Kasbah",
+      "brand": "L’oreal",
+      "country": "Sweden",
+      "feature": "Paraben Free"
+    },
+    {
+      "id": "7",
+      "image": "../src/assets/product7.jpg",
+      "title": "Sephora Cream Color Base",
+      "category": [
+        "Brushes",
+        "Skin"
+      ],
+      "tags": [
+        "Concealer",
+        "Palettes"
+      ],
+      "price": "$39.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": null,
+      "brand": "Sephora",
+      "country": "USA",
+      "feature": "Paraben Free"
+    },
+    {
+      "id": "8",
+      "image": "../src/assets/product8.jpg",
+      "title": "Mineralize Charged Water Charcoal Spray",
+      "category": [
+        "Brushes",
+        "Face",
+        "Skin"
+      ],
+      "tags": [
+        "Concealer",
+        "Mascara",
+        "Palettes"
+      ],
+      "price": "$98.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": "Kasbah",
+      "brand": "Sephora",
+      "country": "Italy",
+      "feature": "No Phthalates"
+    },
+    {
+      "id": "9",
+      "image": "../src/assets/product9.jpg",
+      "title": "L’oreal Prep + Prime Skin",
+      "category": [
+        "Face",
+        "Eyes"
+      ],
+      "tags": [
+        "Concealer",
+        "Liner",
+        "Lipstick"
+      ],
+      "price": "$45.00",
+      "salePrice": "$44.00",
+      "onSale": true,
+      "color": "Kasbah",
+      "brand": "L’oreal",
+      "country": "Sweden",
+      "feature": "No Phthalates"
+    },
+    {
+      "id": "10",
+      "image": "../src/assets/product10.jpg",
+      "title": "Lipgloss / Little MAC",
+      "category": [
+        "Face",
+        "Lips"
+      ],
+      "tags": [
+        "Concealer",
+        "Mascara"
+      ],
+      "price": "$52.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": [
+        "Kasbah",
+        "Indian Pink"
+      ],
+      "brand": "Revlon",
+      "country": "France",
+      "feature": "No Phthalates"
+    },
+    {
+      "id": "11",
+      "image": "../src/assets/product11.jpg",
+      "title": "Revlon Extra Dimension Eye Shadow",
+      "category": [
+        "Face",
+        "Eyes"
+      ],
+      "tags": [
+        "Liner",
+        "Lipstick"
+      ],
+      "price": "$86.00",
+      "salePrice": "$55.00",
+      "onSale": true,
+      "color": "Kasbah",
+      "brand": "Revlon",
+      "country": "France",
+      "feature": "Hypoallergenic"
+    },
+    {
+      "id": "12",
+      "image": "../src/assets/product12.jpg",
+      "title": "Rimmel Lasting Finish by Kate Moss Lipstick, Bordeaux",
+      "category": [
+        "Face",
+        "Lips",
+        "Skin"
+      ],
+      "tags": [
+        "Brush",
+        "Concealer",
+        "Liner"
+      ],
+      "price": "$65.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": "Bordeaux",
+      "brand": "Rimmel",
+      "country": "Canada",
+      "feature": "Gluten Free"
+    },
+    {
+      "id": "13",
+      "image": "../src/assets/product13.jpg",
+      "title": "Rimmel PRO Longwear Fluidline",
+      "category": [
+        "Eyes",
+        "Skin"
+      ],
+      "tags": [
+        "Brush",
+        "Lipstick"
+      ],
+      "price": "$63.00",
+      "salePrice": null,
+      "onSale": false,
+      "color": "Kasbah",
+      "brand": "Revlon",
+      "country": "Italy",
+      "feature": "Hypoallergenic"
+    },
+    {
+      "id": "14",
+      "image": "../src/assets/product14.jpg",
+      "title": "Sephora 129 SHS Powder/Blush Brush",
+      "category": [
+        "Brushes",
+        "Eyes",
+        "Skin"
+      ],
+      "tags": [
+        "Brush",
+        "Lipstick"
+      ],
+      "price": "$56.00",
+      "salePrice": "$33.00",
+      "onSale": true,
+      "color": "Kasbah",
+      "brand": "Sephora",
+      "country": "Italy",
+      "feature": "Gluten Free"
+    }
+  ],
+  "cart": [
+    {
+      "id": "1",
+      "title": "Volumizing eyebrow mascara",
+      "image": "../src/assets/product1.jpg",
+      "price": "$22.00",
+      "quantity": 15
+    },
+    {
+      "id": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00",
+      "quantity": 18
+    },
+    {
+      "id": "3",
+      "title": "Waterproof Eyeliner",
+      "image": "../src/assets/product3.jpg",
+      "price": "$33.00",
+      "quantity": 10
+    },
+    {
+      "id": "4",
+      "title": "Long-wear cream eyeliner - noir",
+      "image": "../src/assets/product4.jpg",
+      "price": "$22.00",
+      "quantity": 18
+    },
+    {
+      "id": "7",
+      "title": "Sephora Cream Color Base",
+      "image": "../src/assets/product7.jpg",
+      "price": "$39.00",
+      "quantity": 1
+    }
+  ],
+  "wishlist": [
+    {
+      "id": "1",
+      "title": "Volumizing eyebrow mascara",
+      "image": "../src/assets/product1.jpg",
+      "price": "$22.00"
+    },
+    {
+      "id": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00"
+    },
+    {
+      "id": "4",
+      "title": "Long-wear cream eyeliner - noir",
+      "image": "../src/assets/product4.jpg",
+      "price": "$22.00"
+    },
+    {
+      "id": "8",
+      "title": "Mineralize Charged Water Charcoal Spray",
+      "image": "../src/assets/product8.jpg",
+      "price": "$98.00"
+    },
+    {
+      "id": "7",
+      "title": "Sephora Cream Color Base",
+      "image": "../src/assets/product7.jpg",
+      "price": "$39.00"
+    },
+    {
+      "id": "6",
+      "title": "L’oreal Tendertalk Lip Balm",
+      "image": "../src/assets/product6.jpg",
+      "price": "$22.00"
+    },
+    {
+      "id": "5",
+      "title": "Waterproof vinyl eyeliner - prune",
+      "image": "../src/assets/product5.jpg",
+      "price": "$43.00"
+    },
+    {
+      "id": "3",
+      "title": "Waterproof Eyeliner",
+      "image": "../src/assets/product3.jpg",
+      "price": "$33.00"
+    }
+  ]
+}
