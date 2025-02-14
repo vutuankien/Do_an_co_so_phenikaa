@@ -1,5 +1,5 @@
-//import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import Shop from "./pages/Shop";
@@ -12,26 +12,77 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ForgetPassword from "./login/resetpassword";
 
-const App = () => {
+function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Kiểm tra localStorage khi tải trang
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userUID");
+    console.log("User UID từ localStorage:", storedUserId);
+    
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+    setLoading(false);
+  }, []);
+
+  // Xử lý đăng nhập
+  const handleLogin = (user) => {
+    if (user?.uid) {
+      console.log("Đăng nhập thành công:", user);
+      localStorage.setItem("userUID", user.uid);
+      setUserId(user.uid);
+      navigate("/home");
+    }
+  };
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    console.log("Đăng xuất...");
+    localStorage.removeItem("userUID");
+    setUserId(null);
+    navigate("/");
+  };
+
+  // Kiểm tra xem có đang ở trang Login hoặc Quên mật khẩu không
+  const isAuthPage = ["/", "/forgetpassword"].includes(location.pathname);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div>
-      <Navbar />
+      {!isAuthPage && <Navbar userId={userId} onLogout={handleLogout} />}
+      
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/place-order" element={<PlaceOrder />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/" element={<Login onLogin={handleLogin} />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        
+        {userId ? (
+          <>
+            <Route path="/home" element={<Home />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="*" element={<Navigate to="/home" />} />
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/" />} />
+        )}
       </Routes>
-      <Footer />
+      
+      {!isAuthPage && <Footer />}
     </div>
   );
-};
+}
 
 export default App;

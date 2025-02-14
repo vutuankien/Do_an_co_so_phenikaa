@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="pages">
           <p className="footer-content-title">PAGES</p>
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive ? "turn-page active" : "turn-page"
             }

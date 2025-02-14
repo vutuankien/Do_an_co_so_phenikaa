@@ -1,0 +1,16 @@
+.icon-group {
+    position: relative;
+  }
+  
+  .icon-inside {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Đặt biểu tượng ở bên phải */
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  input.form-control {
+    padding-right: 30px; /* Thêm không gian ở bên phải để biểu tượng không che mất văn bản */
+  }
+  

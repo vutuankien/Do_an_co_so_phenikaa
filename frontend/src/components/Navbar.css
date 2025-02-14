@@ -13,6 +13,9 @@
   background-color: #1d1d23;
 }
 
+a{
+  text-decoration: none;
+}
 .navbar-logo {
   width: 9rem;
 }
@@ -128,6 +131,7 @@
   color: #5d5959;
 }
 
+
 .dropdown-content-home .face p {
   font-weight: bold;
 }
@@ -187,8 +191,17 @@
 }
 
 .menu-item-user {
-  cursor: pointer;
-  transition: 0.3s;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 8px; /* Tạo khoảng cách giữa SVG và chữ */
+  font-size: 16px; /* Điều chỉnh kích thước chữ */
+  color: white; /* Màu chữ */
+  cursor: pointer; /* Thêm hiệu ứng con trỏ */
+}
+
+.icon-user {
+  width: 20px; /* Giảm kích thước SVG */
+  height: 20px;
 }
 
 .menu-item-user:hover {
