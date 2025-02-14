@@ -1,22 +1,37 @@
 const Cosmetic = require('../models/Cosmetic');
-
+const XLSX = require('xlsx');
+const { faker } = require('@faker-js/faker');
+// const faker = require('faker')
 class CosmeticController {
     // [GET] /cosmetic
     index(req, res, next) {
-        const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 5;
-        const skip = page * limit;
+        const page = parseInt(req.query.page) || 1; // Ensure default page is 1
+        const limit = parseInt(req.query.limit) || 10; // Ensure default limit is 5
+        const skip = (page - 1) * limit; // Calculate skip value for pagination
+
+        // Get sorting details from the middleware
+        const sort = {};
+        if (res.locals._sort.enabled) {
+            sort[res.locals._sort.column] =
+                res.locals._sort.type === 'desc' ? -1 : 1;
+        }
 
         Promise.all([
-            Cosmetic.find({}).lean().skip(skip).limit(limit),
-            Cosmetic.countDocuments({}), // Đếm tổng số tài liệu
+            // Fetch cosmetics with pagination and sorting
+            Cosmetic.find({}).lean().skip(skip).limit(limit).sort(sort),
+            // Count total documents for pagination
+            Cosmetic.countDocuments({}),
+            // Count deleted documents
+            Cosmetic.countDocumentsWithDeleted({ deleted: true }),
         ])
-            .then(([cosmetics, totalCosmetics]) => {
-                const totalPages = Math.ceil(totalCosmetics / limit); // Tính tổng số trang
+            .then(([cosmetics, totalCosmetics, deletedCount]) => {
+                const totalPages = Math.ceil(totalCosmetics / limit); // Calculate total pages
                 res.render('cosmetic/cosmetic_show', {
                     cosmetics,
-                    currentPage: page + 1,
+                    currentPage: page,
                     totalPages,
+                    deletedCount,
+                    sort: res.locals._sort, // Pass sorting info to the view
                 });
             })
             .catch((err) => next(err));
@@ -67,6 +82,7 @@ class CosmeticController {
         // Chuyển đổi giá trị checkbox
         const isNewArrival = req.body.isNewArrival === 'true';
         const isBestSeller = req.body.isBestSeller === 'true';
+        const isFavorite = req.body.isFavorite === 'true';
 
         const newCosmetic = new Cosmetic({
             name,
@@ -83,6 +99,7 @@ class CosmeticController {
             manufacturingDate,
             isNewArrival,
             isBestSeller,
+            isFavorite,
         });
 
         newCosmetic
@@ -122,10 +139,52 @@ class CosmeticController {
     update(req, res, next) {
         req.body.isNewArrival = req.body.isNewArrival === 'true';
         req.body.isBestSeller = req.body.isBestSeller === 'true';
+        req.body.isFavorite = req.body.isFavorite === 'true';
 
         Cosmetic.findByIdAndUpdate(req.params.id, req.body, { new: true })
             .lean()
             .then(() => res.redirect('/cosmetic'))
+            .catch((err) => next(err));
+    }
+
+    delete(req, res, next) {
+        Cosmetic.delete({ _id: req.params.id })
+            .then(() => res.redirect('/cosmetic'))
+            .catch((err) => next(err));
+    }
+
+    restore(req, res, next) {
+        Cosmetic.restore({ _id: req.params.id }) // Lấy `id` từ params
+            .then(() => {
+                console.log(
+                    `Cosmetic with ID ${req.params.id} restored successfully`,
+                );
+                // res.status(200).json({ message: 'success' });
+                res.render('Trash/stored_cosmetic');
+                // res.redirect('back');
+            })
+            .catch((err) => {
+                console.error('Error restoring cosmetic:', err);
+                next(err);
+            });
+    }
+
+    destroy(req, res, next) {
+        Cosmetic.findByIdAndDelete(req.params.id)
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    exportData(req, res, next) {
+        var wb = XLSX.utils.book_new();
+        Cosmetic.find({})
+            .lean()
+            .then((cosmetics) => {
+                var ws = XLSX.utils.json_to_sheet(cosmetics);
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'cosmetics.xlsx');
+                res.download('cosmetics.xlsx');
+            })
             .catch((err) => next(err));
     }
 }

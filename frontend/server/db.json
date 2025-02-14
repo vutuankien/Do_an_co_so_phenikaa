@@ -598,40 +598,27 @@
       "price": "$33.00"
     },
     {
-      "id": "4",
-      "title": "Long-wear cream eyeliner - noir",
-      "image": "../src/assets/product4.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "8",
-      "title": "Mineralize Charged Water Charcoal Spray",
-      "image": "../src/assets/product8.jpg",
-      "price": "$98.00"
-    },
-    {
-      "id": "7",
-      "title": "Sephora Cream Color Base",
-      "image": "../src/assets/product7.jpg",
-      "price": "$39.00"
-    },
-    {
-      "id": "6",
-      "title": "L’oreal Tendertalk Lip Balm",
-      "image": "../src/assets/product6.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "5",
-      "title": "Waterproof vinyl eyeliner - prune",
-      "image": "../src/assets/product5.jpg",
-      "price": "$43.00"
-    },
-    {
       "id": "3",
       "title": "Waterproof Eyeliner",
       "image": "../src/assets/product3.jpg",
       "price": "$33.00"
     }
-  ]
+  ],
+  "user": [
+    {
+      "id": "26fc",
+      "email": "hongdang18092004@gmail.com",
+      "uid": "9IN9kNmx25Qd8j5wnALEjQ8qYJV2",
+      "name": "đăng vũ",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJS9aeQ3as26GIHRaM49IUu_vsRmk3XTl1ebHTH6dvHFEFturc=s96-c"
+    },
+    {
+      "id": "8dfc",
+      "email": "nguyenthehung.2004hd@gmail.com",
+      "uid": "H9WkcBtstxVEWKXjNOVZhilJUl43",
+      "name": "Hung Nguyen",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKkOfDlqLfFGhshg1ZkefhJnQhlXtcZb-BKPpwvsxYN83pQfA=s96-c"
+    }
+  ],
+  "blog": []
 }

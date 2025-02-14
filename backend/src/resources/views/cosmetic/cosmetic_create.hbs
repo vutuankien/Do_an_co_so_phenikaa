@@ -72,6 +72,10 @@
                     <input type="checkbox" name="isBestSeller" id="bestSeller" value="true">
                     <span>Best Seller</span>
                 </div>
+                <div>
+                    <input type="checkbox" name="isFavorite" id="favorite" value="true">
+                    <span>Favorite</span>
+                </div>
 
 
 
@@ -88,6 +92,7 @@
 <script>
     const isNewArrival = document.querySelector('input[name="isNewArrival"]');
     const isBestSeller = document.querySelector('input[name="isBestSeller"]');
+    const isFavorite = document.querySelector('input[name="isFavorite"]');
 
     isBestSeller.addEventListener('change', () => {
         isBestSeller.value = isBestSeller.checked ? "true" : "false";
@@ -95,6 +100,9 @@
 
     isNewArrival.addEventListener('change', () => {
         isNewArrival.value = isNewArrival.checked ? "true" : "false";
+    });
+    isFavorite.addEventListener('change', () => {
+        isFavorite.value = isFavorite.checked ? "true" : "false";
     });
 
 </script>

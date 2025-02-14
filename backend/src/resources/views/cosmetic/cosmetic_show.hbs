@@ -7,36 +7,80 @@
 
   </div>
 
+  <div class="mt-2 mb-2">
+    {{#if deletedCount}}
+    <a href="/trash/storedCosmetic" class="fs-4 text-primary  text-decoration-none"><i
+        class="bi bi-trash3 me-2"></i>Thùng
+      rác({{deletedCount}})</a>
+    {{/if}}
+  </div>
+
+
+
+
+
   <table class="table table-bordered border rounded-5  mt-3 table-hover " style="cursor: pointer;">
     <thead>
       <tr>
-        <th scope="col" class="text-center">STT</th>
-        <th scope="col" class="text-center">Name</th>
-        <th scope="col" class="text-center">Category</th>
-        <th scope="col" class="text-center">Brand</th>
-        <th scope="col" class="text-center">Stock</th>
+        {{!-- <th scope="col" class="text-center"></th> --}}
+        <th scope="col" class="text-center">
+          STT
+          {{!-- {{{sortable '_id' _sort}}} --}}
+        </th>
+        <th scope="col" class="text-center">Name
+          {{{sortable 'name' _sort}}}
+        </th>
+
+        <th scope="col" class="text-center">Category
+          {{{sortable 'category' _sort}}}
+        </th>
+
+        <th scope="col" class="text-center">Brand
+          {{{sortable 'brand' _sort}}}
+        </th>
+        <th scope="col" class="text-center">Stock
+          {{{sortable 'stock' _sort}}}
+        </th>
         <th scope="col" class="text-center">New Arrived</th>
         <th scope="col" class="text-center">Best Seller</th>
-        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Favorite</th>
+        <th scope="col" class="text-center">Price
+          {{{sortable 'price' _sort}}}
+        </th>
         <th scope="col" class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
       {{#each cosmetics}}
       <tr data-href="/cosmetic/{{this.slug}}">
-        <th scope="row" class="text-center">{{sum @index 1}}</th>
+        <th scope="row" class="text-center">{{sum @index 1 }}</th>
         <td class="text-center"> {{this.name}}</td>
         <td class="text-center">{{this.category}}</td>
         <td class="text-center">{{this.brand}}</td>
         <td class="text-center">{{this.stock}}</td>
-        <td class="text-center">{{#if this.isNewArrival}}<i class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
+        <td class="text-center">{{#if this.isNewArrival}}<i
+            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
+            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
         <!-- Điều chỉnh hiển thị isBestSeller -->
-        
-        <td class="text-center">{{#if this.isBestSeller}}<i class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
+
+        <td class="text-center">{{#if this.isBestSeller}}<i
+            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
+            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
+        <td class="text-center">{{#if this.isFavorite}}<i
+            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
+            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
         <td class="text-center">${{this.price}}</td>
         <td class="text-center">
-          <button class="btn btn-success"><a href="/cosmetic/{{this._id}}/edit" class="text-white text-decoration-none"><i class="bi bi-pencil-fill"></i>Edit</a></button>
-          <button class="btn btn-danger"><i class="bi bi-trash3"></i>Delete</button>
+          <button class="btn btn-success"><a href="/cosmetic/{{this._id}}/edit"
+              class="text-white text-decoration-none"><i class="bi bi-pencil-fill"></i>Edit</a></button>
+          <button class="btn btn-danger delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"><i class="bi bi-trash3 me-1"></i>Delete</button>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5" class="text-center">Bạn chưa đăng khóa học nào
+          <a href="/courses/create" class="btn btn-link">Create Course</a>
         </td>
       </tr>
 
@@ -47,28 +91,52 @@
 
   <div class="pagination d-flex justify-content-end gap-1">
     {{#each (range 1 totalPages)}}
-    <button class="btn btn-primary {{#if (eq this ../currentPage)}}active{{/if}}"
-      onclick="window.location.href='?page={{this}}&limit=5'">
-      {{this}}
-    </button>
+    <div class="page-item {{#if (eq this ../currentPage)}}active{{/if}}">
+      <a class="page-link"
+        href="?page={{this}}&limit={{../limit}}&_sort&column={{../sort.column}}&type={{../sort.type}}">
+        {{this}}
+      </a>
+    </div>
     {{/each}}
   </div>
 
-  <div class="mt-5">
-    <button class="btn btn-primary">Export as Excel</button>
-    <button class="btn btn-primary"><a href="/cosmetic/api" class="text-white text-decoration-none">Xem API</a></button>
+
+  <div class="mt-2">
+    <button class="btn btn-primary btn_export">Export as Excel</button>
   </div>
 </div>
 
 
-
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Warning</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc muốn xóa nội dung trên không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger confirm-delete">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<form method="POST" id="delete-form"></form>
+<form method="POST" id="export"></form>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const rows = document.querySelectorAll("tbody tr");
-
+    const rows = document.querySelectorAll("tbody tr[data-href]");
     rows.forEach(row => {
       row.addEventListener("click", function (e) {
-        if (!e.target.closest("button")) {
+        if (
+          !e.target.closest("button") &&
+          e.target.tagName !== "INPUT" &&
+          !e.target.closest("a")
+        ) {
           const href = this.getAttribute("data-href");
           if (href) {
             window.location.href = href;
@@ -77,4 +145,37 @@
       });
     });
   });
+
+  const staticBackdrop = document.getElementById('staticBackdrop');
+  const deletedForm = document.getElementById('delete-form')
+  let cosmeticId;
+  if (staticBackdrop) {
+    staticBackdrop.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      cosmeticId = button.getAttribute('data-id');
+      console.log(cosmeticId);
+    });
+  }
+  const confirmBtn = document.querySelector('.confirm-delete');
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      deletedForm.action = `/cosmetic/${cosmeticId}?_method=DELETE`;
+      deletedForm.submit();
+    });
+  }
+
+  //handle export data as xlsx
+  const exportBtn = document.querySelector('.btn_export');
+  const exportForm = document.querySelector('#export');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      exportForm.action = '/cosmetic/exportData';
+      exportForm.submit();
+    });
+  }
+
+
 </script>
