@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import "./Contact.css";
+import Breadcrumb from "../components/Breadcrumb";
 
 const admins = [
   {
@@ -19,121 +21,55 @@ const admins = [
 ];
 
 const Contact = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 600);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
-    <div style={{ marginTop: 150, display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div className="container">
+      <Breadcrumb />
       <h2>Contact Us</h2>
       <iframe
+        className="map"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3371.608264966921!2d105.7461114747127!3d20.962616190048152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313452efff394ce3%3A0x391a39d4325be464!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBQaGVuaWthYQ!5e1!3m2!1svi!2s!4v1739507843400!5m2!1svi!2s"
         width="100%"
         height="300"
-        style={{ border: 0, maxWidth: "1200px" }}
         allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
       ></iframe>
 
-      <div style={{
-        maxWidth: "1200px",
-        textAlign: "center",
-        marginTop: 50,
-        padding: "30px",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "10px",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-        lineHeight: "1.8"
-      }}>
-        <h2 style={{
-          fontSize: "1.8rem",
-          fontWeight: "bold",
-          color: "#333"
-        }}>
-          'Paletto – Bảng màu của sắc đẹp
-        </h2>
-
-        <p style={{ fontSize: "1.1rem", color: "#555", marginTop: "15px" }}>
+      <div className="about-section">
+        <h2 className="about-title">'Paletto – Bảng màu của sắc đẹp</h2>
+        <p className="about-text">
           Ẩn chứa sau mỗi thương hiệu là một câu chuyện, một niềm mong mỏi của những người sáng lập.
           <strong>'Paletto ra đời với sứ mệnh tôn vinh nét đẹp tự nhiên</strong>, giúp mọi người tìm thấy sắc màu riêng của chính mình.
         </p>
 
-        <p style={{ fontSize: "1.1rem", color: "#555", marginTop: "15px" }}>
+        <p className="about-text">
           Lấy cảm hứng từ <strong>Palette – bảng màu của nghệ thuật</strong>, 'Paletto không chỉ đơn thuần là mỹ phẩm,
           mà còn là một hành trình khám phá phong cách, cá tính và vẻ đẹp riêng biệt của mỗi người.
         </p>
 
-        <p style={{ fontSize: "1.1rem", color: "#555", marginTop: "15px" }}>
+        <p className="about-text">
           Trong thế giới hiện đại, vẻ đẹp không còn bị giới hạn bởi quy chuẩn, mà là sự kết hợp giữa <strong>cá tính, sự tự tin</strong>
           và <strong>sự chăm sóc tinh tế</strong>. 'Paletto tin rằng mọi người đều có thể tỏa sáng theo cách riêng của mình.
         </p>
 
-        <p style={{ fontSize: "1.1rem", color: "#555", marginTop: "15px" }}>
+        <p className="about-text">
           Với công thức an toàn, thành phần thiên nhiên kết hợp công nghệ hiện đại, 'Paletto mang đến những sản phẩm chất lượng,
           giúp làn da <strong>tươi trẻ, rạng rỡ và tràn đầy sức sống</strong>.
         </p>
 
-        <p style={{
-          fontSize: "1.2rem",
-          fontWeight: "bold",
-          color: "#d43f8d",
-          marginTop: "20px"
-        }}>
+        <p className="about-text last">
           'Paletto – Bảng màu sắc đẹp, nơi bạn là nghệ sĩ của chính mình!
         </p>
       </div>
 
-
-      <h2 style={{ marginTop: 50 }}>Đội ngũ Admin</h2>
-      <div style={{
-        display: "flex",
-        flexWrap: "nowrap",
-        justifyContent: "center",
-        gap: "30px",
-        marginTop: 20,
-        overflowX: "auto",
-      }}>
+      <h2 className="admins-section">Đội ngũ Admin</h2>
+      <div className="admins-list">
         {admins.map((admin, index) => (
-          <div key={index} style={{
-            textAlign: "center",
-            flex: "0 0 auto",
-            width: 140,
-          }}>
-            <a
-              href={admin.fbLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <img
-                src={admin.avatar}
-                alt={admin.name}
-                style={{
-                  width: "100%",
-                  maxWidth: 100,
-                  minWidth: 60,
-                  height: "auto",
-                  minHeight: 60,
-                  maxHeight: 100,
-                  borderRadius: "50%",
-                  transition: "transform 0.3s ease-in-out"
-                }}
-                onMouseOver={(e) => e.target.style.transform = "scale(0.7)"}
-                onMouseOut={(e) => e.target.style.transform = "scale(1)"}
-              />
+          <div key={index} className="admin-card">
+            <a href={admin.fbLink} target="_blank" rel="noopener noreferrer">
+              <img src={admin.avatar} alt={admin.name} className="admin-avatar" />
             </a>
-            {!isSmallScreen && <h3 style={{ marginTop: 10, fontSize: "1rem" }}>{admin.name}</h3>}
+            <p className="admin-name">{admin.name}</p>
           </div>
         ))}
       </div>

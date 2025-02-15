@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Gallery.css";
 import { FaSearch, FaTimes, FaExpand, FaCompress, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import Breadcrumb from "../components/Breadcrumb";
 
 const images = [
   "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2020/02/03.png",
@@ -43,6 +44,7 @@ const Gallery = () => {
 
   return (
     <div className="gallery-container">
+      <Breadcrumb />
       <div className="gallery-grid">
         {images.map((src, index) => (
           <div key={index} className="gallery-item">
@@ -73,7 +75,7 @@ const Gallery = () => {
               className={`slideshow-image ${isZoomed ? "zoomed" : ""}`}
             />
           </div>
-          <button className="zoom-btn" onClick={toggleZoom}>
+          <button className="gallery-zoom-btn" onClick={toggleZoom}>
               {isZoomed ? <FaCompress /> : <FaExpand />}
             </button>
           <button className="nav-btn next-btn" onClick={nextImage}>

@@ -574,7 +574,7 @@
       "title": "Long-wear cream eyeliner - noir",
       "image": "../src/assets/product4.jpg",
       "price": "$22.00",
-      "quantity": 18
+      "quantity": 20
     },
     {
       "id": "7",
@@ -584,26 +584,7 @@
       "quantity": 1
     }
   ],
-  "wishlist": [
-    {
-      "id": "1",
-      "title": "Volumizing eyebrow mascara",
-      "image": "../src/assets/product1.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "2",
-      "title": "Eye-reviving dark circle concealer - beige chair",
-      "image": "../src/assets/product2.jpg",
-      "price": "$33.00"
-    },
-    {
-      "id": "3",
-      "title": "Waterproof Eyeliner",
-      "image": "../src/assets/product3.jpg",
-      "price": "$33.00"
-    }
-  ],
+  "wishlist": [],
   "user": [
     {
       "id": "26fc",

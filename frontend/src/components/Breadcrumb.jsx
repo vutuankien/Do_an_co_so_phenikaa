@@ -9,7 +9,7 @@ const Breadcrumb = () => {
   return (
     <div className="breadcrumb-container">
       <nav className="breadcrumb">
-        <Link to="/" className="breadcrumb-link">
+        <Link to="/home" className="breadcrumb-link">
           HOME
         </Link>
         {pathnames.map((value, index) => {

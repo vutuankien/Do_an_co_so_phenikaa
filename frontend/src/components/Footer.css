@@ -1,3 +1,7 @@
+a {
+  color: #fff;
+}
+
 .footer {
   display: flex;
   flex-direction: column;
@@ -117,6 +121,7 @@
 
 .footer-rights {
   color: #4a474f;
+  font-size: initial;
 }
 
 .social-platform {

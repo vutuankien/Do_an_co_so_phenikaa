@@ -27,12 +27,12 @@ const Login = ({ onLogin }) => {
       const name = user.name || "New User";
       const newUser = { email, name, uid: user.uid, password };
 
-      const response = await axios.get("http://localhost:3000/user");
+      const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
       const existingUser = users.find((u) => u.email === email);
 
       if (!existingUser) {
-        await axios.post("http://localhost:3000/user", newUser);
+        await axios.post("http://localhost:5000/user", newUser);
         setMessage("Đăng ký thành công!");
       } else {
         setError("Người dùng đã tồn tại.");
@@ -47,11 +47,11 @@ const Login = ({ onLogin }) => {
     setMessage("");
     try {
       const user = await loginWithGoogle();
-      const response = await axios.get("http://localhost:3000/user");
+      const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
       const existingUser = users.find((u) => u.uid === user.uid);
       if (!existingUser) {
-        await axios.post("http://localhost:3000/user", {
+        await axios.post("http://localhost:5000/user", {
           email: user.email,
           uid: user.uid,
           name: user.name,
@@ -74,14 +74,14 @@ const Login = ({ onLogin }) => {
     try {
       const user = await loginWithEmailPassword(email, password);
       let name = user.name || "New User";
-      const response = await axios.get("http://localhost:3000/user");
+      const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
       const existingUser = users.find((u) => u.uid === user.uid);
       if (existingUser) {
         name = existingUser.name;
       }
       if (!existingUser) {
-        await axios.post("http://localhost:3000/user", {
+        await axios.post("http://localhost:5000/user", {
           email: user.email,
           uid: user.uid,
           name: name,
