@@ -13,7 +13,7 @@
   height: 50px;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
@@ -92,7 +92,7 @@ a{
   display: block;
 }
 
-.navbar-link-item>p{
+.navbar-link-item > p {
   font-size: 14px;
   font-weight: bold;
   margin: 0;
@@ -106,7 +106,7 @@ a{
   text-transform: uppercase !important;
 }
 
-.dropdown-toggle::after{
+.dropdown-toggle::after {
   content: none;
 }
 
@@ -115,8 +115,6 @@ a{
   position: relative;
   top: 4px;
 }
-
-
 
 /* Nội dung của dropdown */
 .dropdown-content-home {
@@ -149,7 +147,6 @@ a{
   list-style-type: none;
   color: #5d5959;
 }
-
 
 .dropdown-content-home .face p {
   font-weight: bold;
@@ -234,8 +231,8 @@ a{
   width: 1rem;
   text-align: center;
   line-height: 1rem;
-  background-color: rgb(20, 19, 19);
-  color: white;
+  color: rgb(20, 19, 19);
+  background-color: white;
   aspect-ratio: 1/1;
   border-radius: 50%;
   font-size: 8px;

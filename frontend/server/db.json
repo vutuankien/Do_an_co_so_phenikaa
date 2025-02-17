@@ -269,7 +269,13 @@
       "color": "Sparkling Black",
       "brand": "Sephora",
       "country": "Italy",
-      "feature": "Hypoallergenic"
+      "feature": "Hypoallergenic",
+      "description": [
+        "A creamy, emollient-based formula that imparts colour and a sheer, dewy finish, allowing you to create effects that range from sheer layers to dramatic and luscious intensities, depending on the application. Unique formula allows product to be applied directly on bare skin, eyes and lips or blends easily when layered over foundation, moisturizer or powder.",
+        "Fragrance-free",
+        "Water-resistant",
+        "Dermatologist tested"
+      ]
     },
     {
       "id": "2",
@@ -290,7 +296,13 @@
       "color": "Kasbah",
       "brand": "Sephora",
       "country": "Italy",
-      "feature": "Gluten Free"
+      "feature": "Gluten Free",
+      "description": [
+        "Ultra-smooth, Fluidline’s gel formula provides the precision of a liquid liner with a silkier, softer finish. Goes on foolproof with a brush in an easy dip-and-stroke action. Long-wearing, 16 hours. Smudge-proof. Lines up in a rich array of colours and finishes. Brush sold separately.",
+        "Long-wearing, 16 hours",
+        "Waterproof",
+        "Non-acnegenic"
+      ]
     },
     {
       "id": "3",
@@ -310,7 +322,13 @@
       "color": "Indian Pink",
       "brand": "Revlon",
       "country": "France",
-      "feature": "Hypoallergenic"
+      "feature": "Hypoallergenic",
+      "description": [
+        "MAC ‘s lightweight whipped formula adds dense volume, extends length and creates curl, while conditioning for softness and flexibility. The gigantic moulded brush stores the optimal amount of mascara in three reservoirs that allow for the maximum amount of mascara with each stroke, while keeping the lashes from clumping together.",
+        "Ophthalmologist tested",
+        "Volumizing, 98% increase",
+        "NFlake-proof and smudge-proof"
+      ]
     },
     {
       "id": "4",
@@ -330,7 +348,13 @@
       "color": "Sparkling Black",
       "brand": "Sephora",
       "country": "France",
-      "feature": "No Phthalates"
+      "feature": "No Phthalates",
+      "description": [
+        "In Extra Dimension Eye Shadow is a modern hybrid formula that combines the smoothness of a cream, the blendability of a liquid and the finish of a powder with long-wearing colour and prismatic reflections. Its creamy, silky, near-fluid formula creates luminous, well-defined eyes in finishes from sheer crystallized light to stunning metallic.",
+        "Long-wearing, six hours",
+        "Crease-proof and fade-proof",
+        "Safe for contact lens wearers"
+      ]
     },
     {
       "id": "5",
@@ -355,7 +379,13 @@
       ],
       "brand": "MAC",
       "country": "Italy",
-      "feature": "Hypoallergenic"
+      "feature": "Hypoallergenic",
+      "description": [
+        "A lightweight gel lotion formulated with special-effect silicones. Evens out skin redness and skin tone while adding radiance. Improves the laydown and application of foundation or powder.",
+        "Reduces appearance of skin redness by 14%",
+        "For all skin types",
+        "Non-acnegenic"
+      ]
     },
     {
       "id": "6",
@@ -375,7 +405,13 @@
       "color": "Kasbah",
       "brand": "L’oreal",
       "country": "Sweden",
-      "feature": "Paraben Free"
+      "feature": "Paraben Free",
+      "description": [
+        "L’oreal Tendertalk Lip Balm – A smart lip conditioner creates your own personalized tint based on your body chemistry. Combining nourishing skincare with technology, this transformer helps keep lips soft and moisturized while intuitively offering the right amount of colour. Packaged in an iridescent metal lipstick case, it’s scented with a hint of uplifting vanilla.",
+        "Dermatologist tested",
+        "Hydrating",
+        "Sheer pop of colour"
+      ]
     },
     {
       "id": "7",
@@ -395,7 +431,13 @@
       "color": null,
       "brand": "Sephora",
       "country": "USA",
-      "feature": "Paraben Free"
+      "feature": "Paraben Free",
+      "description": [
+        "Sephora Cream Color Base – A creamy, emollient-based formula that imparts colour and a sheer, dewy finish, allowing you to create effects that range from sheer layers to dramatic and luscious intensities, depending on the application. Unique formula allows product to be applied directly on bare skin, eyes and lips or blends easily when layered over foundation, moisturizer or powder.",
+        "Fragrance-free",
+        "Water-resistant",
+        "Dermatologist tested"
+      ]
     },
     {
       "id": "8",
@@ -417,7 +459,13 @@
       "color": "Kasbah",
       "brand": "Sephora",
       "country": "Italy",
-      "feature": "No Phthalates"
+      "feature": "No Phthalates",
+      "description": [
+        "Mineralize Charged Water Charcoal Spray – Mineralize Charged Water Charcoal Spray is loaded with ingredients that immediately re-energize and replenish lost moisture, visibly recharging lethargic skin and creating a perfect canvas for foundation application.",
+        "Provides immediate and long-term hydration",
+        "For all skin types",
+        "Safe for contact lens wearers"
+      ]
     },
     {
       "id": "9",
@@ -438,7 +486,13 @@
       "color": "Kasbah",
       "brand": "L’oreal",
       "country": "Sweden",
-      "feature": "No Phthalates"
+      "feature": "No Phthalates",
+      "description": [
+        "L’oreal Prep + Prime Skin – A lightweight gel lotion formulated with special-effect silicones. Evens out skin redness and skin tone while adding radiance. Improves the laydown and application of foundation or powder.",
+        "Reduces appearance of skin redness by 14%",
+        "For all skin types",
+        "Non-acnegenic"
+      ]
     },
     {
       "id": "10",
@@ -461,7 +515,13 @@
       ],
       "brand": "Revlon",
       "country": "France",
-      "feature": "No Phthalates"
+      "feature": "No Phthalates",
+      "description": [
+        "Lipgloss / Little MAC – A gloss in a wide colour range that can create a glass-like finish or a subtle sheen. All Sized to Go products are totally tote-able in an airport-friendly size of 30ml or less. Designed to be worn on its own, over lip pencil or lipstick, it’s the perfect product for creating shine that lasts.",
+        "Provides a glass-like shine",
+        "Conditions lips",
+        "Smoothes lips"
+      ]
     },
     {
       "id": "11",
@@ -481,7 +541,13 @@
       "color": "Kasbah",
       "brand": "Revlon",
       "country": "France",
-      "feature": "Hypoallergenic"
+      "feature": "Hypoallergenic",
+      "description": [
+        "Revlon Extra Dimension Eye Shadow – In Extra Dimension Eye Shadow is a modern hybrid formula that combines the smoothness of a cream, the blendability of a liquid and the finish of a powder with long-wearing colour and prismatic reflections. Its creamy, silky, near-fluid formula creates luminous, well-defined eyes in finishes from sheer crystallized light to stunning metallic.",
+        "Long-wearing, six hours",
+        "Crease-proof and fade-proof",
+        "Safe for contact lens wearers"
+      ]
     },
     {
       "id": "12",
@@ -503,7 +569,13 @@
       "color": "Bordeaux",
       "brand": "Rimmel",
       "country": "Canada",
-      "feature": "Gluten Free"
+      "feature": "Gluten Free",
+      "description": [
+        "Rimmel Lasting Finish by Kate Moss Lipstick, Bordeaux – 1st Lipstick Collection Created by Kate Moss. Formula infused with Black Diamonds, reflects light like never before. Captures all the flair, edge and timelessness of Kate’s unique look. Has high intensity color, and is long-lasting.",
+        "Infused with black diamond",
+        "Lasts up to 8 hours",
+        "Flair, edge & timelessness"
+      ]
     },
     {
       "id": "13",
@@ -523,7 +595,13 @@
       "color": "Kasbah",
       "brand": "Revlon",
       "country": "Italy",
-      "feature": "Hypoallergenic"
+      "feature": "Hypoallergenic",
+      "description": [
+        "Rimmel PRO Longwear Fluidline – Ultra-smooth, Fluidline’s gel formula provides the precision of a liquid liner with a silkier, softer finish. Goes on foolproof with a brush in an easy dip-and-stroke action. Long-wearing, 16 hours. Smudge-proof. Lines up in a rich array of colours and finishes. Brush sold separately.",
+        "Long-wearing, 16 hours",
+        "Waterproof",
+        "Non-acnegenic"
+      ]
     },
     {
       "id": "14",
@@ -544,7 +622,13 @@
       "color": "Kasbah",
       "brand": "Sephora",
       "country": "Italy",
-      "feature": "Gluten Free"
+      "feature": "Gluten Free",
+      "description": [
+        "Sephora 129 SHS Powder/Blush Brush – The 129S Powder/Blush Brush with a shorter handle. All-purpose for blush or face powder. This brush is particularly good for blush application. The fibres are soft and form a full, rounded shape. Sephora professional brushes are hand-sculpted and assembled using the finest quality materials.",
+        "100% synthetic",
+        "Innovative fibre technology",
+        "Easy to wash"
+      ]
     }
   ],
   "cart": [
@@ -553,28 +637,28 @@
       "title": "Volumizing eyebrow mascara",
       "image": "../src/assets/product1.jpg",
       "price": "$22.00",
-      "quantity": 15
+      "quantity": 25
     },
     {
       "id": "2",
       "title": "Eye-reviving dark circle concealer - beige chair",
       "image": "../src/assets/product2.jpg",
       "price": "$33.00",
-      "quantity": 18
+      "quantity": 22
     },
     {
       "id": "3",
       "title": "Waterproof Eyeliner",
       "image": "../src/assets/product3.jpg",
       "price": "$33.00",
-      "quantity": 10
+      "quantity": 13
     },
     {
       "id": "4",
       "title": "Long-wear cream eyeliner - noir",
       "image": "../src/assets/product4.jpg",
       "price": "$22.00",
-      "quantity": 20
+      "quantity": 21
     },
     {
       "id": "7",
@@ -582,9 +666,47 @@
       "image": "../src/assets/product7.jpg",
       "price": "$39.00",
       "quantity": 1
+    },
+    {
+      "id": "5",
+      "title": "Waterproof vinyl eyeliner - prune",
+      "image": "../src/assets/product5.jpg",
+      "price": "$43.00",
+      "quantity": 1
     }
   ],
-  "wishlist": [],
+  "wishlist": [
+    {
+      "id": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00"
+    },
+    {
+      "id": "3",
+      "title": "Waterproof Eyeliner",
+      "image": "../src/assets/product3.jpg",
+      "price": "$33.00"
+    },
+    {
+      "id": "6",
+      "title": "L’oreal Tendertalk Lip Balm",
+      "image": "../src/assets/product6.jpg",
+      "price": "$22.00"
+    },
+    {
+      "id": "1",
+      "title": "Volumizing eyebrow mascara",
+      "image": "../src/assets/product1.jpg",
+      "price": "$22.00"
+    },
+    {
+      "id": "4",
+      "title": "Long-wear cream eyeliner - noir",
+      "image": "../src/assets/product4.jpg",
+      "price": "$22.00"
+    }
+  ],
   "user": [
     {
       "id": "26fc",

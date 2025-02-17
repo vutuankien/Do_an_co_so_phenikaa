@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { loginWithEmailPassword, registerWithEmailPassword, loginWithGoogle } from "../login/firebaseAuth";
+import {
+  loginWithEmailPassword,
+  registerWithEmailPassword,
+  loginWithGoogle,
+} from "../login/firebaseAuth";
 import { Button, Form, Container, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
-import './Login.css';
+import "./Login.css";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -58,7 +62,7 @@ const Login = ({ onLogin }) => {
           photoURL: user.photoURL,
         });
       }
-      localStorage.setItem('userUid', user.uid);
+      localStorage.setItem("userUid", user.uid);
       setMessage("Đăng nhập Google thành công!");
       onLogin(user);
       navigate("/user");
@@ -97,9 +101,17 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <div className="card p-4 shadow-sm" style={{ width: "100%", maxWidth: "400px" }}>
-        <h2 className="text-center mb-4">{isRegistering ? "Đăng ký" : "Đăng nhập"}</h2>
+    <Container
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <div
+        className="card p-4 shadow-sm"
+        style={{ width: "100%", maxWidth: "400px" }}
+      >
+        <h2 className="text-center mb-4">
+          {isRegistering ? "Đăng ký" : "Đăng nhập"}
+        </h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {message && <Alert variant="success">{message}</Alert>}
         <Form onSubmit={isRegistering ? handleRegister : handleLogin}>
@@ -152,17 +164,43 @@ const Login = ({ onLogin }) => {
           <Button variant="primary" className="w-100 mb-3" type="submit">
             {isRegistering ? "Đăng ký" : "Đăng nhập"}
           </Button>
-          <Button variant="outline-primary" className="w-100 mb-3 d-flex align-items-center justify-content-center" onClick={handleGoogleLogin}>
-            <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google Logo" width="30" height="30" className="me-2" />
+          <Button
+            variant="outline-primary"
+            className="w-100 mb-3 d-flex align-items-center justify-content-center"
+            onClick={handleGoogleLogin}
+          >
+            <img
+              src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+              alt="Google Logo"
+              width="30"
+              height="30"
+              className="me-2"
+            />
             Đăng nhập bằng Google
           </Button>
 
           <div className="text-center">
             <small>
               {isRegistering ? (
-                <>Đã có tài khoản? <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => setIsRegistering(false)}>Đăng nhập</span></>
+                <>
+                  Đã có tài khoản?{" "}
+                  <span
+                    style={{ cursor: "pointer", textDecoration: "underline" }}
+                    onClick={() => setIsRegistering(false)}
+                  >
+                    Đăng nhập
+                  </span>
+                </>
               ) : (
-                <>Chưa có tài khoản? <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => setIsRegistering(true)}>Đăng ký</span></>
+                <>
+                  Chưa có tài khoản?{" "}
+                  <span
+                    style={{ cursor: "pointer", textDecoration: "underline" }}
+                    onClick={() => setIsRegistering(true)}
+                  >
+                    Đăng ký
+                  </span>
+                </>
               )}
             </small>
           </div>

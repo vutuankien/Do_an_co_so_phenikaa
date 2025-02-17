@@ -13,7 +13,7 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
-// import Product from "./pages/Product";
+import ProductDetail from "./pages/ProductDetail";
 import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
@@ -65,16 +65,6 @@ function App() {
       {!isAuthPage && <Navbar userId={userId} onLogout={handleLogout} />}
 
       <Routes>
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/place-order" element={<PlaceOrder />} />
-        <Route path="/orders" element={<Orders />} /> */}
         <Route path="/" element={<Login onLogin={handleLogin} />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         {userId ? (
@@ -84,7 +74,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
-            {/* <Route path="/product" element={<Product />} /> */}
+            <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/orders" element={<Orders />} />

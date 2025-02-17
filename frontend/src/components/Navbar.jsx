@@ -7,14 +7,14 @@ const Navbar = ({ onLogout }) => {
 
   const logoutHandler = () => {
     if (onLogout) {
-      console.log("Logout handler called"); 
-      onLogout(); 
+      console.log("Logout handler called");
+      onLogout();
       navigate("/");
     } else {
       console.log("onLogout is undefined");
     }
   };
-  
+
   return (
     <div className="navbar-container">
       <img src={assets.logo} className="navbar-logo" alt="Logo" />
@@ -94,26 +94,51 @@ const Navbar = ({ onLogout }) => {
             <hr className="navbar-link-underline" />
           </div>
         </NavLink>
-        <NavLink to="/blog" className={({ isActive }) => (isActive ? "navbar-link-item active" : "navbar-link-item")}>
+        <NavLink
+          to="/blog"
+          className={({ isActive }) =>
+            isActive ? "navbar-link-item active" : "navbar-link-item"
+          }
+        >
           <p>BLOG</p>
           <hr className="navbar-link-underline" />
         </NavLink>
-        <NavLink to="/shop" className={({ isActive }) => (isActive ? "navbar-link-item active" : "navbar-link-item")}>
+        <NavLink
+          to="/shop"
+          className={({ isActive }) =>
+            isActive ? "navbar-link-item active" : "navbar-link-item"
+          }
+        >
           <p>SHOP</p>
           <hr className="navbar-link-underline" />
         </NavLink>
-        <NavLink to="/gallery" className={({ isActive }) => (isActive ? "navbar-link-item active" : "navbar-link-item")}>
+        <NavLink
+          to="/gallery"
+          className={({ isActive }) =>
+            isActive ? "navbar-link-item active" : "navbar-link-item"
+          }
+        >
           <p>GALLERY</p>
           <hr className="navbar-link-underline" />
         </NavLink>
-        <NavLink to="/contact" className={({ isActive }) => (isActive ? "navbar-link-item active" : "navbar-link-item")}>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) =>
+            isActive ? "navbar-link-item active" : "navbar-link-item"
+          }
+        >
           <p>CONTACT US</p>
           <hr className="navbar-link-underline" />
         </NavLink>
       </ul>
       <div className="navbar-feature">
         <Link to="/cart" className="relative">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="navbar-icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="navbar-icon"
+          >
             <path
               d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
               stroke="#ffffff"
@@ -126,7 +151,14 @@ const Navbar = ({ onLogout }) => {
           <p className="cart-value">0</p>
         </Link>
         <div className="group relative">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="navbar-icon" stroke="#ffffff" strokeWidth="3">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="navbar-icon"
+            stroke="#ffffff"
+            strokeWidth="3"
+          >
             <circle cx="12" cy="6" r="4"></circle>
             <path d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z" />
           </svg>

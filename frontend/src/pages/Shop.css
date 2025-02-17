@@ -14,8 +14,9 @@
 .shop_content {
   display: flex;
   width: 100%;
-  padding: 80px 10rem 0 10rem;
+  padding: 80px 2rem 0 2rem;
   justify-content: center;
+  gap: 10px;
 }
 
 .sidebar_box {
@@ -28,4 +29,13 @@
 
 .shop_content .content {
   width: 60%;
+}
+
+.sorting_container {
+  padding: 0 20px;
+}
+
+.active_filters {
+  padding: 0 20px;
+  font-weight: 300;
 }

@@ -294,13 +294,13 @@ body {
   color: #1d1c21;
   margin-bottom: 5px;
   display: flex;
-  align-items: center; /* Căn giữa theo chiều dọc */
+  align-items: center;
   gap: 10px;
 }
 .product-category h1 {
   font-weight: bold;
   font-size: 15px;
-  margin : 0;
+  margin: 0;
 }
 
 .product-title {
@@ -437,7 +437,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 10px 20px 10px 10px;
+  padding: 10px 10px 10px 10px;
 }
 
 .product-footer img {
@@ -640,7 +640,6 @@ body {
   color: #fb9dab;
 }
 
-
 .discount-container {
   display: flex;
   justify-content: center;
@@ -648,7 +647,7 @@ body {
   padding-top: 40px;
 }
 
-.zoom-btn{
+.zoom-btn {
   position: unset !important;
   font-size: unset !important;
   padding: 0 !important;

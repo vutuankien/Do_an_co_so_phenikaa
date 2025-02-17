@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { assets } from "./../assets/assets";
+import ProductCard from "../components/ProductCard";
 import "./Home.css";
 
 const Home = () => {
@@ -269,139 +270,21 @@ const Home = () => {
         </div>
         <div className="product-container-card">
           {productThemes[activeNavbar]?.map((product) => (
-            <div key={product.id} className="product-card">
-              {product.onSale && (
-                <div className="product-sale-label">Sale!</div>
-              )}
-              <img
-                src={product.image}
-                alt={product.title}
-                className="product-image"
-              />
-
-              <div className="hover-buttons">
-                <div className="hover-btn-function">
-                  <button
-                    onClick={() => handleLike(product)}
-                    className={`hover-btn like-btn ${
-                      likedProducts.has(String(product.id)) ? "liked" : ""
-                    }`}
-                  >
-                    <img src={assets.like_icon} alt="like-icon" />
-                  </button>
-                  <button
-                    onClick={() => handleView(product)}
-                    className="hover-btn view-btn"
-                  >
-                    <img src={assets.eye_icon} alt="eye-icon" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Thông tin sản phẩm */}
-              <div className="product-info">
-                <p className="product-category">{product.category}</p>
-                <h3 className="product-title">{product.title}</h3>
-                <div className="product-price">
-                  {product.onSale ? (
-                    <>
-                      <span className="original-price">{product.price}</span>
-                      <span className="sale-price">{product.salePrice}</span>
-                    </>
-                  ) : (
-                    <span>{product.price}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Nút Add to Cart */}
-              <div className="product-footer">
-                <button
-                  className="add-to-cart-btn"
-                  onClick={() => handleAddToCart(product)}
-                >
-                  <img src={assets.cart_icon2} alt="add-cart-button" />
-                  ADD TO CART
-                </button>
-              </div>
-            </div>
+            <ProductCard
+              key={product.id}
+              product={product}
+              handleLike={handleLike}
+              likedProducts={likedProducts}
+              handleView={handleView}
+              handleAddToCart={handleAddToCart}
+              selectedProduct={selectedProduct}
+              handleCloseDetail={handleCloseDetail}
+              handleQuantityChange={handleQuantityChange}
+              quantities={quantities}
+            />
           ))}
         </div>
       </div>
-      {selectedProduct && (
-        <div className="product-detail-modal">
-          <div className="modal-content">
-            <button className="close-btn" onClick={handleCloseDetail}>
-              &times;
-            </button>
-            <div className="modal-content-image">
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.title}
-                className="detail-image"
-              />
-            </div>
-            <div className="modal-main-content">
-              <div className="product-info">
-                {selectedProduct.onSale && (
-                  <div className="product-sale-label2">Sale!</div>
-                )}
-                <h3 className="product-title2">{selectedProduct.title}</h3>
-                <div className="product-price2">
-                  {selectedProduct.onSale ? (
-                    <>
-                      <span className="original-price">
-                        {selectedProduct.price}
-                      </span>
-                      <span className="sale-price">
-                        {selectedProduct.salePrice}
-                      </span>
-                    </>
-                  ) : (
-                    <span>{selectedProduct.price}</span>
-                  )}
-                </div>
-              </div>
-              <div className="add-cart-container">
-                <input
-                  type="number"
-                  min="1"
-                  className="quantity-input"
-                  value={quantities[selectedProduct?.id] || 1}
-                  onChange={(e) => handleQuantityChange(e, selectedProduct)}
-                />
-
-                <button
-                  onClick={() => handleAddToCart(selectedProduct)}
-                  className="add-to-cart-btn2"
-                >
-                  <img src={assets.cart_icon2} alt="add-cart-button2" />
-                  ADD TO CART
-                </button>
-              </div>
-              <div className="product-actions">
-                <button
-                  onClick={() => handleLike(selectedProduct)}
-                  className="action-btn zoom-btn"
-                >
-                  <img src={assets.like_icon} alt="like-icon" />
-                  ADD TO WISHLIST
-                </button>
-              </div>
-              <div className="product-description">
-                <p className="product-category">
-                  <h1>Categories:</h1> {selectedProduct.category}
-                </p>
-
-                <p className="product-category">
-                  <h1>Tags: </h1> {selectedProduct.tags}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="popular-brand-container">
         <h1 className="popular-brand-title">Popular Brands</h1>
         <div className="brands">
