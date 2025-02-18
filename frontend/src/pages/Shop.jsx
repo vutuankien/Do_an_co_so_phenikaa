@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import ProductList from "../components/ProductList";
 import { useState, useEffect } from "react";
 import "./Shop.css";
+import { useLocation } from "react-router-dom"; // import useLocation
 
 const Shop = () => {
   const [sortOption, setSortOption] = useState("default");
@@ -15,12 +16,25 @@ const Shop = () => {
     price: 98,
   });
 
+  const location = useLocation(); // sử dụng useLocation để lấy location
+  const { category } = location.state || {}; // lấy category từ state, nếu có
+
   useEffect(() => {
     const savedFilters = JSON.parse(localStorage.getItem("activeFilters"));
     if (savedFilters) {
       setActiveFilters(savedFilters);
     }
   }, []);
+
+  useEffect(() => {
+    if (category) {
+      // Nếu category có giá trị, cập nhật activeFilters với category
+      setActiveFilters((prev) => ({
+        ...prev,
+        categories: [category], // Chỉ lọc theo category nhận được từ Link
+      }));
+    }
+  }, [category]); // Chạy khi category thay đổi
 
   const removeFilter = (key) => {
     setActiveFilters((prev) => {

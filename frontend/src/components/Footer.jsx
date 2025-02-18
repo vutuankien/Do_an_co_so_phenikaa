@@ -1,5 +1,5 @@
 //import React from 'react'
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { assets } from "./../assets/assets";
 import "./Footer.css";
 
@@ -84,39 +84,58 @@ const Footer = () => {
         </div>
         <div className="collection">
           <p className="footer-content-title">COLLECTIONS</p>
-          <a href="#" className="turn-page">
-            Cleansing
-          </a>
-          <a href="#" className="turn-page">
-            Toning
-          </a>
-          <a href="#" className="turn-page">
-            Cleansing
-          </a>
-          <a href="#" className="turn-page">
-            Hydrating
-          </a>
-          <a href="#" className="turn-page">
-            Purifying
-          </a>
-          <a href="#" className="turn-page">
-            Soothing
-          </a>
-          <a href="#" className="turn-page">
-            Nourishing
-          </a>
-          <a href="#" className="turn-page">
-            Illuminating
-          </a>
-          <a href="#" className="turn-page">
-            Rejuvenating
-          </a>
-          <a href="#" className="turn-page">
-            Exfoliation
-          </a>
-          <a href="#" className="turn-page">
-            Mask
-          </a>
+          <ul>
+            <li>
+              <Link to="/shop" state={{ category: "Brushes" }}>
+                Cleansing
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Eyes" }}>
+                Toning
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Lips" }}>
+                Hydrating
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Skin" }}>
+                Purifying
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Brushes" }}>
+                Soothing
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Eyes" }}>
+                Nourishing
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Lips" }}>
+                Illuminating
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Skin" }}>
+                Rejuvenating
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Brushes" }}>
+                Exfoliation
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" state={{ category: "Face" }}>
+                Mask
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
       <div className="footer-bottom">

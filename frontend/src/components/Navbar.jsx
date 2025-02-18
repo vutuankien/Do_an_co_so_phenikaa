@@ -35,53 +35,176 @@ const Navbar = ({ onLogout }) => {
                   <div className="face">
                     <p className="droopdown-home-title">FACE MAKEUP</p>
                     <ul>
-                      <li>Cleansing</li>
-                      <li>Toning</li>
-                      <li>Cleansing</li>
-                      <li>Hydrating</li>
-                      <li>Purifying</li>
-                      <li>Soothing</li>
-                      <li>Nourishing</li>
-                      <li>Illuminating</li>
-                      <li>Rejuvenating</li>
-                      <li>Exfoliation</li>
-                      <li>Mask</li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Cleansing
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Toning
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Hydrating
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Purifying
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Soothing
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Nourishing
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Illuminating
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Rejuvenating
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Exfoliation
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Face" }}>
+                          Mask
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="eye">
                     <p className="droopdown-home-title">EYE MAKEUP</p>
                     <ul>
-                      <li>Eyebrows</li>
-                      <li>Base</li>
-                      <li>Eye shadows</li>
-                      <li>Eyeliner pencils</li>
-                      <li>Eyeliners</li>
-                      <li>Mascaras</li>
-                      <li>False eyelashes</li>
-                      <li>Eyelash extensions</li>
-                      <li>Palettes</li>
-                      <li>Eyeliners</li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Eyebrows
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Base
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Eye shadows
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Eyeliner pencils
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Eyeliners
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Mascaras
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          False eyelashes
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Eyelash extensions
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Palettes
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Face" }}>
+                          Eyeliner
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="lip">
                     <p className="droopdown-home-title">LIP MAKEUP</p>
                     <ul>
-                      <li>Lip liners</li>
-                      <li>Lipsticks</li>
-                      <li>Lip gloss</li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Lip liners
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Lipsticks
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Lip gloss
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="accessories">
                     <p className="droopdown-home-title">ACCESSORIES </p>
                     <ul>
-                      <li>Brushes</li>
-                      <li>Sponges and powder puffs</li>
-                      <li>Tweezers</li>
-                      <li>Pencil sharpeners</li>
-                      <li>Scissors</li>
-                      <li>Comedo extractor</li>
-                      <li>Make-up bags</li>
-                      <li>Mirrors</li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Brushes
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Sponges and powder puffs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Tweezers
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Pecil sharpeners
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Brushes" }}>
+                          Scissors
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Eyes" }}>
+                          Comedo extrator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Lips" }}>
+                          Make-up bags
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/shop" state={{ category: "Skin" }}>
+                          Mirrors
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>

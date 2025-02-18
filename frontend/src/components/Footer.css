@@ -97,6 +97,16 @@ a {
   flex-direction: column;
 }
 
+.collection ul li a {
+  text-decoration: none;
+  color: #5d5959;
+  transition: color 0.3s ease;
+}
+
+.collection ul li a:hover {
+  color: #fb9dab;
+}
+
 .footer-bottom {
   display: flex;
   justify-content: center;

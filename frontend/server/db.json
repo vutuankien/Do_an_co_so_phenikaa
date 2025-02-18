@@ -673,15 +673,16 @@
       "image": "../src/assets/product5.jpg",
       "price": "$43.00",
       "quantity": 1
+    },
+    {
+      "id": "14",
+      "title": "Sephora 129 SHS Powder/Blush Brush",
+      "image": "../src/assets/product14.jpg",
+      "price": "$33.00",
+      "quantity": 1
     }
   ],
   "wishlist": [
-    {
-      "id": "2",
-      "title": "Eye-reviving dark circle concealer - beige chair",
-      "image": "../src/assets/product2.jpg",
-      "price": "$33.00"
-    },
     {
       "id": "3",
       "title": "Waterproof Eyeliner",
@@ -705,6 +706,12 @@
       "title": "Long-wear cream eyeliner - noir",
       "image": "../src/assets/product4.jpg",
       "price": "$22.00"
+    },
+    {
+      "id": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00"
     }
   ],
   "user": [
