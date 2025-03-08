@@ -3,10 +3,11 @@ import Sidebar from "../components/Sidebar";
 import ProductList from "../components/ProductList";
 import { useState, useEffect } from "react";
 import "./Shop.css";
-import { useLocation } from "react-router-dom"; // import useLocation
+import { useLocation } from "react-router-dom";
 
 const Shop = () => {
   const [sortOption, setSortOption] = useState("default");
+  const [searchQuery, setSearchQuery] = useState(""); // Thêm state lưu giá trị tìm kiếm
   const [activeFilters, setActiveFilters] = useState({
     categories: [],
     colors: [],
@@ -16,8 +17,8 @@ const Shop = () => {
     price: 98,
   });
 
-  const location = useLocation(); // sử dụng useLocation để lấy location
-  const { category } = location.state || {}; // lấy category từ state, nếu có
+  const location = useLocation();
+  const { category } = location.state || {};
 
   useEffect(() => {
     const savedFilters = JSON.parse(localStorage.getItem("activeFilters"));
@@ -28,13 +29,12 @@ const Shop = () => {
 
   useEffect(() => {
     if (category) {
-      // Nếu category có giá trị, cập nhật activeFilters với category
       setActiveFilters((prev) => ({
         ...prev,
-        categories: [category], // Chỉ lọc theo category nhận được từ Link
+        categories: [category],
       }));
     }
-  }, [category]); // Chạy khi category thay đổi
+  }, [category]);
 
   const removeFilter = (key) => {
     setActiveFilters((prev) => {
@@ -51,6 +51,17 @@ const Shop = () => {
   return (
     <div className="shop_container">
       <Breadcrumb />
+
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search "
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
       <div className="shop_content">
         <Sidebar
           activeFilters={activeFilters}
@@ -100,7 +111,11 @@ const Shop = () => {
           </div>
 
           {/* Product List */}
-          <ProductList sortOption={sortOption} activeFilters={activeFilters} />
+          <ProductList
+            sortOption={sortOption}
+            activeFilters={activeFilters}
+            searchQuery={searchQuery}
+          />
         </div>
       </div>
     </div>

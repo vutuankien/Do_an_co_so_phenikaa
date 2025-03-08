@@ -4,7 +4,8 @@ import Breadcrumb from "../components/Breadcrumb";
 import { assets } from "../assets/assets";
 import "./Home.css";
 import "./ProductDetail.css";
-import ProductCard from "../components/ProductCard";
+// import ProductCard from "../components/ProductCard";
+import RelatedProducts from "../components/RelatedProduct";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -288,7 +289,19 @@ const ProductDetail = () => {
           )}
         </div>
       </div>
-      <h2 className="related_title">Related Products</h2>
+      <RelatedProducts
+        relatedProducts={relatedProducts}
+        likedProducts={likedProducts}
+        handleLike={handleLike}
+        handleView={handleView}
+        handleAddToCart={handleAddToCart}
+        selectedProduct={selectedProduct}
+        handleCloseDetail={handleCloseDetail}
+        handleQuantityChange={handleQuantityChange}
+        quantities={quantities}
+      />
+
+      {/* <h2 className="related_title">Related Products</h2>
       <div className="related-products">
         {relatedProducts.length > 0 ? (
           relatedProducts.map((relatedProduct) => (
@@ -308,7 +321,7 @@ const ProductDetail = () => {
         ) : (
           <p>No related products found.</p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
