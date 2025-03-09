@@ -13,8 +13,16 @@
   height: 50px;
 }
 
+ul{
+  padding-left: 0;
+}
+
 a {
   text-decoration: none;
+}
+
+ul{
+  padding-left: 0;
 }
 
 .navbar-logo {
@@ -115,6 +123,7 @@ a {
   position: relative;
   top: 4px;
 }
+
 
 /* Nội dung của dropdown */
 .dropdown-content-home {
@@ -245,5 +254,6 @@ a {
   background-color: white;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  font-size: 8px;
+  font-size: 9px;
+  font-weight: bold;
 }

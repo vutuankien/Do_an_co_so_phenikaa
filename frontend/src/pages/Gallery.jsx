@@ -74,15 +74,22 @@ const Gallery = () => {
               alt="Slideshow"
               className={`slideshow-image ${isZoomed ? "zoomed" : ""}`}
             />
+            {/* Thêm phần hiển thị số thứ tự ảnh */}
+            <p className="slideshow-counter">
+              {currentImageIndex + 1} / {images.length}
+            </p>
           </div>
+
           <button className="gallery-zoom-btn" onClick={toggleZoom}>
-              {isZoomed ? <FaCompress /> : <FaExpand />}
-            </button>
+            {isZoomed ? <FaCompress /> : <FaExpand />}
+          </button>
+
           <button className="nav-btn next-btn" onClick={nextImage}>
             <FaArrowRight />
           </button>
         </div>
       )}
+
     </div>
   );
 };
