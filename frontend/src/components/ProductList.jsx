@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ProductCard from "./ProductCard";
 import "./ProductList.css";
 
-const ProductList = ({ activeFilters, sortOption }) => {
+const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -41,8 +41,18 @@ const ProductList = ({ activeFilters, sortOption }) => {
     let filtered = products.filter((product) => {
       const { categories, colors, brands, countries, features, price } =
         activeFilters;
+      const matchesSearch =
+        searchQuery === "" ||
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (Array.isArray(product.category) &&
+          product.category.some(
+            (cat) =>
+              typeof cat === "string" &&
+              cat.toLowerCase().includes(searchQuery.toLowerCase())
+          ));
 
       return (
+        matchesSearch &&
         (categories.length === 0 ||
           categories.some((c) => product.category.includes(c))) &&
         (colors.length === 0 || colors.includes(product.color)) &&
@@ -91,7 +101,7 @@ const ProductList = ({ activeFilters, sortOption }) => {
 
     console.log("Filtered Products:", filtered);
     setFilteredProducts(filtered);
-  }, [products, activeFilters, sortOption]);
+  }, [products, activeFilters, sortOption, searchQuery]);
 
   const handleLike = async (product) => {
     try {
@@ -264,6 +274,7 @@ ProductList.propTypes = {
     price: PropTypes.number.isRequired,
   }).isRequired,
   sortOption: PropTypes.string.isRequired,
+  searchQuery: PropTypes.string.isRequired,
 };
 
 export default ProductList;
