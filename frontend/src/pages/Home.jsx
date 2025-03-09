@@ -19,18 +19,19 @@ const Home = () => {
       .catch((error) => console.error("Error fetching product themes:", error));
   }, []);
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/wishlist");
-        const wishlist = await response.json();
-        const likedSet = new Set(wishlist.map((item) => String(item.id)));
-        setLikedProducts(likedSet);
-      } catch (error) {
-        console.error("Lỗi khi tải wishlist:", error);
-      }
-    };
+  const fetchWishlist = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/wishlist");
+      const wishlist = await response.json();
+      const likedSet = new Set(wishlist.map((item) => String(item.productId)));
+      setLikedProducts(likedSet);
+    } catch (error) {
+      console.error("Lỗi khi tải wishlist:", error);
+    }
+  };
 
+  // Gọi fetchWishlist khi component mount
+  useEffect(() => {
     fetchWishlist();
   }, []);
 
@@ -79,45 +80,48 @@ const Home = () => {
 
   const handleLike = async (product) => {
     try {
-      const response = await fetch("http://localhost:5000/wishlist", {
+      const userUID = localStorage.getItem("userId");
+      if (!userUID) {
+        console.error("Không tìm thấy UID của người dùng.");
+        return;
+      }
+
+      const wishlistId = `${product.id}_${userUID}`;
+
+      // Kiểm tra xem sản phẩm đã có trong wishlist chưa
+      const response = await fetch(`http://localhost:5000/wishlist?userUID=${userUID}`, {
         cache: "no-store",
       });
       const wishlist = await response.json();
-      const existingItem = wishlist.find(
-        (item) => String(item.id) === String(product.id)
-      );
+
+      const existingItem = wishlist.find((item) => item.id === wishlistId);
 
       if (existingItem) {
-        await fetch(`http://localhost:5000/wishlist/${existingItem.id}`, {
+        await fetch(`http://localhost:5000/wishlist/${wishlistId}`, {
           method: "DELETE",
-        });
-        setLikedProducts((prevLiked) => {
-          const newLiked = new Set(prevLiked);
-          newLiked.delete(String(product.id));
-          return newLiked;
         });
       } else {
         await fetch("http://localhost:5000/wishlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: String(product.id),
+            id: wishlistId,
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
+            userUID: userUID,
+            productId: product.id,
           }),
         });
-
-        setLikedProducts((prevLiked) => {
-          const newLiked = new Set(prevLiked);
-          newLiked.add(String(product.id));
-          return newLiked;
-        });
       }
+
+      fetchWishlist(); // Gọi lại fetchWishlist để cập nhật danh sách
     } catch (error) {
       console.error("Lỗi khi thêm vào danh sách yêu thích:", error);
     }
   };
+
+
 
   const handleView = (product) => {
     setSelectedProduct(product);
@@ -129,22 +133,26 @@ const Home = () => {
   const handleAddToCart = async (product) => {
     try {
       const quantity = quantities[product.id] || 1;
+      const userUID = localStorage.getItem("userId");
 
-      const response = await fetch("http://localhost:5000/cart", {
+      if (!userUID) {
+        console.error("Không tìm thấy UID người dùng.");
+        return;
+      }
+
+      const cartId = `${product.id}_${userUID}`; // Tạo id mới theo format "id+uid"
+
+      // Kiểm tra xem sản phẩm đã có trong giỏ hàng của user chưa
+      const response = await fetch(`http://localhost:5000/cart/${cartId}`, {
         cache: "no-store",
       });
-      const cart = await response.json();
 
-      console.log("Giỏ hàng hiện tại:", cart);
-
-      const existingItem = cart.find(
-        (item) => String(item.id) === String(product.id)
-      );
-
-      if (existingItem) {
+      if (response.ok) {
+        // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+        const existingItem = await response.json();
         console.log("Cập nhật số lượng sản phẩm:", existingItem);
 
-        await fetch(`http://localhost:5000/cart/${existingItem.id}`, {
+        await fetch(`http://localhost:5000/cart/${cartId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: existingItem.quantity + quantity }),
@@ -152,31 +160,39 @@ const Home = () => {
 
         alert(`Cập nhật số lượng ${product.title} trong giỏ hàng.`);
       } else {
+        // Nếu sản phẩm chưa có, thêm mới vào giỏ hàng
         console.log("Thêm sản phẩm mới vào giỏ hàng");
 
         await fetch("http://localhost:5000/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: product.id,
+            id: cartId, // ID mới theo format "id+uid"
+            productId: product.id,
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
             quantity: quantity,
+            userUID: userUID,
           }),
         });
 
         alert(`Đã thêm ${quantity} sản phẩm "${product.title}" vào giỏ hàng.`);
       }
 
+      // Reset lại số lượng nhập vào
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
         [product.id]: 1,
       }));
+
+      // Tải lại trang sau khi thêm vào giỏ hàng
+      // window.location.reload();
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
     }
   };
+
 
   const handleQuantityChange = (e, product) => {
     const quantity = Math.max(1, parseInt(e.target.value) || 1);

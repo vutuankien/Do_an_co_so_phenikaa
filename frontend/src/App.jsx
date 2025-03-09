@@ -15,10 +15,14 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import ProductDetail from "./pages/ProductDetail";
 import PlaceOrder from "./pages/PlaceOrder";
-import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ForgetPassword from "./login/resetpassword";
+import Account from "./pages/Account";
+import Info from "./pages/Infor";
+import Address from "./pages/Address";
+import Wishlist from "./pages/Wishlist";
+import Orders from "./pages/Orders";
 
 function App() {
   const navigate = useNavigate();
@@ -28,7 +32,7 @@ function App() {
 
   // Kiểm tra localStorage khi tải trang
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userUID");
+    const storedUserId = localStorage.getItem("userId");
     console.log("User UID từ localStorage:", storedUserId);
 
     if (storedUserId) {
@@ -39,10 +43,10 @@ function App() {
 
   // Xử lý đăng nhập
   const handleLogin = (user) => {
-    if (user?.uid) {
+    if (user?.id) {
       console.log("Đăng nhập thành công:", user);
-      localStorage.setItem("userUID", user.uid);
-      setUserId(user.uid);
+      localStorage.setItem("userId", user.id);
+      setUserId(user.id);
       navigate("/home");
     }
   };
@@ -50,7 +54,7 @@ function App() {
   // Xử lý đăng xuất
   const handleLogout = () => {
     console.log("Đăng xuất...");
-    localStorage.removeItem("userUID");
+    localStorage.removeItem("userId");
     setUserId(null);
     navigate("/");
   };
@@ -78,6 +82,10 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/info" element={<Info />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="*" element={<Navigate to="/home" />} />
           </>
         ) : (
@@ -88,6 +96,6 @@ function App() {
       {!isAuthPage && <Footer />}
     </div>
   );
-}
+};
 
 export default App;

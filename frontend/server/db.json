@@ -633,102 +633,71 @@
   ],
   "cart": [
     {
-      "id": "1",
-      "title": "Volumizing eyebrow mascara",
-      "image": "../src/assets/product1.jpg",
-      "price": "$22.00",
-      "quantity": 25
-    },
-    {
-      "id": "2",
-      "title": "Eye-reviving dark circle concealer - beige chair",
-      "image": "../src/assets/product2.jpg",
-      "price": "$33.00",
-      "quantity": 22
-    },
-    {
-      "id": "3",
-      "title": "Waterproof Eyeliner",
-      "image": "../src/assets/product3.jpg",
-      "price": "$33.00",
-      "quantity": 13
-    },
-    {
-      "id": "4",
-      "title": "Long-wear cream eyeliner - noir",
-      "image": "../src/assets/product4.jpg",
-      "price": "$22.00",
-      "quantity": 21
-    },
-    {
-      "id": "7",
-      "title": "Sephora Cream Color Base",
-      "image": "../src/assets/product7.jpg",
-      "price": "$39.00",
-      "quantity": 1
-    },
-    {
-      "id": "5",
+      "id": "5_ZQbnieaYHSbdGKHkgdYs4nfyskd2",
+      "productId": 5,
       "title": "Waterproof vinyl eyeliner - prune",
       "image": "../src/assets/product5.jpg",
       "price": "$43.00",
-      "quantity": 1
+      "quantity": 1,
+      "userUID": "ZQbnieaYHSbdGKHkgdYs4nfyskd2"
     },
     {
-      "id": "14",
-      "title": "Sephora 129 SHS Powder/Blush Brush",
-      "image": "../src/assets/product14.jpg",
-      "price": "$33.00",
-      "quantity": 1
+      "id": "5_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "productId": 5,
+      "title": "Waterproof vinyl eyeliner - prune",
+      "image": "../src/assets/product5.jpg",
+      "price": "$43.00",
+      "quantity": 1,
+      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
     }
   ],
   "wishlist": [
     {
-      "id": "3",
-      "title": "Waterproof Eyeliner",
-      "image": "../src/assets/product3.jpg",
-      "price": "$33.00"
-    },
-    {
-      "id": "6",
-      "title": "L’oreal Tendertalk Lip Balm",
-      "image": "../src/assets/product6.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "1",
+      "id": "1_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
       "title": "Volumizing eyebrow mascara",
       "image": "../src/assets/product1.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "4",
-      "title": "Long-wear cream eyeliner - noir",
-      "image": "../src/assets/product4.jpg",
-      "price": "$22.00"
-    },
-    {
-      "id": "2",
-      "title": "Eye-reviving dark circle concealer - beige chair",
-      "image": "../src/assets/product2.jpg",
-      "price": "$33.00"
+      "price": "$22.00",
+      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "productId": 1
     }
   ],
   "user": [
     {
-      "id": "26fc",
-      "email": "hongdang18092004@gmail.com",
-      "uid": "9IN9kNmx25Qd8j5wnALEjQ8qYJV2",
-      "name": "đăng vũ",
-      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJS9aeQ3as26GIHRaM49IUu_vsRmk3XTl1ebHTH6dvHFEFturc=s96-c"
+      "id": "6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "email": "dangvuclone@gmail.com",
+      "name": "Đăng Vũ",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIQWKYl35oxjUBETwE3qAI7DAuMJvblh_zIz77nGhJ2xwVqKA=s96-c",
+      "dob": "2004-09-18",
+      "phone": "0862992163"
     },
     {
-      "id": "8dfc",
-      "email": "nguyenthehung.2004hd@gmail.com",
-      "uid": "H9WkcBtstxVEWKXjNOVZhilJUl43",
-      "name": "Hung Nguyen",
-      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKkOfDlqLfFGhshg1ZkefhJnQhlXtcZb-BKPpwvsxYN83pQfA=s96-c"
+      "id": "ZQbnieaYHSbdGKHkgdYs4nfyskd2",
+      "email": "hongdang18092004@gmail.com",
+      "name": "đăng vũ",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJS9aeQ3as26GIHRaM49IUu_vsRmk3XTl1ebHTH6dvHFEFturc=s96-c"
     }
   ],
-  "blog": []
+  "blog": [],
+  "bill": [],
+  "address": [
+    {
+      "addresses": [
+        {
+          "id": 1741487948671,
+          "address": "hà nội",
+          "default": true
+        },
+        {
+          "id": 1741489475032,
+          "address": "phụng thượng",
+          "default": false
+        }
+      ],
+      "id": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
+    },
+    {
+      "id": "ZQbnieaYHSbdGKHkgdYs4nfyskd2",
+      "addresses": []
+    }
+  ]
 }

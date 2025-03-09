@@ -1,0 +1,41 @@
+.cart{
+    max-width: 1150px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #ddd; 
+    border-radius: 8px;
+}
+
+.left{
+    margin-right: 10px;
+}
+
+.cart-item{
+    border: 2px solid #ddd; 
+    border-radius: 8px;
+}
+
+.cart-input {
+    margin: 0 !important;
+    width: 15px; 
+    height: 15px; 
+    transform: scale(1.5); 
+}
+
+
+.cart-price{
+    margin: 0 5px;
+}
+
+.anh{
+    margin-top: 0 !important;
+}
+
+.email{
+    margin-bottom: 0 !important;
+}
+
+.addr{
+    margin-bottom: 0 !important;
+}
+

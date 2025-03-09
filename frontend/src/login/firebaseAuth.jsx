@@ -12,15 +12,15 @@ import {
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Đăng nhập bằng Google
 export const loginWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
+
     return {
+      id: user.uid, // Đồng nhất id = uid
       name: user.displayName,
       email: user.email,
-      uid: user.uid,
       photoURL: user.photoURL
     };
   } catch (error) {
@@ -42,9 +42,9 @@ export const registerWithEmailPassword = async (email, password) => {
     console.log("Verification email sent to:", user.email);
 
     return {
+      id: user.uid, // Sử dụng id thay vì uid
       name: user.displayName,
       email: user.email,
-      uid: user.uid,
       emailVerified: user.emailVerified,
       photoURL: user.photoURL
     };
@@ -53,7 +53,6 @@ export const registerWithEmailPassword = async (email, password) => {
     throw new Error(error.message);
   }
 };
-
 
 // Đăng nhập bằng Email và Password (chỉ cho phép nếu đã xác minh email)
 export const loginWithEmailPassword = async (email, password) => {
@@ -65,14 +64,14 @@ export const loginWithEmailPassword = async (email, password) => {
       throw new Error("Email chưa được xác minh. Vui lòng kiểm tra hộp thư của bạn.");
     }
 
-    // Lưu UID và Email vào localStorage
-    localStorage.setItem("userUid", user.uid);
+    // Lưu ID vào localStorage
+    localStorage.setItem("userId", user.id);
     localStorage.setItem("userEmail", user.email);
 
     return {
+      id: user.uid, // Đồng nhất id = uid
       name: user.displayName,
       email: user.email,
-      uid: user.uid,
       emailVerified: user.emailVerified,
       photoURL: user.photoURL
     };

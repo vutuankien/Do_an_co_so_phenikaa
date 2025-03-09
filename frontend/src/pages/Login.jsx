@@ -25,18 +25,23 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setMessage("");
+  
     try {
       const userCredential = await registerWithEmailPassword(email, password);
       const user = userCredential.user;
       const name = user.name || "New User";
-      const newUser = { email, name, uid: user.uid, password };
-
+  
       const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
-      const existingUser = users.find((u) => u.email === email);
-
+      const existingUser = users.find((u) => u.id === user.uid);
+  
       if (!existingUser) {
-        await axios.post("http://localhost:5000/user", newUser);
+        await axios.post("http://localhost:5000/user", { 
+          id: user.uid, 
+          email, 
+          name, 
+          password 
+        });
         setMessage("Đăng ký thành công!");
       } else {
         setError("Người dùng đã tồn tại.");
@@ -45,24 +50,28 @@ const Login = ({ onLogin }) => {
       setError(error.message);
     }
   };
-
+  
   const handleGoogleLogin = async () => {
     setError("");
     setMessage("");
+  
     try {
       const user = await loginWithGoogle();
       const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
-      const existingUser = users.find((u) => u.uid === user.uid);
+      
+      const existingUser = users.find((u) => u.id === user.id);
+  
       if (!existingUser) {
         await axios.post("http://localhost:5000/user", {
+          id: user.id, 
           email: user.email,
-          uid: user.uid,
           name: user.name,
-          photoURL: user.photoURL,
+          photoURL: user.photoURL
         });
       }
-      localStorage.setItem("userUid", user.uid);
+  
+      localStorage.setItem("userId", user.id);
       setMessage("Đăng nhập Google thành công!");
       onLogin(user);
       navigate("/user");
@@ -70,28 +79,33 @@ const Login = ({ onLogin }) => {
       setError(error.message);
     }
   };
-
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
+  
     try {
       const user = await loginWithEmailPassword(email, password);
       let name = user.name || "New User";
+  
       const response = await axios.get("http://localhost:5000/user");
       const users = response.data;
-      const existingUser = users.find((u) => u.uid === user.uid);
+      const existingUser = users.find((u) => u.id === user.id);
+  
       if (existingUser) {
         name = existingUser.name;
       }
+  
       if (!existingUser) {
         await axios.post("http://localhost:5000/user", {
+          id: user.id,
           email: user.email,
-          uid: user.uid,
-          name: name,
-          photoURL: user.photoURL,
+          name,
+          photoURL: user.photoURL
         });
       }
+  
       setMessage("Đăng nhập thành công!");
       onLogin(user);
       navigate("/user");

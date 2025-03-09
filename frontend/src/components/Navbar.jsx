@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "./../assets/assets";
 import "./Navbar.css";
+import CartValue from "./CartValue";
 
 const Navbar = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -271,7 +272,7 @@ const Navbar = ({ onLogout }) => {
               className="navbar-icon"
             />
           </svg>
-          <p className="cart-value">0</p>
+          <p className="cart-value"><CartValue /></p> 
         </Link>
         <div className="group relative">
           <svg
@@ -288,7 +289,7 @@ const Navbar = ({ onLogout }) => {
 
           <div className="dropdown-menu-user">
             <div className="dropdown-content-user">
-              <button className="menu-item-user">ACCOUNT</button>
+            <button className="menu-item-user" onClick={() => navigate("/account")}>ACCOUNT</button>
               <button className="menu-item-user" onClick={logoutHandler}>
                 LOG OUT
               </button>

@@ -6,7 +6,7 @@ const admins = [
   {
     name: "Tuấn Kiên",
     fbLink: "https://www.facebook.com/tuan.kien.878874",
-    avatar: "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-1/476106946_1414692866579407_7229718211801302194_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeE4qdVeSt9QLxhVngfNT0ecVaN0Oy_5vblVo3Q7L_m9uQbRtOCv2K-s-2bpIU-ZnQGehVEEQb1Kocdr9ovqb_kr&_nc_ohc=SQSlLcH5QiMQ7kNvgEV-g2G&_nc_oc=AdhxX_iKt2BW6O8folQq35rPN6GzolH6EeBKrexGajojpmtKuFLb9vF1KwEcGuDX7wQwNPvURtiDMUyEKua6qmB0&_nc_zt=24&_nc_ht=scontent.fhan2-3.fna&_nc_gid=A01T-d7VuR5AZCsZa46ggX1&oh=00_AYDaKoQ-UJ2D3bOkgaAjj4uw8gXV0VUkFFdBaT2fCpo2-g&oe=67B4A6BE"
+    avatar: "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-1/476106946_1414692866579407_7229718211801302194_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=-d_fHqYr7jIQ7kNvgEQad82&_nc_oc=Adho4kku57EYbK8gV9ugkYGTeAVuE9lXvFivGnZ5eZul8Nz5O5p7h1rPe-obV5TvgJQsiXcEJjYOYDtKVQIqiT4w&_nc_zt=24&_nc_ht=scontent.fhan2-3.fna&_nc_gid=ATN6pEDtaQ7a2z6lkzO3TnX&oh=00_AYCoMzBsZp2FTVAcURUcZ6cXf55k5ZDq-tRX00qhBpqngw&oe=67CD7AFE"
   },
   {
     name: "Hồng Đăng",
@@ -36,33 +36,34 @@ const Contact = () => {
       ></iframe>
 
       <div className="about-section">
-        <h2 className="about-title">'Paletto – Bảng màu của sắc đẹp</h2>
+        <h2 className="about-title">'Paletto – The Palette of Beauty</h2>
         <p className="about-text">
-          Ẩn chứa sau mỗi thương hiệu là một câu chuyện, một niềm mong mỏi của những người sáng lập.
-          <strong>'Paletto ra đời với sứ mệnh tôn vinh nét đẹp tự nhiên</strong>, giúp mọi người tìm thấy sắc màu riêng của chính mình.
+          Behind every brand lies a story, a heartfelt aspiration of its founders.
+          <strong>'Paletto was born with the mission to celebrate natural beauty</strong>, helping everyone discover their own unique shades.
         </p>
 
         <p className="about-text">
-          Lấy cảm hứng từ <strong>Palette – bảng màu của nghệ thuật</strong>, 'Paletto không chỉ đơn thuần là mỹ phẩm,
-          mà còn là một hành trình khám phá phong cách, cá tính và vẻ đẹp riêng biệt của mỗi người.
+          Inspired by <strong>Palette – the color board of art</strong>, 'Paletto is more than just cosmetics;
+          it is a journey of exploring personal style, individuality, and distinctive beauty.
         </p>
 
         <p className="about-text">
-          Trong thế giới hiện đại, vẻ đẹp không còn bị giới hạn bởi quy chuẩn, mà là sự kết hợp giữa <strong>cá tính, sự tự tin</strong>
-          và <strong>sự chăm sóc tinh tế</strong>. 'Paletto tin rằng mọi người đều có thể tỏa sáng theo cách riêng của mình.
+          In today’s modern world, beauty is no longer confined by standards; it is a fusion of <strong>personality, confidence</strong>,
+          and <strong>delicate self-care</strong>. 'Paletto believes that everyone can shine in their own way.
         </p>
 
         <p className="about-text">
-          Với công thức an toàn, thành phần thiên nhiên kết hợp công nghệ hiện đại, 'Paletto mang đến những sản phẩm chất lượng,
-          giúp làn da <strong>tươi trẻ, rạng rỡ và tràn đầy sức sống</strong>.
+          With safe formulas, natural ingredients, and advanced technology, 'Paletto delivers high-quality products
+          that help the skin stay <strong>youthful, radiant, and full of vitality</strong>.
         </p>
 
         <p className="about-text last">
-          'Paletto – Bảng màu sắc đẹp, nơi bạn là nghệ sĩ của chính mình!
+          'Paletto – The Palette of Beauty, where you are the artist of your own masterpiece!
         </p>
       </div>
 
-      <h2 className="admins-section">Đội ngũ Admin</h2>
+
+      <h2 className="admins-section">Admin Team</h2>
       <div className="admins-list">
         {admins.map((admin, index) => (
           <div key={index} className="admin-card">
