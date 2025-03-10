@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        {{#each employees}}
+        <div class="card col-lg-3 col-md-6 col-sm-12 mx-2 mt-2 shadow" style="width: 17rem;">
+            <img src="{{this.image}}" class="card-img-top" style="height: 200px;" alt="{{this.name}}">
+            <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <p class="card-text">Level: {{this.level}}</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#detailModal-{{this._id}}">
+                    View Details
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="detailModal-{{this._id}}" tabindex="-1" aria-labelledby="modalLabel-{{this._id}}"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel-{{this._id}}">Employee Detail Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-lg-6 col-sm-12"><img src="{{this.image}}" class="w-100 h-100 mb-2" alt=""></div>
+                        <div class="col-lg-6 col-sm-12">
+                            <p><strong>Name:</strong> {{this.name}}</p>
+                            <p><strong>Address:</strong> {{this.address}}</p>
+                            <p><strong>Email:</strong> {{this.email}}</p>
+                            <p><strong>Phone Number:</strong> {{this.phone}}</p>
+                            <p><strong>Age:</strong> {{this.age}}</p>
+                            <p><strong>Level:</strong> {{this.level}}</p>
+                            <p><strong>Salary:</strong> ${{this.salary}}</p>
+                            <p><strong>Day Work:</strong> {{formatDate this.createdAt}}</p>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-id="{{this._id}}"
+                            onclick="deleteEmployee('{{this._id}}')">
+                            Đuổi Việc
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+<form method="POST" id="delete-form"></form>
+<script>
+    function deleteEmployee(employeeId) {
+        const delete_form = document.getElementById("delete-form");
+        delete_form.action = `/employee/${employeeId}?_method=DELETE`;
+        delete_form.submit();
+    }
+
+</script>

@@ -5,13 +5,13 @@ const BlogController = require('../app/controllers/BlogController');
 
 // Blog API routes
 router.get('/api', BlogController.getAPI);
-router.get('/api/:slug', BlogController.getAPIBySlug);
+router.get('/api/:_id', BlogController.getAPIById);
 
 // Blog render routes
-router.put('/:id', BlogController.update);
-router.get('/:slug/detail', BlogController.getDetail);
-router.get('/:slug/edit', BlogController.getEdit);
-router.delete('/:id', BlogController.delete);
+router.put('/:_id', BlogController.update);
+router.get('/:_id/detail', BlogController.getDetail);
+router.get('/:_id/edit', BlogController.getEdit);
+router.delete('/:_id', BlogController.delete);
 router.post('/create', BlogController.store);
 router.get('/add', BlogController.add);
 router.get('/', BlogController.index);
