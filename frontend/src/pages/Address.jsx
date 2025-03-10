@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 
 const Address = () => {
@@ -107,7 +108,10 @@ const Address = () => {
             <ul className="list-group">
                 {addresses.map((addr) => (
                     <li key={addr.id} className="list-group-item d-flex justify-content-between align-items-center">
-                        <span>{addr.address} {addr.default && <strong>(Default)</strong>}</span>
+                        <span>
+                            <i className="bi bi-geo-alt-fill me-2" style={{ color: "#fb9dab" }}></i>
+                            {addr.address} {addr.default && <strong>(Default)</strong>}
+                        </span>
                         <div>
                             {!addr.default && (
                                 <button className="btn btn-warning btn-sm me-2" onClick={() => handleSetDefault(addr.id)}>
@@ -121,9 +125,9 @@ const Address = () => {
                             >
                                 Delete
                             </button>
-
                         </div>
                     </li>
+
                 ))}
             </ul>
         </div>

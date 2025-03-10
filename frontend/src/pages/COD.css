@@ -1,0 +1,11 @@
+.cod{
+    /* display: none; */
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.boc1{
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+}

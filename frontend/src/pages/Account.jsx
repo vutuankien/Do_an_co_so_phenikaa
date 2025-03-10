@@ -6,6 +6,7 @@ import Info from "./Infor";
 import Wishlist from "./Wishlist";
 import Bill from "./Bill";
 import Address from "./Address";
+import { FaUser, FaMapMarkerAlt, FaHeart, FaShoppingCart } from "react-icons/fa";
 
 const Account = () => {
     const [activeTab, setActiveTab] = useState("personal");
@@ -22,7 +23,7 @@ const Account = () => {
             return;
         }
 
-        axios.get(`http://localhost:5000/user?uid=${uid}`)
+        axios.get(`http://localhost:5000/user?id=${uid}`)
             .then((response) => {
                 if (response.data.length > 0) {
                     const userInfo = response.data[0];
@@ -86,10 +87,18 @@ const Account = () => {
             </div>
             <div className="account-main">
                 <div className="account-sidebar">
-                    <button className={activeTab === "personal" ? "active-tab" : ""} onClick={() => setActiveTab("personal")}>General information</button>
-                    <button className={activeTab === "address" ? "active-tab" : ""} onClick={() => setActiveTab("address")}>Address</button>
-                    <button className={activeTab === "wishlist" ? "active-tab" : ""} onClick={() => setActiveTab("wishlist")}>Wishlist</button>
-                    <button className={activeTab === "orders" ? "active-tab" : ""} onClick={() => setActiveTab("orders")}>Order</button>
+                    <button className={activeTab === "personal" ? "active-tab" : ""} onClick={() => setActiveTab("personal")}>
+                        <FaUser /> General information
+                    </button>
+                    <button className={activeTab === "address" ? "active-tab" : ""} onClick={() => setActiveTab("address")}>
+                        <FaMapMarkerAlt /> Address
+                    </button>
+                    <button className={activeTab === "wishlist" ? "active-tab" : ""} onClick={() => setActiveTab("wishlist")}>
+                        <FaHeart /> Wishlist
+                    </button>
+                    <button className={activeTab === "orders" ? "active-tab" : ""} onClick={() => setActiveTab("orders")}>
+                        <FaShoppingCart /> Order
+                    </button>
                 </div>
                 <div className="account-content">
                     {activeTab === "personal" && user && <Info user={user} userData={userData} setUserData={setUserData} handleFileChange={handleFileChange} handleUpdate={handleUpdate} />}

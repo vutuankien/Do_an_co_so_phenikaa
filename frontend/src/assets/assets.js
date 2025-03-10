@@ -38,6 +38,7 @@ import blog_update_img5 from "./blog-update-img5-4.jpg";
 import discount_tag from "./discount-tag.png";
 import giftbox from "./giftbox.png";
 import percent from "./percent.png";
+import QR from "./QR.jpg"
 
 export const assets = {
   logo,
@@ -86,6 +87,7 @@ export const assets = {
   discount_tag,
   giftbox,
   percent,
+  QR,
 };
 
 export const productThemes = {

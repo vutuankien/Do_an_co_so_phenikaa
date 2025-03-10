@@ -2,16 +2,21 @@ import { useEffect, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete } from "react-icons/ai";
 import "./Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
+import Qr from "./QR";
+import COD from "./COD";
+import Loading from "../components/loading";
 
 const Cart = () => {
   const uid = localStorage.getItem("userId");
   const [cartItems, setCartItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]); // Danh sách các sản phẩm được chọn
+  const [selectedItems, setSelectedItems] = useState([]);
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showQR, setShowQR] = useState(false);
+  const [showCOD, setShowCOD] = useState(false);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -19,19 +24,19 @@ const Cart = () => {
         const response = await fetch("http://localhost:5000/address");
         const data = await response.json();
 
-        console.log("📦 Dữ liệu từ API:", data);
-        console.log("🔍 UID hiện tại:", uid, typeof uid);
+        console.log("Dữ liệu từ API:", data);
+        console.log("UID hiện tại:", uid, typeof uid);
 
         // Tìm thông tin địa chỉ của user
         const userAddress = data.find((entry) => String(entry.id) === String(uid));
 
         if (!userAddress || !Array.isArray(userAddress.addresses)) {
-          console.warn("⚠️ Không tìm thấy địa chỉ hợp lệ.");
+          console.warn("Không tìm thấy địa chỉ hợp lệ.");
           setAddresses([]);
           return;
         }
 
-        console.log("🏠 Địa chỉ tìm thấy:", userAddress.addresses);
+        console.log("Địa chỉ tìm thấy:", userAddress.addresses);
 
         // Cập nhật danh sách địa chỉ
         setAddresses(userAddress.addresses);
@@ -40,7 +45,7 @@ const Cart = () => {
         const defaultAddress = userAddress.addresses.find((addr) => addr.default) || userAddress.addresses[0];
         setSelectedAddress(defaultAddress?.id || "");
       } catch (error) {
-        console.error("❌ Lỗi khi tải địa chỉ:", error);
+        console.error("Lỗi khi tải địa chỉ:", error);
       } finally {
         setLoading(false);
       }
@@ -50,9 +55,6 @@ const Cart = () => {
       fetchAddresses();
     }
   }, [uid]);
-
-
-
 
   useEffect(() => {
     if (!uid) {
@@ -66,7 +68,7 @@ const Cart = () => {
       .then((data) => setCartItems(data))
       .catch((error) => console.error("Lỗi khi lấy giỏ hàng:", error));
 
-    fetch(`http://localhost:5000/user?uid=${uid}`)
+    fetch(`http://localhost:5000/user?id=${uid}`)
       .then((response) => response.json())
       .then((data) => {
         setUser(data[0]);
@@ -108,9 +110,6 @@ const Cart = () => {
       .then((data) => console.log("Cập nhật thành công:", data))
       .catch((error) => console.error("Lỗi khi cập nhật số lượng:", error));
   };
-
-
-
 
   const deleteCartItem = (id) => {
     const uid = localStorage.getItem("userId"); // Lấy UID trực tiếp
@@ -169,9 +168,32 @@ const Cart = () => {
       0
     );
 
+    const handleCheckout = (method) => {
+      if (selectedItems.length === 0) {
+        alert("Vui lòng chọn sản phẩm muốn mua.");
+        return;
+      }
+  
+      if (!user?.phone || !selectedAddress) {
+        alert("Vui lòng cập nhật thông tin cá nhân để hoàn tất đặt hàng.");
+        return;
+      }
+  
+      if (method === "qr") {
+        setShowQR(true);
+        setShowCOD(false);
+      } else if (method === "cod") {
+        setShowCOD(true);
+        setShowQR(false);
+      }
+    };
+
   return (
     <div>
       <Breadcrumb />
+      <Loading />
+      <Qr show={showQR} onClose={() => setShowQR(false)} />
+      <COD show={showQR} onClose={() => setShowQR(false)}/>
       <div className="cart flex p-8">
         <div className="left w-2/3">
           <h2 className="text-xl font-bold">Shopping Cart</h2>
@@ -241,7 +263,7 @@ const Cart = () => {
               <div className="anh flex flex-col items-center my-4">
                 <img src={user.photoURL} alt="User Avatar" className="w-16 h-16 rounded-full mb-2" />
                 <p className="email text-sm">{user.email}</p>
-
+                <p className="email text-sm">{user.phone}</p>
                 {/* Danh sách địa chỉ */}
                 <div className="mt-4 w-full">
                   <p className="addr font-semibold">Shipping address:</p>
@@ -254,8 +276,8 @@ const Cart = () => {
                       onChange={(e) => setSelectedAddress(e.target.value)}
                     >
                       {addresses.map((address) => (
-                        <option key={address.id} value={address.id}>
-                          {address.address}
+                        <option key={address.id} value={address.id} title={address.address}>
+                          {address.address.length > 30 ? address.address.slice(0, 30) + "..." : address.address}
                         </option>
                       ))}
                     </select>
@@ -278,12 +300,20 @@ const Cart = () => {
 
             <div className="mt-6">
               <h3 className="text-lg font-bold">Select payment method:</h3>
-              <button className="w-full bg-blue-400 p-3 mt-2 rounded-lg font-bold">
+              <button
+                className="w-full bg-blue-400 p-3 mt-2 rounded-lg font-bold"
+                onClick={() => handleCheckout("qr")}
+              >
                 Pay by QR code
               </button>
-              <button className="w-full bg-gray-400 p-3 mt-2 rounded-lg font-bold">
+
+              <button
+                className="w-full bg-gray-400 p-3 mt-2 rounded-lg font-bold"
+                onClick={() => handleCheckout("cod")}
+              >
                 Cash on Delivery
               </button>
+
             </div>
           </div>
         )}

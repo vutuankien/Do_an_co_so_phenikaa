@@ -649,6 +649,24 @@
       "price": "$43.00",
       "quantity": 1,
       "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
+    },
+    {
+      "id": "2_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "productId": 2,
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00",
+      "quantity": 1,
+      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
+    },
+    {
+      "id": "8_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "productId": 8,
+      "title": "Mineralize Charged Water Charcoal Spray",
+      "image": "../src/assets/product8.jpg",
+      "price": "$98.00",
+      "quantity": 1,
+      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
     }
   ],
   "wishlist": [
@@ -688,8 +706,8 @@
           "default": true
         },
         {
-          "id": 1741489475032,
-          "address": "phụng thượng",
+          "id": 1741613538448,
+          "address": "đại học Phenikaa",
           "default": false
         }
       ],
