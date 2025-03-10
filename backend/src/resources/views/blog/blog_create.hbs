@@ -5,55 +5,35 @@
     </div>
 
     <div class="mt-4">
-        <form method="POST" action="/blog/create">
+        <form method="POST" action="/blog/create" id="addBlogForm">
             <div class="mb-2">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
             </div>
-            <div class="mb-2">
-                <label for="description" class="form-label">Description</label>
-                <textarea type="text" class="form-control" id="description" name="description"
-                    style="height: 80px; width:full"></textarea>
-            </div>
+
             <div class="mb-2">
                 <label for="content" class="form-label">Content</label>
-                <textarea type="text" class="form-control" id="content" name="content"
+                <textarea type="text" class="form-control" id="content" name="content" placeholder="Enter Content"
                     style="height: 80px; width:full"></textarea>
             </div>
             <div class="mb-2">
-                <label for="category" class="form-label me-2">Tag</label>
-                <br>
-                <select name="tags" id="tags" class="py-2 px-2 rounded">
-                    <option value="" class="rounded-pill">Select Tags of the Blog</option>
-                    <option value="hair care" class="rounded-pill">Hair Care</option>
-                    <option value="skin care" class="rounded-pill">Skin Care</option>
-                    <option value="life style" class="rounded-pill">Life Style</option>
-                </select>
+                <label for="tags" class="form-label">Tags</label>
+                <input type="text" class="form-control" id="tags" name="tags" placeholder="Enter tags">
             </div>
             <div class="mb-2">
                 <label for="author" class="form-label">Author</label>
-                <input type="text" class="form-control" id="author" name="author" min="0">
+                <input type="text" class="form-control" id="author" name="author" placeholder="Enter author">
+            </div>
+            <div class="mb-2">
+                <label for="category" class="form-label">Category</label>
+                <input type="text" class="form-control" id="category" name="category" placeholder="Enter Category">
             </div>
             <div class="mb-2">
                 <label for="image" class="form-label">Image</label>
-                <input type="text" class="form-control" id="image" name="image">
+                <textarea type="text" class="form-control" id="image" name="image"
+                    placeholder="Enter Image Url (comma separated)" style="height: 80px; width:full"></textarea>
             </div>
 
-            <div class="d-flex gap-4 my-4">
-
-                <div>
-                    <input type="checkbox" name="isPublished" id="isPublished" value="true">
-                    <span>Published</span>
-                </div>
-                <div>
-                    <input type="checkbox" name="isFeatured" id="isFeatured" value="true">
-                    <span>Featured</span>
-                </div>
-                <div>
-                    <input type="checkbox" name="isFavorited" id="favorited" value="true">
-                    <span>Favorited</span>
-                </div>
-            </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -63,19 +43,38 @@
 
 
 <script>
-    const isPublished = document.querySelector('input[name="isPublished"]');
-    const isFeatured = document.querySelector('input[name="isFeatured"]');
-    const isFavorited = document.querySelector('input[name="isFavorited"]');
+    document.getElementById("addBlogForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const blog = {};
 
-    isPublished.addEventListener('change', () => {
-        isPublished.value = isPublished.checked ? "true" : "false";
-    });
 
-    isFeatured.addEventListener('change', () => {
-        isFeatured.value = isFeatured.checked ? "true" : "false";
-    });
-    isFavorited.addEventListener('change', () => {
-        isFavorited.value = isFavorited.checked ? "true" : "false";
+        formData.forEach((value, key) => {
+            if (key === "tags" || key === "image" || key === "content") {
+                // Chia tách bằng dấu phẩy, loại bỏ khoảng trắng thừa, loại bỏ phần tử rỗng
+                blog[key] = value.split(',').map(item => item.trim()).filter(item => item !== "");
+            } else {
+                blog[key] = value;
+            }
+        });
+
+        console.log("New Blog Data:", blog); // Debug toàn bộ dữ liệu
+
+        // Gửi dữ liệu qua fetch API thay vì submit form trực tiếp
+        fetch(this.action, {
+            method: this.method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(blog),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Blog added successfully!");
+                    window.location.reload(); // Reload lại trang sau khi thêm thành công
+                } else {
+                    console.error("Failed to add blog.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     });
 
 </script>

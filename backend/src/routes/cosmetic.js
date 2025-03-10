@@ -4,11 +4,12 @@ const cosmeticController = require('../app/controllers/CosmeticController');
 
 // API route
 router.get('/api', cosmeticController.api);
+router.get('/api/:id', cosmeticController.getIdAPI);
 // router.post('/handle_form_action', cosmeticController.handleFormActions)
 router.patch('/:id/restore', cosmeticController.restore);
 router.delete('/:id/force', cosmeticController.destroy);
-router.get('/:id/edit', cosmeticController.edit);
-router.put('/:id', cosmeticController.update);
+router.get('/:_id/edit', cosmeticController.edit);
+router.put('/:_id', cosmeticController.update);
 router.post('/exportData', cosmeticController.exportData);
 // Create page route
 router.get('/create', cosmeticController.create);
@@ -18,7 +19,7 @@ router.post('/store', cosmeticController.store);
 router.delete('/:id', cosmeticController.delete);
 
 // Slug route
-router.get('/:slug', cosmeticController.getSlug);
+router.get('/:_id', cosmeticController.getByID);
 
 // Default route (index page)
 router.get('/', cosmeticController.index);

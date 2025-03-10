@@ -1,108 +1,114 @@
-<div class="container px-4">
-    <div class="d-flex align-items-center gap-2">
-        <a href="/cosmetic" class="text-black fs-5 fw-bolder"><i class="bi bi-arrow-left fw-bolder fs-5"></i></a>
-        <h3>Back</h3>
-    </div>
+{{!-- Add Product Page using Handlebars and Bootstrap --}}
 
-    <div class="mt-4">
-        <form method="POST" action="/cosmetic/store">
-            <div class="mb-2">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name">
+<div>
+    <form id="addProductForm" class="p-4 bg-light shadow-lg rounded" method="post" action="/cosmetic/store">
+        <h2 class="text-center mb-4">Add New Product</h2>
+
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter product title" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text" name="category" class="form-control" placeholder="Category (comma separated)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tags</label>
+            <input type="text" name="tags" class="form-control" placeholder="Tags (comma separated)" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" placeholder="Enter price" />
             </div>
-            <div class="mb-2">
-                <label for="description" class="form-label">Description</label>
-                <textarea type="text" class="form-control" id="description" name="description"
-                    style="height: 80px; width:full"></textarea>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Sale Price</label>
+                <input type="text" name="salePrice" class="form-control" placeholder="Enter sale price" />
             </div>
-            <div class="d-flex gap-5">
-                <div class="mb-2">
-                    <label for="category" class="form-label me-2">Category</label>
-                    <br>
-                    <select name="category" id="category" class="py-2 px-2 rounded">
-                        <option value="" class="rounded-pill">Select Category of the cosmetic</option>
-                        <option value="lipstick" class="rounded-pill">Lip Stick</option>
-                        <option value="skincare" class="rounded-pill">Skin Care</option>
-                        <option value="makeup" class="rounded-pill">Make Up</option>
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="stock" class="form-label">Stock</label>
-                    <input type="number" class="form-control" id="stock" name="stock" min="0">
-                </div>
-                <div class="mb-2">
-                    <label for="rating" class="form-label">Rating</label>
-                    <input type="text" class="form-control" id="rating" name="rating">
-                </div>
-                <div class="mb-2">
-                    <label for="size" class="form-label">Size</label>
-                    <input type="text" class="form-control" id="size" name="size">
-                </div>
-                <div class="mb-2">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="text" class="form-control" id="price" name="price">
-                </div>
-            </div>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="onSale" class="form-check-input" id="onSaleCheck" value="true" />
+            <label class="form-check-label" for="onSaleCheck">On Sale</label>
+        </div>
 
-            <div class="mb-2">
-                <label for="brand" class="form-label">Brand</label>
-                <input type="text" class="form-control" id="brand" name="brand">
-            </div>
-            <div class="mb-2">
-                <label for="image" class="form-label">Image</label>
-                <input type="text" class="form-control" id="image" name="image">
-            </div>
-            <div class="d-flex gap-5">
-                <div class="mb-2">
-                    <label for="expirationDate" class="form-label">Expiration Date</label>
-                    <input type="date" class="form-control" id="expirationDate" name="expirationDate">
-                </div>
-                <div class="mb-2">
-                    <label for="manufacturingDate" class="form-label">Manufacturing Date</label>
-                    <input type="date" class="form-control" id="manufacturingDate" name="manufacturingDate">
-                </div>
-            </div>
-            <div class="d-flex gap-4 my-4">
 
-                <div>
-                    <input type="checkbox" name="isNewArrival" id="newArrival" value="true">
-                    <span>New Arrival</span>
-                </div>
-                <div>
-                    <input type="checkbox" name="isBestSeller" id="bestSeller" value="true">
-                    <span>Best Seller</span>
-                </div>
-                <div>
-                    <input type="checkbox" name="isFavorite" id="favorite" value="true">
-                    <span>Favorite</span>
-                </div>
+        <div class="mb-3">
+            <label class="form-label">Color</label>
+            <input type="text" name="color" class="form-control" placeholder="Enter color" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Image URL</label>
+            <input type="text" name="image" class="form-control" placeholder="Enter url of the image" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <input type="text" name="brand" class="form-control" placeholder="Enter brand" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input type="text" name="country" class="form-control" placeholder="Enter country" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Feature</label>
+            <input type="text" name="feature" class="form-control" placeholder="Enter feature" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" placeholder="Enter description"></textarea>
+        </div>
 
 
 
+        <button type="submit" class="btn btn-primary w-100" id="submitBtn">Add Product</button>
+    </form>
 
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
 </div>
-
-
-
 <script>
-    const isNewArrival = document.querySelector('input[name="isNewArrival"]');
-    const isBestSeller = document.querySelector('input[name="isBestSeller"]');
-    const isFavorite = document.querySelector('input[name="isFavorite"]');
+    document.getElementById("addProductForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const product = {};
 
-    isBestSeller.addEventListener('change', () => {
-        isBestSeller.value = isBestSeller.checked ? "true" : "false";
+        // Lấy giá trị của checkbox onSale
+        product["onSale"] = document.getElementById("onSaleCheck").checked;
+        console.log("Checkbox onSale:", product["onSale"]); // Debug giá trị checkbox
+
+        formData.forEach((value, key) => {
+            if (key === "tags" || key === "category") {
+                // Chia tách bằng dấu phẩy, loại bỏ khoảng trắng thừa, loại bỏ phần tử rỗng
+                product[key] = value.split(',').map(item => item.trim()).filter(item => item !== "");
+            } else {
+                product[key] = value;
+            }
+        });
+
+        console.log("New Product Data:", product); // Debug toàn bộ dữ liệu
+
+        // Gửi dữ liệu qua fetch API thay vì submit form trực tiếp
+        fetch(this.action, {
+            method: this.method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Product added successfully!");
+                    window.location.reload(); // Reload lại trang sau khi thêm thành công
+                } else {
+                    console.error("Failed to add product.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     });
 
-    isNewArrival.addEventListener('change', () => {
-        isNewArrival.value = isNewArrival.checked ? "true" : "false";
-    });
-    isFavorite.addEventListener('change', () => {
-        isFavorite.value = isFavorite.checked ? "true" : "false";
-    });
+
+
 
 </script>

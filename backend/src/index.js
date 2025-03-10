@@ -10,7 +10,7 @@ const SortMiddleware = require('./app/middlewares/SortMiddleware');
 const connectCloudinary = require('./config/cloudinary');
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'default_secret_key'; // Thêm giá trị mặc định
 
 // **Kết nối database & Cloudinary**

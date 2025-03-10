@@ -4,59 +4,19 @@
 
 <div class=" p-2">
 
-    <h1 class="mt-3 fw-bold"><i class="bi bi-star-fill"></i>Favorite Blogs of the month</h1>
-    <div id="carouselExampleCaptions" class="carousel slide">
-        <div class="carousel-indicators">
-            {{#each blogs}}
-            {{#if this.isFavorited}}
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}"
-                class="{{#if @first}}active{{/if}}" aria-label="Slide {{@index}}"></button>
-            {{/if}}
-            {{/each}}
-        </div>
+    <h1 class=" fw-bold"><i class="bi bi-star-fill"></i>All Blogs</h1>
 
-        <div class="carousel-inner">
-            {{#each blogs}}
-            {{#if this.isFavorited}}
-            <div class="carousel-item {{#if @first}}active{{/if}}">
-                <img src="{{this.image}}" class="d-block w-100" style="height: 400px;" alt="Blog Image">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-black">{{this.title}}</h5>
-                    <p class="text-black">{{this.description}}</p>
-                </div>
-            </div>
-            {{/if}}
-            {{/each}}
-        </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-
-    <h1 class="mt-5 fw-bold"><i class="bi bi-star-fill"></i>All Blogs</h1>
-    <form class="d-flex mb-4" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
     {{#each blogs}}
     <div class="row border border-1 border-secondary rounded mb-3 shadow">
         <div class="col-4 p-0">
-            <img src={{this.image}} alt="" class="overflow-hidden" style="width: 100%; height:300px" loading="lazy">
+            <img src={{this.image.[0]}} alt="" class="overflow-hidden" style="width: 100%; height:300px" loading="lazy">
         </div>
         <div class="col-8">
             <div class="p-3">
                 <div class="card-body">
                     <h5 class="card-title fw-bold fs-2 mb-2">{{this.title}}</h5>
-                    <p class="card-text">{{this.content}}</p>
+                    <p style="max-height: 200px; overflow: hidden; text-overflow: ellipsis;word-wrap:nowrap">
+                        {{this.content}}</p>
                     <div class="d-flex justify-content-between">
                         <small class="text-muted">Posted by <span class="fw-bold">{{this.author}}</span> on
                             {{this.createdAt}}</small>
@@ -64,8 +24,8 @@
                         <small class="text-muted"><i class="bi bi-eye me-2"></i>{{this.views}}</small>
                     </div>
                     <div class="mt-3">
-                        <a href="/blog/{{this.slug}}/detail" class="btn btn-success">View More</a>
-                        <a href="/blog/{{this.slug}}/edit" class="btn btn-primary">Update</a>
+                        <a href="/blog/{{this._id}}/detail" class="btn btn-success">View More</a>
+                        <a href="/blog/{{this._id}}/edit" class="btn btn-primary">Update</a>
                         <button data-id={{this._id}} class=" btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Delete</button>
                     </div>

@@ -1,5 +1,5 @@
 const Handlebars = require('handlebars');
-
+const moment = require('moment');
 module.exports = {
     sum: (a, b) => a + b,
     range: (start, end) => {
@@ -30,4 +30,5 @@ module.exports = {
             </a>`,
         );
     },
+    formatDate: (date) => moment(date).format('DD/MM/YYYY'),
 };

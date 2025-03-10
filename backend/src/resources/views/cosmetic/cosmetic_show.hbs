@@ -38,12 +38,12 @@
         <th scope="col" class="text-center">Brand
           {{{sortable 'brand' _sort}}}
         </th>
-        <th scope="col" class="text-center">Stock
-          {{{sortable 'stock' _sort}}}
+        <th scope="col" class="text-center">Sale
+          {{{sortable 'onSale' _sort}}}
         </th>
-        <th scope="col" class="text-center">New Arrived</th>
-        <th scope="col" class="text-center">Best Seller</th>
-        <th scope="col" class="text-center">Favorite</th>
+        <th scope="col" class="text-center">Price On Sale
+          {{{sortable 'salePrice' _sort}}}
+        </th>
         <th scope="col" class="text-center">Price
           {{{sortable 'price' _sort}}}
         </th>
@@ -52,24 +52,29 @@
     </thead>
     <tbody>
       {{#each cosmetics}}
-      <tr data-href="/cosmetic/{{this.slug}}">
+      <tr data-href="/cosmetic/{{this._id}}">
         <th scope="row" class="text-center">{{sum @index 1 }}</th>
-        <td class="text-center"> {{this.name}}</td>
+        <td class="text-center"> {{this.title}}</td>
         <td class="text-center">{{this.category}}</td>
         <td class="text-center">{{this.brand}}</td>
-        <td class="text-center">{{this.stock}}</td>
-        <td class="text-center">{{#if this.isNewArrival}}<i
-            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
-            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
-        <!-- Điều chỉnh hiển thị isBestSeller -->
 
-        <td class="text-center">{{#if this.isBestSeller}}<i
-            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
-            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
-        <td class="text-center">{{#if this.isFavorite}}<i
-            class="bi bi-check2 text-success fs-4 fw-bolder"></i>{{else}}<i
-            class="bi bi-x text-danger fs-4 fw-bolder"></i>{{/if}}</td>
-        <td class="text-center">${{this.price}}</td>
+        <td class="text-center">
+          {{#if this.onSale}}
+          <span class="badge bg-success text-white">Sale</span>
+          {{else}}
+          <span class="badge bg-secondary text-white">Not Sale</span>
+          {{/if}}
+        </td>
+
+        <td class="text-center">
+          {{#if this.onSale}}
+          {{this.salePrice}}
+          {{else}}
+          $0.00
+          {{/if}}
+        </td>
+
+        <td class="text-center">{{this.price}}</td>
         <td class="text-center">
           <button class="btn btn-success"><a href="/cosmetic/{{this._id}}/edit"
               class="text-white text-decoration-none"><i class="bi bi-pencil-fill"></i>Edit</a></button>

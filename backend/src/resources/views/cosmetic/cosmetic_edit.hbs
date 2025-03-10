@@ -1,105 +1,107 @@
-<div class="d-flex align-items-center gap-2 mb-3">
-    <a href="/cosmetic" class="text-black fs-5 fw-bolder"><i class="bi bi-arrow-left fw-bolder fs-5"></i></a>
-    <h3>Back</h3>
+<div>
+    <form id="editProductForm" class="p-4 bg-light shadow-lg rounded" method="post"
+        action="/cosmetic/{{cosmetic._id}}?_method=PUT">
+        <h2 class=" text-center mb-4">Edit Product</h2>
+
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter product title"
+                value="{{cosmetic.title}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text" name="category" class="form-control" placeholder="Category (comma separated)"
+                value="{{cosmetic.category}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tags</label>
+            <input type="text" name="tags" class="form-control" placeholder="Tags (comma separated)"
+                value="{{cosmetic.tags}}" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" placeholder="Enter price"
+                    value="{{cosmetic.price}}" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Sale Price</label>
+                <input type="text" name="salePrice" class="form-control" placeholder="Enter sale price"
+                    value="{{cosmetic.salePrice}}" />
+            </div>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="onSale" class="form-check-input" id="onSaleCheck" value="true" {{#if
+                cosmetic.onSale}}checked{{/if}} />
+
+            <label class="form-check-label" for="onSaleCheck">On Sale</label>
+
+
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Color</label>
+            <input type="text" name="color" class="form-control" placeholder="Enter color" value="{{cosmetic.color}}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Image URL</label>
+            <input type="text" name="image" class="form-control" placeholder="Enter url of the image"
+                value="{{cosmetic.image}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <input type="text" name="brand" class="form-control" placeholder="Enter brand" value="{{cosmetic.brand}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input type="text" name="country" class="form-control" placeholder="Enter country"
+                value="{{cosmetic.country}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Feature</label>
+            <input type="text" name="feature" class="form-control" placeholder="Enter feature"
+                value="{{cosmetic.feature}}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" style="height: 200px;"
+                placeholder="Enter description">{{cosmetic.description}}</textarea>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary w-100 " id="submitBtn">Edit Product</button>
+    </form>
+
 </div>
-<form method="POST" action="/cosmetic/{{cosmetic._id}}?_method=PUT">
-    <div class="mb-2">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{cosmetic.name}}">
-    </div>
-    <div class="mb-2">
-        <label for="description" class="form-label">Description</label>
-        <textarea type="text" class="form-control" id="description" name="description"
-            style="height: 80px; width:full">{{cosmetic.description}}</textarea>
-    </div>
-    <div class="d-flex gap-5">
-        <div class="mb-2">
-            <label for="category" class="form-label me-2">Category</label>
-            <br>
-            <select name="category" id="category" class="py-2 px-2 rounded">
-                <option value="" class="rounded-pill">Select Category of the cosmetic</option>
-                <option value="lipstick" {{#if (eq cosmetic.category 'lipstick' )}}selected{{/if}} class="rounded-pill">
-                    Lip Stick</option>
-                <option value="skincare" {{#if (eq cosmetic.category 'skincare' )}}selected{{/if}} class="rounded-pill">
-                    Skin Care</option>
-                <option value="makeup" {{#if (eq cosmetic.category 'makeup' )}}selected{{/if}} class="rounded-pill">Make
-                    Up</option>
-            </select>
-        </div>
-        <div class="mb-2">
-            <label for="stock" class="form-label">Stock</label>
-            <input type="number" class="form-control" id="stock" name="stock" min="0" value="{{cosmetic.stock}}">
-        </div>
-        <div class="mb-2">
-            <label for="rating" class="form-label">Rating</label>
-            <input type="text" class="form-control" id="rating" name="rating" value="{{cosmetic.rating}}">
-        </div>
-        <div class="mb-2">
-            <label for="size" class="form-label">Size</label>
-            <input type="text" class="form-control" id="size" name="size" value="{{cosmetic.size}}">
-        </div>
-        <div class="mb-2">
-            <label for="price" class="form-label">Price</label>
-            <input type="text" class="form-control" id="price" name="price" value="{{cosmetic.price}}">
-        </div>
-    </div>
-
-    <div class="mb-2">
-        <label for="brand" class="form-label">Brand</label>
-        <input type="text" class="form-control" id="brand" name="brand" value="{{cosmetic.brand}}">
-    </div>
-    <div class="mb-2">
-        <label for="image" class="form-label">Image</label>
-        <input type="text" class="form-control" id="image" name="image" value="{{cosmetic.image}}">
-    </div>
-    <div class="d-flex gap-5">
-        <div class="mb-2">
-            <label for="expirationDate" class="form-label">Expiration Date</label>
-            <input type="date" class="form-control" id="expirationDate" name="expirationDate"
-                value="{{cosmetic.expirationDate}}">
-        </div>
-        <div class="mb-2">
-            <label for="manufacturingDate" class="form-label">Manufacturing Date</label>
-            <input type="date" class="form-control" id="manufacturingDate" name="manufacturingDate"
-                value="{{cosmetic.manufacturingDate}}">
-        </div>
-    </div>
-    <div class="d-flex gap-4 my-4">
-        <div>
-            <input type="checkbox" name="isNewArrival" id="newArrival" value="true" {{#if
-                cosmetic.isNewArrival}}checked{{/if}}>
-            <span>New Arrived</span>
-        </div>
-        <div>
-            <input type="checkbox" name="isBestSeller" id="bestSeller" value="true" {{#if
-                cosmetic.isBestSeller}}checked{{/if}}>
-            <span>Best Seller</span>
-        </div>
-        <div>
-            <input type="checkbox" name="isFavorite" id="favorite" value="true" {{#if
-                cosmetic.isFavorite}}checked{{/if}}>
-            <span>Best Seller</span>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update</button>
-</form>
-
-
 <script>
-    const isNewArrival = document.querySelector('input[name="isNewArrival"]');
-    const isBestSeller = document.querySelector('input[name="isBestSeller"]');
-    const isFavorite = document.querySelector('input[name="isFavorite"]');
+    document.getElementById("editProductForm").addEventListener("submit", function (event) {
+        const formData = new FormData(this);
 
-    isBestSeller.addEventListener('change', () => {
-        isBestSeller.value = isBestSeller.checked ? "true" : "false";
-    });
+        // Đảm bảo chỉ có 1 giá trị 'onSale' duy nhất
+        formData.delete("onSale");
+        formData.append("onSale", document.getElementById("onSaleCheck").checked.toString());
 
-    isNewArrival.addEventListener('change', () => {
-        isNewArrival.value = isNewArrival.checked ? "true" : "false";
-    });
-    isFavorite.addEventListener('change', () => {
-        isFavorite.value = isFavorite.checked ? "true" : "false";
+        console.log("Updated FormData:", Object.fromEntries(formData)); // Debug
+
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+        }).then(response => {
+            if (response.ok) {
+                console.log("Update successful");
+            } else {
+                console.error("Update failed");
+            }
+        }).catch(error => console.error("Error:", error));
     });
 
 </script>

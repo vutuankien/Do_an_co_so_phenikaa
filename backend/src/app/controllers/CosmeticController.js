@@ -1,6 +1,7 @@
 const Cosmetic = require('../models/Cosmetic');
 const XLSX = require('xlsx');
-const { faker } = require('@faker-js/faker');
+const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 // const faker = require('faker')
 class CosmeticController {
     // [GET] /cosmetic
@@ -38,11 +39,32 @@ class CosmeticController {
     }
 
     // [GET] /cosmetic/:slug
-    getSlug(req, res, next) {
-        Cosmetic.findOne({ slug: req.params.slug })
+    getByID(req, res, next) {
+        const { _id } = req.params;
+
+        // Kiểm tra ID có phải ObjectId hợp lệ không
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return res.status(400).json({ error: 'Invalid ID format' });
+        }
+
+        Cosmetic.findById(_id)
             .lean()
             .then((cosmetic) => {
+                if (!cosmetic) {
+                    return res
+                        .status(404)
+                        .json({ error: 'Cosmetic not found' });
+                }
+                // res.status(200).json(cosmetic);
                 res.render('cosmetic/cosmetic_detail', { cosmetic });
+            })
+            .catch((err) => next(err));
+    }
+    getIdAPI(req, res, next) {
+        Cosmetic.findById(req.params.id)
+            .lean()
+            .then((cosmetic) => {
+                res.status(200).json(cosmetic);
             })
             .catch((err) => next(err));
     }
@@ -65,45 +87,44 @@ class CosmeticController {
     // [POST] /cosmetic/api/storeAPI
     store(req, res, next) {
         const {
-            name,
+            title,
             price,
             description,
             image,
-            slug,
+            salePrice,
+            color,
             brand,
-            stock,
             category,
-            rating,
-            size,
-            expirationDate,
-            manufacturingDate,
+            tags,
+            country,
+            feature,
         } = req.body;
 
         // Chuyển đổi giá trị checkbox
-        const isNewArrival = req.body.isNewArrival === 'true';
-        const isBestSeller = req.body.isBestSeller === 'true';
-        const isFavorite = req.body.isFavorite === 'true';
+        const onSale = req.body.onSale === 'true'; // Đảm bảo kiểu boolean
 
-        const newCosmetic = new Cosmetic({
-            name,
-            price,
-            description,
-            image,
-            slug,
-            brand,
-            stock,
-            category,
-            rating,
-            size,
-            expirationDate,
-            manufacturingDate,
-            isNewArrival,
-            isBestSeller,
-            isFavorite,
-        });
+        // Đếm số lượng tài liệu để tạo ID tự tăng
+        Cosmetic.countDocuments()
+            .then((count) => {
+                const newCosmetic = new Cosmetic({
+                    _id: new ObjectId(),
+                    id: count + 1, // ID tự tăng
+                    title,
+                    price,
+                    description,
+                    image,
+                    salePrice,
+                    color,
+                    brand,
+                    category,
+                    tags,
+                    feature,
+                    country,
+                    onSale,
+                });
 
-        newCosmetic
-            .save()
+                return newCosmetic.save();
+            })
             .then((cosmetic) => {
                 console.log('Saved Cosmetic:', cosmetic);
                 res.redirect('/cosmetic');
@@ -113,37 +134,36 @@ class CosmeticController {
 
     //[GET] /cosmetic/:id/edit
     edit(req, res, next) {
-        Cosmetic.findById(req.params.id)
+        const { _id } = req.params;
+
+        // Kiểm tra ID có phải ObjectId hợp lệ không
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return res.status(400).json({ error: 'Invalid ID format' });
+        }
+
+        Cosmetic.findById(_id)
+            .lean()
             .then((cosmetic) => {
                 if (!cosmetic) {
-                    return res.status(404).send('Cosmetic not found');
+                    return res
+                        .status(404)
+                        .json({ error: 'Cosmetic not found' });
                 }
-                const expirationDate = cosmetic.expirationDate
-                    ? cosmetic.expirationDate.toISOString().split('T')[0]
-                    : '';
-                const manufacturingDate = cosmetic.manufacturingDate
-                    ? cosmetic.manufacturingDate.toISOString().split('T')[0]
-                    : '';
-                const cosmeticData = {
-                    ...cosmetic.toObject(),
-                    expirationDate,
-                    manufacturingDate,
-                };
-                res.render('cosmetic/cosmetic_edit', {
-                    cosmetic: cosmeticData,
-                });
+                // res.status(200).json(cosmetic);
+                res.render('cosmetic/cosmetic_edit', { cosmetic });
             })
             .catch((err) => next(err));
     }
 
     update(req, res, next) {
-        req.body.isNewArrival = req.body.isNewArrival === 'true';
-        req.body.isBestSeller = req.body.isBestSeller === 'true';
-        req.body.isFavorite = req.body.isFavorite === 'true';
-
-        Cosmetic.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        req.body.onSale = req.body.onSale === 'true'; // Chuyển thành Boolean
+        console.log('Received update: ', req.body);
+        Cosmetic.findByIdAndUpdate(req.params._id, req.body, { new: true })
             .lean()
-            .then(() => res.redirect('/cosmetic'))
+            .then((updatedCosmetic) => {
+                console.log('Updated Cosmetic:', updatedCosmetic);
+                res.redirect('/cosmetic');
+            })
             .catch((err) => next(err));
     }
 

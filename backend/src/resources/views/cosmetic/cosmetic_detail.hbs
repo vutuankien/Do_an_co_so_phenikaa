@@ -1,39 +1,31 @@
-<div>
+{{!-- Product Detail Page using Handlebars and Bootstrap --}}
 
-    <h1>{{cosmetic.name}}</h1>
+<div class="container p-4 bg-light shadow-lg rounded">
+    <h2 class="text-center mb-4">Product Details</h2>
+
     <div class="row">
-        <div class="col-lg-6">
-            <img src="{{cosmetic.image}}" alt="" style="width:100%">
+        <div class="col-md-6 text-center">
+            <img src="{{cosmetic.image}}" class="img-fluid rounded" alt="Product Image" />
         </div>
-        <div class="col-lg-6">
-            <p class="fs-4 fw-bolder">{{cosmetic.description}}</p>
-            <p class="fs-5 fw-bold">Brand: {{cosmetic.brand}}</p>
-            <p class="fs-5 fw-bold">Số lượng còn lại:{{cosmetic.stock}}</p>
-            <p class="fs-5 fw-bold">${{cosmetic.price}}</p>
-            <div class="d-flex gap-3">
-                <p class="fs-5 fw-bold">
-                    {{#if cosmetic.isNewArrival}}
-                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i><span>New Arrival</span>
-                    {{else}}<i class="bi bi-x text-danger fs-4 fw-bolder"></i><span>New Arrival</span>
-                    {{/if}}
-                </p>
-                <p class="fs-5 fw-bold">
-                    {{#if cosmetic.isBestSeller}}
-                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i><span>Best Seller</span>
-                    {{else}}
-                    <i class="bi bi-x text-danger fs-4 fw-bolder"></i><span>Best Seller</span>
-                    {{/if}}
-                </p>
-                <p class="fs-5 fw-bold">
-                    {{#if cosmetic.isFavorite}}
-                    <i class="bi bi-check2 text-success fs-4 fw-bolder"></i><span>Favorite</span>
-                    {{else}}
-                    <i class="bi bi-x text-danger fs-4 fw-bolder"></i><span>Favorite</span>
-                    {{/if}}
-                </p>
-            </div>
+        <div class="col-md-6">
+            <h3>{{cosmetic.title}}</h3>
+            <p><strong>Category:</strong> {{cosmetic.category}}</p>
+            <p><strong>Tags:</strong> {{cosmetic.tags}}</p>
+            <p><strong>Price:</strong> {{cosmetic.price}}</p>
+            <p><strong>Sale Price:</strong> {{cosmetic.salePrice}}</p>
+            <p><strong>Brand:</strong> {{cosmetic.brand}}</p>
+            <p><strong>Color:</strong> {{cosmetic.color}}</p>
+            <p><strong>Country:</strong> {{cosmetic.country}}</p>
+            <p><strong>Feature:</strong> {{cosmetic.feature}}</p>
+            <p><strong>Description:</strong> {{cosmetic.description}}</p>
+            <p><strong>On Sale:</strong> {{#if cosmetic.onSale}}<span
+                    class="badge bg-success text-white">Sale</span>{{else}}<span
+                    class="badge bg-secondary text-white">Not Sale</span>{{/if}}</p>
         </div>
     </div>
 
-
+    <div class="text-center mt-4">
+        <a href="/cosmetic" class="btn btn-secondary">Back to Products</a>
+        <a href="/cosmetic/{{cosmetic._id}}/edit" class="btn btn-primary">Edit Product</a>
+    </div>
 </div>
