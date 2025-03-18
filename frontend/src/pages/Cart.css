@@ -11,12 +11,12 @@
 }
 
 .cart-item{
+    justify-content: space-between;
     border: 2px solid #ddd; 
     border-radius: 8px;
 }
 
 .cart-input {
-    margin: 0 !important;
     width: 15px; 
     height: 15px; 
     transform: scale(1.5); 
@@ -24,7 +24,7 @@
 
 
 .cart-price{
-    margin: 0 5px;
+    margin: 0 10px;
 }
 
 .anh{
@@ -39,3 +39,6 @@
     margin-bottom: 0 !important;
 }
 
+.title{
+    max-width: 300px;
+}

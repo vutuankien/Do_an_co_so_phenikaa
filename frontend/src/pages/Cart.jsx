@@ -4,7 +4,8 @@ import "./Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
 import Qr from "./QR";
 import COD from "./COD";
-import Loading from "../components/loading";
+import RelatedProducts from "../components/RelatedProduct";
+
 
 const Cart = () => {
   const uid = localStorage.getItem("userId");
@@ -24,8 +25,8 @@ const Cart = () => {
         const response = await fetch("http://localhost:5000/address");
         const data = await response.json();
 
-        console.log("Dữ liệu từ API:", data);
-        console.log("UID hiện tại:", uid, typeof uid);
+        // console.log("Dữ liệu từ API:", data);
+        // console.log("UID hiện tại:", uid, typeof uid);
 
         // Tìm thông tin địa chỉ của user
         const userAddress = data.find((entry) => String(entry.id) === String(uid));
@@ -159,7 +160,6 @@ const Cart = () => {
     );
   };
 
-  // Tính tổng chỉ với sản phẩm được chọn
   const subtotal = cartItems
     .filter((item) => selectedItems.includes(item.id))
     .reduce(
@@ -168,32 +168,32 @@ const Cart = () => {
       0
     );
 
-    const handleCheckout = (method) => {
-      if (selectedItems.length === 0) {
-        alert("Vui lòng chọn sản phẩm muốn mua.");
-        return;
-      }
-  
-      if (!user?.phone || !selectedAddress) {
-        alert("Vui lòng cập nhật thông tin cá nhân để hoàn tất đặt hàng.");
-        return;
-      }
-  
-      if (method === "qr") {
-        setShowQR(true);
-        setShowCOD(false);
-      } else if (method === "cod") {
-        setShowCOD(true);
-        setShowQR(false);
-      }
-    };
+  const handleCheckout = (method) => {
+    if (selectedItems.length === 0) {
+      alert("Please select the product you want to buy.");
+      return;
+    }
 
+    if (!user?.phone || !selectedAddress) {
+      alert("Please update your personal information to complete your order.");
+      return;
+    }
+
+    console.log("Method selected:", method);
+
+    if (method === "qr") {
+      setShowQR(true);
+      setShowCOD(false);
+    } else if (method === "cod") {
+      setShowCOD(true);
+      setShowQR(false);
+    }
+
+    console.log("showQR:", showQR, "showCOD:", showCOD);
+  };
   return (
     <div>
       <Breadcrumb />
-      <Loading />
-      <Qr show={showQR} onClose={() => setShowQR(false)} />
-      <COD show={showQR} onClose={() => setShowQR(false)}/>
       <div className="cart flex p-8">
         <div className="left w-2/3">
           <h2 className="text-xl font-bold">Shopping Cart</h2>
@@ -204,7 +204,7 @@ const Cart = () => {
                 You have <span className="font-bold">{cartItems.length}</span> items in your cart.
               </p>
               <div className="mt-6">
-                {cartItems.map((item) => (
+                {cartItems.slice().reverse().map((item) => (
                   <div key={item.id} className="cart-item flex items-center p-4 bg-white rounded-lg mb-4">
                     {/* Checkbox chọn sản phẩm */}
                     <input
@@ -221,10 +221,11 @@ const Cart = () => {
                       onClick={() => window.location.href = `http://localhost:5173/product/${item.productId}`}
                     />
 
-                    <div className="ml-4 flex-1">
+                    <div className="title l-4 flex-1">
                       <h3 className="font-semibold text-lg">{item.title}</h3>
                       <p className="text-gray-500 text-sm">{item.description}</p>
                     </div>
+
                     <div className="flex items-center">
                       <button onClick={() => updateQuantity(item.id, -1)} className="p-2 border">
                         <AiOutlineMinus />
@@ -234,6 +235,7 @@ const Cart = () => {
                         <AiOutlinePlus />
                       </button>
                     </div>
+
                     <p className="cart-price ml-4 font-semibold">
                       ${(
                         parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity
@@ -243,9 +245,9 @@ const Cart = () => {
                     <button onClick={() => deleteCartItem(item.id)} className="ml-4 text-red-500">
                       <AiOutlineDelete />
                     </button>
-
                   </div>
                 ))}
+
               </div>
             </>
           ) : (
@@ -255,7 +257,7 @@ const Cart = () => {
 
         {cartItems.length > 0 && (
           <div className="w-1/3 bg-[#fb9dab] text-black p-6 rounded-lg">
-            <h2 className="text-lg font-bold">Cart Information</h2>
+            <h2 className="text-lg font-bold">Cart Details</h2>
 
             {loadingUser ? (
               <p className="mt-4">Loading information...</p>
@@ -318,6 +320,24 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <Qr
+        show={showQR}
+        onClose={() => setShowQR(false)}
+        selectedItems={selectedItems}
+        cartItems={cartItems}
+        userId={uid}
+        selectedAddress={selectedAddress}
+        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item.id)))}
+      />
+      <COD
+        show={showCOD}
+        onClose={() => setShowCOD(false)}
+        selectedItems={selectedItems}
+        cartItems={cartItems}
+        userId={uid}
+        selectedAddress={selectedAddress}
+        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item.id)))}
+      />
     </div>
   );
 };

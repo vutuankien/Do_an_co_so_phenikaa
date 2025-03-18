@@ -21,14 +21,25 @@ const Home = () => {
 
   const fetchWishlist = async () => {
     try {
+      const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
+      if (!userId) {
+        console.warn("Không tìm thấy userId trong localStorage");
+        return;
+      }
+
       const response = await fetch("http://localhost:5000/wishlist");
       const wishlist = await response.json();
-      const likedSet = new Set(wishlist.map((item) => String(item.productId)));
+
+      // Lọc danh sách wishlist theo userId
+      const userWishlist = wishlist.filter(item => item.userUID === userId);
+      const likedSet = new Set(userWishlist.map((item) => String(item.productId)));
+
       setLikedProducts(likedSet);
     } catch (error) {
       console.error("Lỗi khi tải wishlist:", error);
     }
   };
+
 
   // Gọi fetchWishlist khi component mount
   useEffect(() => {

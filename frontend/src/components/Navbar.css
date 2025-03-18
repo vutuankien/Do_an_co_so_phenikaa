@@ -27,6 +27,7 @@ ul{
 
 .navbar-logo {
   width: 9rem;
+  max-width: none;
 }
 
 .navbar-links {

@@ -124,7 +124,7 @@ const Login = ({ onLogin }) => {
         style={{ width: "100%", maxWidth: "400px" }}
       >
         <h2 className="text-center mb-4">
-          {isRegistering ? "Đăng ký" : "Đăng nhập"}
+          {isRegistering ? "Register" : "Login"}
         </h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {message && <Alert variant="success">{message}</Alert>}
@@ -136,7 +136,7 @@ const Login = ({ onLogin }) => {
                 type="email"
                 className="form-control rounded-0"
                 required
-                placeholder="Nhập email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -146,13 +146,13 @@ const Login = ({ onLogin }) => {
             </div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label>Mật khẩu</Form.Label>
+            <Form.Label>Password</Form.Label>
             <div className="icon-group">
               <input
                 type={isPasswordVisible ? "text" : "password"}
                 className="form-control rounded-0"
                 required
-                placeholder="Nhập mật khẩu"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -171,12 +171,12 @@ const Login = ({ onLogin }) => {
                 style={{ cursor: "pointer", textDecoration: "underline" }}
                 onClick={() => navigate("/forgetpassword")}
               >
-                Quên mật khẩu?
+                Forgot password?
               </span>
             </small>
           </div>
           <Button variant="primary" className="w-100 mb-3" type="submit">
-            {isRegistering ? "Đăng ký" : "Đăng nhập"}
+            {isRegistering ? "Register" : "Login"}
           </Button>
           <Button
             variant="outline-primary"
@@ -190,29 +190,29 @@ const Login = ({ onLogin }) => {
               height="30"
               className="me-2"
             />
-            Đăng nhập bằng Google
+            Sign in with Google
           </Button>
 
           <div className="text-center">
             <small>
               {isRegistering ? (
                 <>
-                  Đã có tài khoản?{" "}
+                  Already have an account?{" "}
                   <span
                     style={{ cursor: "pointer", textDecoration: "underline" }}
                     onClick={() => setIsRegistering(false)}
                   >
-                    Đăng nhập
+                    Log in
                   </span>
                 </>
               ) : (
                 <>
-                  Chưa có tài khoản?{" "}
+                  Don't have an account?{" "}
                   <span
                     style={{ cursor: "pointer", textDecoration: "underline" }}
                     onClick={() => setIsRegistering(true)}
                   >
-                    Đăng ký
+                    Register
                   </span>
                 </>
               )}

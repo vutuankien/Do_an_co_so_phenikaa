@@ -20,7 +20,7 @@
       {
         "id": 2,
         "image": "../src/assets/product2.jpg",
-        "title": "Eye-reviving dark circle concealer - beige chair",
+        "title": "Eye-reviving dark circle concealer-beige chair",
         "category": [
           "Face",
           "Lips",
@@ -53,7 +53,7 @@
       {
         "id": 4,
         "image": "../src/assets/product4.jpg",
-        "title": "Long-wear cream eyeliner - noir",
+        "title": "Long-wear cream eyeliner-noir",
         "category": [
           "Eyes",
           "Skin"
@@ -69,7 +69,7 @@
       {
         "id": 5,
         "image": "../src/assets/product5.jpg",
-        "title": "Waterproof vinyl eyeliner - prune",
+        "title": "Waterproof vinyl eyeliner-prune",
         "category": [
           "Brushes",
           "Eyes",
@@ -202,7 +202,7 @@
       {
         "id": 2,
         "image": "../src/assets/product2.jpg",
-        "title": "Eye-reviving dark circle concealer - beige chair",
+        "title": "Eye-reviving dark circle concealer-beige chair",
         "category": [
           "Face",
           "Lips",
@@ -235,7 +235,7 @@
       {
         "id": 4,
         "image": "../src/assets/product4.jpg",
-        "title": "Long-wear cream eyeliner - noir",
+        "title": "Long-wear cream eyeliner-noir",
         "category": [
           "Eyes",
           "Skin"
@@ -280,7 +280,7 @@
     {
       "id": "2",
       "image": "../src/assets/product2.jpg",
-      "title": "Eye-reviving dark circle concealer - beige chair",
+      "title": "Eye-reviving dark circle concealer-beige chair",
       "category": [
         "Face",
         "Lips",
@@ -333,7 +333,7 @@
     {
       "id": "4",
       "image": "../src/assets/product4.jpg",
-      "title": "Long-wear cream eyeliner - noir",
+      "title": "Long-wear cream eyeliner-noir",
       "category": [
         "Eyes",
         "Skin"
@@ -359,7 +359,7 @@
     {
       "id": "5",
       "image": "../src/assets/product5.jpg",
-      "title": "Waterproof vinyl eyeliner - prune",
+      "title": "Waterproof vinyl eyeliner-prune",
       "category": [
         "Brushes",
         "Eyes",
@@ -470,7 +470,7 @@
     {
       "id": "9",
       "image": "../src/assets/product9.jpg",
-      "title": "L’oreal Prep + Prime Skin",
+      "title": "L’oreal Prep+Prime Skin",
       "category": [
         "Face",
         "Eyes"
@@ -631,52 +631,31 @@
       ]
     }
   ],
-  "cart": [
-    {
-      "id": "5_ZQbnieaYHSbdGKHkgdYs4nfyskd2",
-      "productId": 5,
-      "title": "Waterproof vinyl eyeliner - prune",
-      "image": "../src/assets/product5.jpg",
-      "price": "$43.00",
-      "quantity": 1,
-      "userUID": "ZQbnieaYHSbdGKHkgdYs4nfyskd2"
-    },
-    {
-      "id": "5_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
-      "productId": 5,
-      "title": "Waterproof vinyl eyeliner - prune",
-      "image": "../src/assets/product5.jpg",
-      "price": "$43.00",
-      "quantity": 1,
-      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
-    },
-    {
-      "id": "2_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
-      "productId": 2,
-      "title": "Eye-reviving dark circle concealer - beige chair",
-      "image": "../src/assets/product2.jpg",
-      "price": "$33.00",
-      "quantity": 1,
-      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
-    },
-    {
-      "id": "8_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
-      "productId": 8,
-      "title": "Mineralize Charged Water Charcoal Spray",
-      "image": "../src/assets/product8.jpg",
-      "price": "$98.00",
-      "quantity": 1,
-      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2"
-    }
-  ],
+  "cart": [],
   "wishlist": [
     {
-      "id": "1_6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "id": "1_rUWOsA94nKT6t6viZcpp8lXElzC2",
       "title": "Volumizing eyebrow mascara",
       "image": "../src/assets/product1.jpg",
       "price": "$22.00",
-      "userUID": "6oBuAS2uKleV7tmmZZvGfnuKX1T2",
+      "userUID": "rUWOsA94nKT6t6viZcpp8lXElzC2",
       "productId": 1
+    },
+    {
+      "id": "2_rUWOsA94nKT6t6viZcpp8lXElzC2",
+      "title": "Eye-reviving dark circle concealer-beige chair",
+      "image": "../src/assets/product2.jpg",
+      "price": "$33.00",
+      "userUID": "rUWOsA94nKT6t6viZcpp8lXElzC2",
+      "productId": 2
+    },
+    {
+      "id": "7_ZQbnieaYHSbdGKHkgdYs4nfyskd2",
+      "title": "Sephora Cream Color Base",
+      "image": "../src/assets/product7.jpg",
+      "price": "$39.00",
+      "userUID": "ZQbnieaYHSbdGKHkgdYs4nfyskd2",
+      "productId": 7
     }
   ],
   "user": [
@@ -693,10 +672,64 @@
       "email": "hongdang18092004@gmail.com",
       "name": "đăng vũ",
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJS9aeQ3as26GIHRaM49IUu_vsRmk3XTl1ebHTH6dvHFEFturc=s96-c"
+    },
+    {
+      "id": "rUWOsA94nKT6t6viZcpp8lXElzC2",
+      "email": "22010420@st.phenikaa-uni.edu.vn",
+      "name": "Dang Vu Hong",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocI7gv-cQhtuBiNAGnetk_KZEir_Gmts8y7VWV76EGF422jqMA=s96-c",
+      "dob": "2004-09-18",
+      "phone": "0862992163"
     }
   ],
   "blog": [],
-  "bill": [],
+  "bill": [
+    {
+      "id": "7ac1",
+      "bills": [
+        {
+          "productId": "2",
+          "productName": "Eye-reviving dark circle concealer-beige chair",
+          "image": "../src/assets/product2.jpg",
+          "quantity": 1,
+          "price": "$33.00"
+        }
+      ],
+      "userId": "rUWOsA94nKT6t6viZcpp8lXElzC2",
+      "address": "Phenikaa University",
+      "paymentMethod": "COD",
+      "status": "Shipped",
+      "orderDate": "2025-03-15T10:05:46.579Z",
+      "totalPrice": "37.00",
+      "phone": "0862992163"
+    },
+    {
+      "id": "307b",
+      "bills": [
+        {
+          "productId": "1",
+          "productName": "Volumizing eyebrow mascara",
+          "image": "../src/assets/product1.jpg",
+          "quantity": 1,
+          "price": "$22.00"
+        },
+        {
+          "productId": "11",
+          "productName": "Revlon Extra Dimension Eye Shadow",
+          "image": "../src/assets/product11.jpg",
+          "quantity": 1,
+          "price": "$55.00"
+        }
+      ],
+      "userId": "rUWOsA94nKT6t6viZcpp8lXElzC2",
+      "address": "Phenikaa University",
+      "paymentMethod": "QRcode",
+      "status": "Shipping",
+      "orderDate": "2025-03-15T10:57:49.136Z",
+      "totalPrice": "81.00",
+      "phone": "0862992163"
+    }
+  ],
   "address": [
     {
       "addresses": [
@@ -716,6 +749,16 @@
     {
       "id": "ZQbnieaYHSbdGKHkgdYs4nfyskd2",
       "addresses": []
+    },
+    {
+      "addresses": [
+        {
+          "id": 1741675457944,
+          "address": "Phenikaa University",
+          "default": true
+        }
+      ],
+      "id": "rUWOsA94nKT6t6viZcpp8lXElzC2"
     }
   ]
 }

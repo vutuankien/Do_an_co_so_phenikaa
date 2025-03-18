@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Outlet, Link } from "react-router-dom";
 import axios from "axios";
 import "./Account.css";
 import Breadcrumb from "../components/Breadcrumb";
@@ -13,13 +14,13 @@ const Account = () => {
     const [userId, setUserId] = useState(null);
     const [user, setUser] = useState(null);
     const [wishlist, setWishlist] = useState([]);
-    const [cart, setCart] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [userData, setUserData] = useState({ name: "", dob: "", address: "", phone: "", photoURL: "" });
 
     useEffect(() => {
         const uid = localStorage.getItem("userId");
         if (!uid) {
-            console.error("Không tìm thấy UID trong localStorage");
+            console.error("UID not found in localStorage");
             return;
         }
 
@@ -31,21 +32,37 @@ const Account = () => {
                     setUserData(userInfo);
                     setUserId(userInfo.id);
                 } else {
-                    console.error("Người dùng không tồn tại");
+                    console.error("User does not exist");
                 }
             })
-            .catch((error) => console.error("Lỗi khi lấy thông tin người dùng:", error));
+            .catch((error) => console.error("Error getting user information:", error));
     }, []);
 
     useEffect(() => {
         if (userId) {
             axios.get(`http://localhost:5000/wishlist?userId=${userId}`)
-                .then((response) => setWishlist(response.data))
-                .catch((error) => console.error("Lỗi khi lấy danh sách yêu thích:", error));
+                .then((response) => {
+                    const userWishlist = response.data.filter(item => {
+                        const parts = item.id.split("_");
+                        return parts.length > 1 && parts[1] === userId;
+                    });
+                    setWishlist(userWishlist);
+                })
+                .catch((error) => console.error("Error while retrieving wishlist:", error));
 
-            axios.get(`http://localhost:5000/cart?userId=${userId}`)
-                .then((response) => setCart(response.data))
-                .catch((error) => console.error("Lỗi khi lấy đơn hàng:", error));
+            axios.get(`http://localhost:5000/bill?userId=${userId}`)
+                .then((response) => {
+                    console.log("API Data:", response.data); // Debug
+
+                    // Lọc chỉ lấy các đơn hàng (bỏ field "id")
+                    const ordersArray = Object.keys(response.data)
+                        .filter(key => key !== "id") // Bỏ key "id"
+                        .map(key => ({ id: key, ...response.data[key] }));
+
+                    console.log("Processed data:", ordersArray); // Debug
+                    setOrders(ordersArray);
+                })
+                .catch((error) => console.error("Error when taking order:", error));
         }
     }, [userId]);
 
@@ -66,10 +83,10 @@ const Account = () => {
 
         axios.put(`http://localhost:5000/user/${userId}`, userData)
             .then((response) => {
-                alert("Cập nhật thành công!");
+                alert("Update successful!");
                 setUser(response.data);
             })
-            .catch((error) => console.error("Lỗi khi cập nhật:", error));
+            .catch((error) => console.error("Error while updating:", error));
     };
 
     const handleRemoveFromWishlist = (id) => {
@@ -77,7 +94,7 @@ const Account = () => {
             .then(() => {
                 setWishlist(wishlist.filter(item => item.id !== id));
             })
-            .catch((error) => console.error("Lỗi khi xóa sản phẩm khỏi wishlist:", error));
+            .catch((error) => console.error("Error when removing product from wishlist:", error));
     };
 
     return (
@@ -103,9 +120,8 @@ const Account = () => {
                 <div className="account-content">
                     {activeTab === "personal" && user && <Info user={user} userData={userData} setUserData={setUserData} handleFileChange={handleFileChange} handleUpdate={handleUpdate} />}
                     {activeTab === "wishlist" && <Wishlist wishlist={wishlist} handleRemoveFromWishlist={handleRemoveFromWishlist} />}
-                    {activeTab === "orders" && <Bill cart={cart} />}
+                    {activeTab === "orders" && <Bill orders={orders} />}
                     {activeTab === "address" && <Address userId={userId} />}
-
                 </div>
             </div>
         </div>

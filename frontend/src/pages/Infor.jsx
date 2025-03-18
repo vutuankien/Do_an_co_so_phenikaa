@@ -18,15 +18,15 @@ const Info = ({ user, userData, setUserData, handleFileChange, handleUpdate }) =
             <form onSubmit={handleUpdate}>
                 <div className="mb-3"><p><strong>Email:</strong> {user.email}</p></div>
                 <div className="mb-3">
-                    <label className="form-label">Tên:</label>
+                    <label className="form-label">Name:</label>
                     <input type="text" className="form-control" value={userData.name} onChange={(e) => setUserData({ ...userData, name: e.target.value })} />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Ngày sinh:</label>
+                    <label className="form-label">Date of birth:</label>
                     <input type="date" className="form-control" value={userData.dob || ""} onChange={(e) => setUserData({ ...userData, dob: e.target.value })} />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Số điện thoại:</label>
+                    <label className="form-label">Phone number:</label>
                     <input type="tel" className="form-control" value={userData.phone || ""} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} />
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Update</button>

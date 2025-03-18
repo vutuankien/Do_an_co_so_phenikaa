@@ -18,7 +18,9 @@ const Navbar = ({ onLogout }) => {
 
   return (
     <div className="navbar-container">
-      <img src={assets.logo} className="navbar-logo" alt="Logo" />
+      <Link to="/home">
+        <img src={assets.logo} className="navbar-logo" alt="Logo" />
+      </Link>
       <ul className="navbar-links">
         <NavLink
           to="/home"
@@ -272,7 +274,7 @@ const Navbar = ({ onLogout }) => {
               className="navbar-icon"
             />
           </svg>
-          <p className="cart-value"><CartValue /></p> 
+          <p className="cart-value"><CartValue /></p>
         </Link>
         <div className="group relative">
           <svg
@@ -289,7 +291,7 @@ const Navbar = ({ onLogout }) => {
 
           <div className="dropdown-menu-user">
             <div className="dropdown-content-user">
-            <button className="menu-item-user" onClick={() => navigate("/account")}>ACCOUNT</button>
+              <button className="menu-item-user" onClick={() => navigate("/account")}>ACCOUNT</button>
               <button className="menu-item-user" onClick={logoutHandler}>
                 LOG OUT
               </button>

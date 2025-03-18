@@ -6,7 +6,7 @@ const admins = [
   {
     name: "Tuấn Kiên",
     fbLink: "https://www.facebook.com/tuan.kien.878874",
-    avatar: "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-1/476106946_1414692866579407_7229718211801302194_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=-d_fHqYr7jIQ7kNvgEQad82&_nc_oc=Adho4kku57EYbK8gV9ugkYGTeAVuE9lXvFivGnZ5eZul8Nz5O5p7h1rPe-obV5TvgJQsiXcEJjYOYDtKVQIqiT4w&_nc_zt=24&_nc_ht=scontent.fhan2-3.fna&_nc_gid=ATN6pEDtaQ7a2z6lkzO3TnX&oh=00_AYCoMzBsZp2FTVAcURUcZ6cXf55k5ZDq-tRX00qhBpqngw&oe=67CD7AFE"
+    avatar: "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-1/476106946_1414692866579407_7229718211801302194_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=wUZv4EOc524Q7kNvgHXBOvT&_nc_oc=Adi9buUzjek-wkNpPn8a-7QYD1B7vlN1QTCWpviGzQbJ99lwDoxjBgd87DX6hK025FYFDfoZvYjnr1-q4-1mddKK&_nc_zt=24&_nc_ht=scontent.fhan14-2.fna&_nc_gid=tvoVsq42Z8g392chgj1vDQ&oh=00_AYFdbsYirzaX6TZrcc2kGxsDVsY0CBzc2PrYwddK5q5XbQ&oe=67DAE23E"
   },
   {
     name: "Hồng Đăng",

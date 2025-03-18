@@ -3,16 +3,16 @@ import axios from "axios";
 
 const CartValue = () => {
     const [cartCount, setCartCount] = useState(0);
-    const [uid, setUid] = useState(localStorage.getItem("userId"));
+    const uid = localStorage.getItem("userId");
 
     useEffect(() => {
-        const fetchCartCount = async () => {
-            if (!uid) {
-                console.error("Không tìm thấy UID trong localStorage");
-                setCartCount(0); 
-                return;
-            }
+        if (!uid) {
+            console.error("Không tìm thấy UID trong localStorage");
+            setCartCount(0);
+            return;
+        }
 
+        const fetchCartCount = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/cart?userUID=${uid}`);
                 setCartCount(response.data.length);
@@ -23,7 +23,11 @@ const CartValue = () => {
         };
 
         fetchCartCount();
-    }, [uid]); 
+
+        const interval = setInterval(fetchCartCount, 1000);
+
+        return () => clearInterval(interval);
+    }, [uid]);
 
     return cartCount;
 };

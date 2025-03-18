@@ -112,22 +112,26 @@ const ProductDetail = () => {
   const handleAddToCart = async (product) => {
     try {
       const quantity = quantities[product.id] || 1;
+      const userUID = localStorage.getItem("userId");
 
-      const response = await fetch("http://localhost:5000/cart", {
+      if (!userUID) {
+        console.error("Không tìm thấy UID người dùng.");
+        return;
+      }
+
+      const cartId = `${product.id}_${userUID}`; // Tạo id mới theo format "id+uid"
+
+      // Kiểm tra xem sản phẩm đã có trong giỏ hàng của user chưa
+      const response = await fetch(`http://localhost:5000/cart/${cartId}`, {
         cache: "no-store",
       });
-      const cart = await response.json();
 
-      console.log("Giỏ hàng hiện tại:", cart);
-
-      const existingItem = cart.find(
-        (item) => String(item.id) === String(product.id)
-      );
-
-      if (existingItem) {
+      if (response.ok) {
+        // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+        const existingItem = await response.json();
         console.log("Cập nhật số lượng sản phẩm:", existingItem);
 
-        await fetch(`http://localhost:5000/cart/${existingItem.id}`, {
+        await fetch(`http://localhost:5000/cart/${cartId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: existingItem.quantity + quantity }),
@@ -135,27 +139,34 @@ const ProductDetail = () => {
 
         alert(`Cập nhật số lượng ${product.title} trong giỏ hàng.`);
       } else {
+        // Nếu sản phẩm chưa có, thêm mới vào giỏ hàng
         console.log("Thêm sản phẩm mới vào giỏ hàng");
 
         await fetch("http://localhost:5000/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: product.id,
+            id: cartId, // ID mới theo format "id+uid"
+            productId: product.id,
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
             quantity: quantity,
+            userUID: userUID,
           }),
         });
 
         alert(`Đã thêm ${quantity} sản phẩm "${product.title}" vào giỏ hàng.`);
       }
 
+      // Reset lại số lượng nhập vào
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
         [product.id]: 1,
       }));
+
+      // Tải lại trang sau khi thêm vào giỏ hàng
+      // window.location.reload();
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
     }
