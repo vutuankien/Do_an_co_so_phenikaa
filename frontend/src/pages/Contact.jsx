@@ -1,7 +1,9 @@
 import React from "react";
 import "./Contact.css";
 import Breadcrumb from "../components/Breadcrumb";
-
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import StoreLocator from "../components/StoreLocator";
 const admins = [
   {
     name: "Tuấn Kiên",
@@ -22,20 +24,13 @@ const admins = [
 
 const Contact = () => {
   return (
-    <div className="container">
-      <Breadcrumb />
-      <h2>Contact Us</h2>
-      <iframe
-        className="map"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3371.608264966921!2d105.7461114747127!3d20.962616190048152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313452efff394ce3%3A0x391a39d4325be464!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBQaGVuaWthYQ!5e1!3m2!1svi!2s!4v1739507843400!5m2!1svi!2s"
-        width="100%"
-        height="300"
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
-
-      <div className="about-section">
+    <div>
+      <div className="container">
+        <Breadcrumb />
+      </div>
+      <h2 className="text-center">Contact Us</h2>
+      <StoreLocator />
+      <div className="about-section container">
         <h2 className="about-title">'Paletto – The Palette of Beauty</h2>
         <p className="about-text">
           Behind every brand lies a story, a heartfelt aspiration of its founders.
@@ -74,6 +69,7 @@ const Contact = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };

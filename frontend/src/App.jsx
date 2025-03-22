@@ -23,6 +23,7 @@ import Info from "./pages/Infor";
 import Address from "./pages/Address";
 import Wishlist from "./pages/Wishlist";
 import Orders from "./pages/Orders";
+import BlogDetails from "./pages/BlogDetails";
 
 function App() {
   const navigate = useNavigate();
@@ -32,11 +33,14 @@ function App() {
 
   // Kiểm tra localStorage khi tải trang
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
+    const storedUserId = localStorage.getItem("userUID")?.replace(/"/g, "");
     console.log("User UID từ localStorage:", storedUserId);
 
     if (storedUserId) {
       setUserId(storedUserId);
+      localStorage.setItem("uid", storedUserId);
+      localStorage.setItem("userUID", storedUserId);
+
     }
     setLoading(false);
   }, []);
@@ -46,6 +50,9 @@ function App() {
     if (user?.id) {
       console.log("Đăng nhập thành công:", user);
       localStorage.setItem("userId", user.id);
+      localStorage.setItem("uid", storedUserId);
+      localStorage.setItem("userUID", storedUserId);
+
       setUserId(user.id);
       navigate("/home");
     }
@@ -55,6 +62,9 @@ function App() {
   const handleLogout = () => {
     console.log("Đăng xuất...");
     localStorage.removeItem("userId");
+    localStorage.removeItem("uid");
+    localStorage.removeItem("userUID");
+
     setUserId(null);
     navigate("/");
   };
@@ -75,6 +85,7 @@ function App() {
           <>
             <Route path="/home" element={<Home />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogDetails />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />

@@ -8,7 +8,7 @@ import RelatedProducts from "../components/RelatedProduct";
 
 
 const Cart = () => {
-  const uid = localStorage.getItem("userId");
+  const uid = localStorage.getItem("userUID");
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [user, setUser] = useState(null);
@@ -22,7 +22,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/address");
+        const response = await fetch("http://localhost:3000/address/api");
         const data = await response.json();
 
         // console.log("Dữ liệu từ API:", data);

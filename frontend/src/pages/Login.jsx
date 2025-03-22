@@ -25,94 +25,110 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setMessage("");
-  
+
     try {
-      const userCredential = await registerWithEmailPassword(email, password);
-      const user = userCredential.user;
-      const name = user.name || "New User";
-  
-      const response = await axios.get("http://localhost:5000/user");
-      const users = response.data;
-      const existingUser = users.find((u) => u.id === user.uid);
-  
-      if (!existingUser) {
-        await axios.post("http://localhost:5000/user", { 
-          id: user.uid, 
-          email, 
-          name, 
-          password 
-        });
-        setMessage("Đăng ký thành công!");
-      } else {
-        setError("Người dùng đã tồn tại.");
-      }
+      console.log("Sending data:", { email, password });
+
+      const response = await axios.post("http://localhost:3000/customer/api/register", {
+        email,
+        password,
+        name: "User", // Giá trị mặc định
+        address: "",
+        photoURL: "https://i.pravatar.cc/150",
+        phone: "",
+        dob: ""
+      });
+
+      localStorage.setItem("uid", JSON.stringify(response.data.user._id));
+      localStorage.setItem("userUID", JSON.stringify(response.data.user._id));
+
+      localStorage.setItem("userEmail", response.data.user.email);
+
+      console.log("Response:", response.data);
+      setMessage("Đăng ký thành công!");
     } catch (error) {
-      setError(error.message);
+      console.error("Error:", error.response?.data || error.message);
+      setError(error.response?.data?.message || "Lỗi khi đăng ký.");
     }
   };
-  
+
+
   const handleGoogleLogin = async () => {
     setError("");
     setMessage("");
-  
+
     try {
       const user = await loginWithGoogle();
-      const response = await axios.get("http://localhost:5000/user");
-      const users = response.data;
-      
-      const existingUser = users.find((u) => u.id === user.id);
-  
-      if (!existingUser) {
-        await axios.post("http://localhost:5000/user", {
-          id: user.id, 
+
+      let response;
+      try {
+        // Gọi API đăng nhập không cần password
+        response = await axios.post("http://localhost:3000/customer/api/login", {
           email: user.email,
-          name: user.name,
-          photoURL: user.photoURL
+          name: user.displayName,
+          photoURL: user.photoURL,
+          phone: "",
+          dob: "",
+          password: user.password
         });
+
+        localStorage.setItem("uid", JSON.stringify(response.data.user._id));
+        localStorage.setItem("userUID", JSON.stringify(response.data.user._id));
+        localStorage.setItem("userEmail", response.data.user.email);
+        setMessage("Đăng nhập Google thành công!");
+        onLogin(response.data.user);
+      } catch (error) {
+        if (error.response?.status === 404) {
+          // Nếu user chưa tồn tại, đăng ký mới
+          const registerResponse = await axios.post("http://localhost:3000/customer/api/register", {
+            email: user.email,
+            name: user.displayName,
+            photoURL: user.photoURL,
+            password: user.password,
+            phone: "",
+            dob: ""
+          });
+
+          localStorage.setItem("uid", JSON.stringify(response.data.user._id));
+          localStorage.setItem("userUID", JSON.stringify(response.data.user._id));
+          localStorage.setItem("userEmail", registerResponse.data.user.email);
+          setMessage("Đăng ký & đăng nhập Google thành công!");
+          onLogin(registerResponse.data.user);
+        } else {
+          throw error;
+        }
       }
-  
-      localStorage.setItem("userId", user.id);
-      setMessage("Đăng nhập Google thành công!");
-      onLogin(user);
+
       navigate("/user");
     } catch (error) {
-      setError(error.message);
+      setError(error.response?.data?.message || "Đăng nhập Google thất bại.");
     }
   };
-  
+
+
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
-  
+
     try {
-      const user = await loginWithEmailPassword(email, password);
-      let name = user.name || "New User";
-  
-      const response = await axios.get("http://localhost:5000/user");
-      const users = response.data;
-      const existingUser = users.find((u) => u.id === user.id);
-  
-      if (existingUser) {
-        name = existingUser.name;
-      }
-  
-      if (!existingUser) {
-        await axios.post("http://localhost:5000/user", {
-          id: user.id,
-          email: user.email,
-          name,
-          photoURL: user.photoURL
-        });
-      }
-  
+      const response = await axios.post("http://localhost:3000/customer/api/login", {
+        email, password  // Chỉ gửi email, bỏ password
+      });
+
       setMessage("Đăng nhập thành công!");
-      onLogin(user);
+      localStorage.setItem("userId", response.data.user._id);
+      localStorage.setItem("userEmail", response.data.user.email);
+      onLogin(response.data.user);
       navigate("/user");
     } catch (error) {
-      setError("Email hoặc mật khẩu không đúng.");
+      setError(error.response?.data?.message || "Email không đúng hoặc chưa đăng ký.");
     }
   };
+
+
 
   return (
     <Container

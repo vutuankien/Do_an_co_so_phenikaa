@@ -18,19 +18,18 @@ const Account = () => {
     const [userData, setUserData] = useState({ name: "", dob: "", address: "", phone: "", photoURL: "" });
 
     useEffect(() => {
-        const uid = localStorage.getItem("userId");
-        if (!uid) {
-            console.error("UID not found in localStorage");
+        const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
+        if (!uid || uid.length !== 24) { // ObjectId MongoDB có 24 ký tự
+            console.error("UID không hợp lệ:", uid);
             return;
         }
 
-        axios.get(`http://localhost:5000/user?id=${uid}`)
+        axios.get(`http://localhost:3000/customer/api/user?id=${uid}`)
             .then((response) => {
-                if (response.data.length > 0) {
-                    const userInfo = response.data[0];
-                    setUser(userInfo);
-                    setUserData(userInfo);
-                    setUserId(userInfo.id);
+                if (response.data) {  // Kiểm tra object thay vì mảng
+                    setUser(response.data);
+                    setUserData(response.data);
+                    setUserId(response.data._id);  // Dùng _id thay vì id
                 } else {
                     console.error("User does not exist");
                 }
@@ -38,15 +37,12 @@ const Account = () => {
             .catch((error) => console.error("Error getting user information:", error));
     }, []);
 
+
     useEffect(() => {
         if (userId) {
-            axios.get(`http://localhost:5000/wishlist?userId=${userId}`)
+            axios.get(`http://localhost:3000/wishlist/api/${userId}`)
                 .then((response) => {
-                    const userWishlist = response.data.filter(item => {
-                        const parts = item.id.split("_");
-                        return parts.length > 1 && parts[1] === userId;
-                    });
-                    setWishlist(userWishlist);
+                    setWishlist(response.data); // Dữ liệu API đã lọc sẵn theo userId
                 })
                 .catch((error) => console.error("Error while retrieving wishlist:", error));
 
@@ -77,24 +73,32 @@ const Account = () => {
         }
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        if (!userId) return;
+        if (!userId) {
+            alert("User ID không hợp lệ!");
+            return;
+        }
 
-        axios.put(`http://localhost:5000/user/${userId}`, userData)
-            .then((response) => {
-                alert("Update successful!");
-                setUser(response.data);
-            })
-            .catch((error) => console.error("Error while updating:", error));
+        console.log("📌 userId gửi lên:", userId);
+
+        try {
+            const response = await axios.put(`http://localhost:3000/customer/api/update/${userId}`, userData);
+            alert("Update successful!");
+            setUser(response.data);
+        } catch (error) {
+            console.error("🔥 Lỗi khi cập nhật:", error.response?.data || error.message);
+            alert("Cập nhật thất bại! Kiểm tra console để biết thêm.");
+        }
     };
 
     const handleRemoveFromWishlist = (id) => {
-        axios.delete(`http://localhost:5000/wishlist/${id}`)
+        axios.delete(`http://localhost:3000/wishlist/api/remove?userId=${userId}&productId=${id}`)
             .then(() => {
-                setWishlist(wishlist.filter(item => item.id !== id));
+                setWishlist(wishlist.filter(item => item.productId !== id));
             })
             .catch((error) => console.error("Error when removing product from wishlist:", error));
+
     };
 
     return (

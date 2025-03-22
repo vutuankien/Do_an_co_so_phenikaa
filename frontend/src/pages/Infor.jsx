@@ -23,7 +23,13 @@ const Info = ({ user, userData, setUserData, handleFileChange, handleUpdate }) =
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Date of birth:</label>
-                    <input type="date" className="form-control" value={userData.dob || ""} onChange={(e) => setUserData({ ...userData, dob: e.target.value })} />
+                    <input
+                        type="date"
+                        className="form-control"
+                        value={userData.dob ? new Date(userData.dob).toISOString().split("T")[0] : ""}
+                        onChange={(e) => setUserData({ ...userData, dob: e.target.value })}
+                    />
+
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Phone number:</label>

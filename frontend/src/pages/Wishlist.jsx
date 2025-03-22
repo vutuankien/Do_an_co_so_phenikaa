@@ -17,7 +17,7 @@ const Wishlist = ({ wishlist, handleRemoveFromWishlist }) => {
                                 <p className="wishlist-price">{item.price}</p>
                             </div>
                         </Link>
-                        <button className="wishlist-remove" onClick={() => handleRemoveFromWishlist(item.id)}>
+                        <button className="wishlist-remove" onClick={() => handleRemoveFromWishlist(item.productId)}>
                             <FaTrash />
                         </button>
                     </li>

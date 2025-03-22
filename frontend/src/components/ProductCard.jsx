@@ -37,7 +37,7 @@ const ProductCard = ({
         src={product.image}
         alt={product.title}
         className="product-image"
-        onClick={() => navigate(`/product/${product.id}`)}
+        onClick={() => navigate(`/product/${product._id}`)}
         style={{ cursor: "pointer" }}
       />
 
@@ -45,9 +45,8 @@ const ProductCard = ({
         <div className="hover-btn-function">
           <button
             onClick={() => handleLike(product)}
-            className={`hover-btn like-btn ${
-              likedProducts.has(String(product.id)) ? "liked" : ""
-            }`}
+            className={`hover-btn like-btn ${likedProducts.has(String(product.id)) ? "liked" : ""
+              }`}
           >
             <img src={assets.like_icon} alt="like-icon" />
           </button>

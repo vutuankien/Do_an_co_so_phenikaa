@@ -631,7 +631,44 @@
       ]
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "11_\"67dd2fcad48c272b1e03b12e\"",
+      "productId": "11",
+      "title": "Revlon Extra Dimension Eye Shadow",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Eye-shadows-palette-smokey-shades-400x400.png",
+      "price": "$55.00",
+      "quantity": 1,
+      "userUID": "\"67dd2fcad48c272b1e03b12e\""
+    },
+    {
+      "id": "2_\"67dd2fcad48c272b1e03b12e\"",
+      "productId": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Eye-reviving-dark-circle-concealer-beige-chair.png",
+      "price": "$33.00",
+      "quantity": 3,
+      "userUID": "\"67dd2fcad48c272b1e03b12e\""
+    },
+    {
+      "id": "6_\"67dd21d08d8c024a1a4f62b7\"",
+      "productId": "6",
+      "title": "L’oreal Tendertalk Lip Balm",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Perfect-gaze-dark-circle-concealer-biscuit-2-400x400.png",
+      "price": "$66.00",
+      "quantity": 1,
+      "userUID": "\"67dd21d08d8c024a1a4f62b7\""
+    },
+    {
+      "id": "3_67dd21d08d8c024a1a4f62b7",
+      "productId": "3",
+      "title": "Waterproof Eyeliner",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Waterproof-eyeliner-400x400.png",
+      "price": "$39.00",
+      "quantity": 1,
+      "userUID": "67dd21d08d8c024a1a4f62b7"
+    }
+  ],
   "wishlist": [
     {
       "id": "1_rUWOsA94nKT6t6viZcpp8lXElzC2",
@@ -656,6 +693,40 @@
       "price": "$39.00",
       "userUID": "ZQbnieaYHSbdGKHkgdYs4nfyskd2",
       "productId": 7
+    },
+    {
+      "id": "4",
+      "title": "Long-wear cream eyeliner - noir",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Long-wear-cream-eyeliner-noir-400x400.png",
+      "price": "$22.00"
+    },
+    {
+      "id": "1_\"67dd21d08d8c024a1a4f62b7\"",
+      "title": "Volumizing eyebrow mascara",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Volumizing-eyebrow-mascara.png",
+      "price": "$21.00",
+      "userUID": "\"67dd21d08d8c024a1a4f62b7\"",
+      "productId": "1"
+    },
+    {
+      "id": "6_\"67dd21d08d8c024a1a4f62b7\"",
+      "title": "L’oreal Tendertalk Lip Balm",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Perfect-gaze-dark-circle-concealer-biscuit-2-400x400.png",
+      "price": "$66.00",
+      "userUID": "\"67dd21d08d8c024a1a4f62b7\"",
+      "productId": "6"
+    },
+    {
+      "id": "10",
+      "title": "Lipgloss / Little MAC",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Shimmering-400x400.png",
+      "price": "$52.00"
+    },
+    {
+      "id": "11",
+      "title": "Revlon Extra Dimension Eye Shadow",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Eye-shadows-palette-smokey-shades-400x400.png",
+      "price": "$55.00"
     }
   ],
   "user": [
@@ -680,6 +751,12 @@
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocI7gv-cQhtuBiNAGnetk_KZEir_Gmts8y7VWV76EGF422jqMA=s96-c",
       "dob": "2004-09-18",
       "phone": "0862992163"
+    },
+    {
+      "id": "JyMQrUFwROTQwMpqlpiNbyG3zH63",
+      "email": "vutuankien2004@gmail.com",
+      "name": "kiên vũ",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKwFTiKk8EjWZ7sZcKeHMstqRuDYjQadJXnHjiMK7vZ574ebGPB=s96-c"
     }
   ],
   "blog": [],
@@ -759,6 +836,30 @@
         }
       ],
       "id": "rUWOsA94nKT6t6viZcpp8lXElzC2"
+    },
+    {
+      "id": "JyMQrUFwROTQwMpqlpiNbyG3zH63",
+      "addresses": []
+    },
+    {
+      "addresses": [
+        {
+          "id": 1742550073238,
+          "address": "Cổ Lễ, Trực Ninh, Nam Định",
+          "default": true
+        }
+      ],
+      "id": "\"67dd2fcad48c272b1e03b12e\""
+    },
+    {
+      "addresses": [
+        {
+          "id": 1742612206509,
+          "address": "Nam ĐỊnh",
+          "default": true
+        }
+      ],
+      "id": "\"67dd21d08d8c024a1a4f62b7\""
     }
   ]
 }

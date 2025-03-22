@@ -12,7 +12,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch("http://localhost:5000/wishlist");
+      const response = await fetch("http://localhost:3000/wishlist/api");
       const wishlist = await response.json();
       const likedSet = new Set(wishlist.map((item) => String(item.productId)));
       setLikedProducts(likedSet);
@@ -27,7 +27,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5000/product")
+    fetch("http://localhost:3000/cosmetic/api")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched Products:", data);
@@ -105,60 +105,54 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
   const handleLike = async (product) => {
     try {
-      const userUID = localStorage.getItem("userId");
+      const userUID = localStorage.getItem("userUID");
       if (!userUID) {
         console.error("Không tìm thấy UID của người dùng.");
         return;
       }
 
-      const wishlistId = `${product.id}_${userUID}`;
-
-      // Kiểm tra xem sản phẩm đã có trong wishlist chưa
-      const response = await fetch(`http://localhost:5000/wishlist?userUID=${userUID}`, {
+      // Gọi API lấy danh sách wishlist
+      const response = await fetch(`http://localhost:3000/wishlist/api/${userUID}`, {
         cache: "no-store",
       });
-      const wishlist = await response.json();
 
-      const existingItem = wishlist.find((item) => item.id === wishlistId);
+      const wishlistData = await response.json();
+      console.log("🚀 Wishlist data:", wishlistData);
+
+      // Đảm bảo wishlist là một mảng
+      const wishlist = Array.isArray(wishlistData) ? wishlistData : wishlistData.wishlist || [];
+
+      // Kiểm tra xem sản phẩm đã tồn tại trong wishlist chưa
+      const existingItem = wishlist.find((item) => item.productId === product._id);
 
       if (existingItem) {
-        // Nếu đã tồn tại -> Xóa khỏi wishlist
-        await fetch(`http://localhost:5000/wishlist/${wishlistId}`, {
+        console.log(`🔴 Xóa sản phẩm ${product._id} khỏi wishlist`);
+        await fetch(`http://localhost:3000/wishlist/api/remove?userId=${userUID}&productId=${product._id}`, {
           method: "DELETE",
         });
-
-        // Cập nhật state ngay lập tức
-        setLikedProducts((prevLiked) => {
-          const newLiked = new Set(prevLiked);
-          newLiked.delete(product.id); // Xóa khỏi danh sách thích
-          return newLiked;
-        });
       } else {
-        // Nếu chưa có -> Thêm vào wishlist
-        await fetch("http://localhost:5000/wishlist", {
+        console.log(`🟢 Thêm sản phẩm ${product._id} vào wishlist`);
+        await fetch("http://localhost:3000/wishlist/api/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: wishlistId,
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
-            userUID: userUID,
-            productId: product.id,
+            userId: userUID,
+            productId: product._id,
           }),
         });
-
-        // Cập nhật state ngay lập tức
-        setLikedProducts((prevLiked) => {
-          const newLiked = new Set(prevLiked);
-          newLiked.add(product.id); // Thêm vào danh sách thích
-          return newLiked;
-        });
       }
+
+      // Cập nhật lại danh sách wishlist
+      fetchWishlist();
     } catch (error) {
-      console.error("Lỗi khi thêm vào danh sách yêu thích:", error);
+      console.error("Lỗi khi thêm/xóa khỏi danh sách yêu thích:", error);
     }
   };
+
+
 
 
   const handleView = (product) => {
@@ -171,7 +165,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   const handleAddToCart = async (product) => {
     try {
       const quantity = quantities[product.id] || 1;
-      const userUID = localStorage.getItem("userId");
+      const userUID = localStorage.getItem("userUID");
 
       if (!userUID) {
         console.error("Không tìm thấy UID người dùng.");

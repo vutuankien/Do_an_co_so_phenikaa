@@ -3,7 +3,7 @@ import axios from "axios";
 
 const CartValue = () => {
     const [cartCount, setCartCount] = useState(0);
-    const uid = localStorage.getItem("userId");
+    const uid = localStorage.getItem("userUID");
 
     useEffect(() => {
         if (!uid) {

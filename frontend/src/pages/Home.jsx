@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { assets } from "./../assets/assets";
 import ProductCard from "../components/ProductCard";
 import "./Home.css";
+import BlogList from "./Blog";
+import BlogCard from "../components/BlogCard";
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,25 +11,48 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantities, setQuantities] = useState({});
   const [activeNavbar, setActiveNavbar] = useState("Best sellers");
+  const [products, setProducts] = useState([]);
   const [productThemes, setProductThemes] = useState({});
   const [likedProducts, setLikedProducts] = useState(new Set());
+  const [blogPosts, setBlogPosts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/productThemes")
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/cosmetic/api/limit?category=${activeNavbar}&limit=5`);
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, [activeNavbar]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/blog/api")
       .then((response) => response.json())
-      .then((data) => setProductThemes(data))
-      .catch((error) => console.error("Error fetching product themes:", error));
-  }, []);
+      .then((data) => setBlogPosts(data))
+      .catch((error) => console.error("Error fetching blog posts:", error));
+  })
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/productThemes")
+  //     .then((response) => response.json())
+  //     .then((data) => setProductThemes(data))
+  //     .catch((error) => console.error("Error fetching product themes:", error));
+  // }, []);
 
   const fetchWishlist = async () => {
     try {
-      const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
+      const userId = localStorage.getItem("userUID"); // Lấy userId từ localStorage
       if (!userId) {
         console.warn("Không tìm thấy userId trong localStorage");
         return;
       }
 
-      const response = await fetch("http://localhost:5000/wishlist");
+      const response = await fetch("http://localhost:3000/wishlist/api");
       const wishlist = await response.json();
 
       // Lọc danh sách wishlist theo userId
@@ -91,42 +116,42 @@ const Home = () => {
 
   const handleLike = async (product) => {
     try {
-      const userUID = localStorage.getItem("userId");
+      const userUID = localStorage.getItem("userUID");
       if (!userUID) {
         console.error("Không tìm thấy UID của người dùng.");
         return;
       }
 
-      const wishlistId = `${product.id}_${userUID}`;
-
       // Kiểm tra xem sản phẩm đã có trong wishlist chưa
-      const response = await fetch(`http://localhost:5000/wishlist?userUID=${userUID}`, {
+      const response = await fetch(`http://localhost:3000/wishlist/api/${userUID}`, {
         cache: "no-store",
       });
       const wishlist = await response.json();
 
-      const existingItem = wishlist.find((item) => item.id === wishlistId);
+      // Tìm sản phẩm theo `productId`
+      const existingItem = wishlist.find((item) => item.productId === product._id);
 
       if (existingItem) {
-        await fetch(`http://localhost:5000/wishlist/${wishlistId}`, {
+        // Nếu sản phẩm đã tồn tại, xóa nó
+        await fetch(`http://localhost:3000/wishlist/api/remove/userId=${userUID}&productId=${product._id}`, {
           method: "DELETE",
         });
       } else {
-        await fetch("http://localhost:5000/wishlist", {
+        // Nếu chưa có, thêm vào wishlist
+        await fetch("http://localhost:3000/wishlist/api/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: wishlistId,
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
-            userUID: userUID,
-            productId: product.id,
+            userId: userUID, // Đồng nhất với database
+            productId: product._id,
           }),
         });
       }
 
-      fetchWishlist(); // Gọi lại fetchWishlist để cập nhật danh sách
+      fetchWishlist(); // Cập nhật lại danh sách wishlist
     } catch (error) {
       console.error("Lỗi khi thêm vào danh sách yêu thích:", error);
     }
@@ -296,7 +321,7 @@ const Home = () => {
           })}
         </div>
         <div className="product-container-card">
-          {productThemes[activeNavbar]?.map((product) => (
+          {products.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -351,36 +376,19 @@ const Home = () => {
       </div>
       <div className="blog-update-container">
         <h1 className="blog-update-title">Blog Update</h1>
-        <div className="blog-update-content">
-          <div className="blog-update-card">
-            <img src={assets.blog_update_img1} alt="blog_update_img1" />
-            <a href="#">
-              <h1 className="blog-update-type">MODELS</h1>
-            </a>
-            <a href="#">
-              <h1 className="blog-update-name">
-                WATCH THE MAGICALNEW TRAILER FOR A WRINKLE IN TIME
-              </h1>
-            </a>
-          </div>
-          <div className="blog-update-card">
-            <img src={assets.blog_update_img2} alt="blog_update_img2" />
-            <a href="#">
-              <h1 className="blog-update-type">MODELS</h1>
-            </a>
-            <a href="#">
-              <h1 className="blog-update-name">NEVER BUY A BORING COAT</h1>
-            </a>
-          </div>
-          <div className="blog-update-card">
-            <img src={assets.blog_update_img5} alt="blog_update_img3" />
-            <a href="#">
-              <h1 className="blog-update-type">MODELS</h1>
-            </a>
-            <a href="#">
-              <h1 className="blog-update-name">COOK LIKE A TRUE SICILIAN!</h1>
-            </a>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" >
+          {blogPosts.map((item) => (
+            <BlogCard
+              key={item._id}
+              id={item._id}
+              author={item.author}
+              category={item.category}
+              createdAt={item.createdAt}
+              title={item.title}
+              images={item.image?.[0] || "/default-image.jpg"}
+            />
+          ))}
+
         </div>
       </div>
       <div className="sale-container">
