@@ -5,8 +5,12 @@ const trashRouter = require('./trash');
 
 const blogRouter = require('./blog');
 const userRouter = require('./auth_route/user');
+const storeRouter = require('./stores');
 const adminAuth = require('../app/middlewares/adminAuth');
 const employeeRouter = require('./employee');
+const customerRouter = require('./customer');
+const wishlistRouter = require('./wishlist');
+const addressRouter = require('./address');
 function route(app) {
     // Khi vào trang chủ (`/`), hiển thị trang đăng nhập
     app.get('/', (req, res) => {
@@ -22,6 +26,10 @@ function route(app) {
     app.use('/cosmetic', cosmeticRouter);
     app.use('/blog', blogRouter);
     app.use('/employee', employeeRouter);
+    app.use('/stores', storeRouter);
+    app.use('/wishlist', wishlistRouter);
+    app.use('/customer', customerRouter);
+    app.use('/address', addressRouter);
 
     app.get('/home', adminAuth, (req, res) => {
         res.render('layouts/main', { layout: 'main' });

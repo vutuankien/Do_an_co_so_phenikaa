@@ -6,11 +6,10 @@ const { ObjectId } = require('mongodb');
 class CosmeticController {
     // [GET] /cosmetic
     index(req, res, next) {
-        const page = parseInt(req.query.page) || 1; // Ensure default page is 1
-        const limit = parseInt(req.query.limit) || 10; // Ensure default limit is 5
-        const skip = (page - 1) * limit; // Calculate skip value for pagination
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
 
-        // Get sorting details from the middleware
         const sort = {};
         if (res.locals._sort.enabled) {
             sort[res.locals._sort.column] =
@@ -18,22 +17,44 @@ class CosmeticController {
         }
 
         Promise.all([
-            // Fetch cosmetics with pagination and sorting
             Cosmetic.find({}).lean().skip(skip).limit(limit).sort(sort),
-            // Count total documents for pagination
             Cosmetic.countDocuments({}),
-            // Count deleted documents
             Cosmetic.countDocumentsWithDeleted({ deleted: true }),
         ])
             .then(([cosmetics, totalCosmetics, deletedCount]) => {
-                const totalPages = Math.ceil(totalCosmetics / limit); // Calculate total pages
+                const totalPages = Math.ceil(totalCosmetics / limit);
                 res.render('cosmetic/cosmetic_show', {
                     cosmetics,
                     currentPage: page,
                     totalPages,
                     deletedCount,
-                    sort: res.locals._sort, // Pass sorting info to the view
+                    sort: res.locals._sort,
                 });
+            })
+            .catch((err) => next(err));
+    }
+
+    // [GET] /cosmetic/api?limit
+    getLimit(req, res, next) {
+        const limit = parseInt(req.query.limit) || 10;
+        const category = req.query.category;
+
+        let filter = {};
+
+        // Áp dụng điều kiện lọc
+        if (category === 'Best sellers') {
+            filter.isBestSeller = true;
+        } else if (category === 'New arrivals') {
+            filter.isNewArrival = true;
+        } else if (category === 'Items sale') {
+            filter.onSale = true;
+        }
+
+        Cosmetic.find(filter)
+            .limit(limit)
+            .lean()
+            .then((cosmetics) => {
+                res.status(200).json(cosmetics);
             })
             .catch((err) => next(err));
     }

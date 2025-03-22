@@ -4,6 +4,7 @@ const cosmeticController = require('../app/controllers/CosmeticController');
 
 // API route
 router.get('/api', cosmeticController.api);
+router.get('/api/limit', cosmeticController.getLimit);
 router.get('/api/:id', cosmeticController.getIdAPI);
 // router.post('/handle_form_action', cosmeticController.handleFormActions)
 router.patch('/:id/restore', cosmeticController.restore);

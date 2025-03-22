@@ -8,9 +8,9 @@ const db = require('./config/db/index');
 const methodOverride = require('method-override');
 const SortMiddleware = require('./app/middlewares/SortMiddleware');
 const connectCloudinary = require('./config/cloudinary');
+const cors = require('cors');
 require('dotenv').config();
 
-const PORT = 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'default_secret_key'; // Thêm giá trị mặc định
 
 // **Kết nối database & Cloudinary**
@@ -19,8 +19,15 @@ connectCloudinary();
 
 // **Middleware**
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(
+    cors({
+        origin: 'http://localhost:5173', // Chỉ cho phép từ frontend
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các method được phép
+        credentials: true, // Nếu dùng cookie hoặc authentication
+    }),
+);
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(methodOverride('_method'));
 app.use(SortMiddleware);
 
@@ -54,6 +61,6 @@ app.set('views', path.join(__dirname, 'resources/views'));
 route(app);
 
 // **Chạy server**
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });

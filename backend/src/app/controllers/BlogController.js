@@ -1,10 +1,7 @@
 const Blog = require('../models/Blog');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
-// const generateId = async () => {
-//     const lastBlog = await Blog.findOne().sort({ _id: -1 }).lean();
-//     return lastBlog ? lastBlog._id + 1 : 1;
-// };
+
 class BlogController {
     async store(req, res, next) {
         const { title, content, image, author, tags, category } = req.body;
