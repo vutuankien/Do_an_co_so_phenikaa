@@ -133,19 +133,18 @@ const Bill = () => {
                                 </p>
 
                                 <div className="flex gap-4">
-                                    <button
-                                        onClick={() => handleCancelOrder(order._id)}
-                                        className={`flex items-center gap-2 px-3 py-1 rounded-md text-sm ${order.status === "Shipped"
-                                            ? "bg-gray-400 cursor-not-allowed"
-                                            : "bg-red-500 hover:bg-red-600 text-white"
-                                            }`}
-                                        disabled={order.status === "Shipped"}
-                                    >
-                                        <FaTrashAlt /> Cancel
-                                    </button>
+                                    {/* Nút Cancel chỉ hiển thị nếu status là "Pending" */}
+                                    {order.status === "Pending" && (
+                                        <button
+                                            onClick={() => handleCancelOrder(order._id)}
+                                            className="flex items-center gap-2 px-3 py-1 rounded-md text-sm bg-red-500 hover:bg-red-600 text-white"
+                                        >
+                                            <FaTrashAlt /> Cancel
+                                        </button>
+                                    )}
 
-
-                                    {order.status !== "Shipped" && (
+                                    {/* Nút Received chỉ hiển thị nếu status là "Shipping" */}
+                                    {order.status === "Shipping" && (
                                         <button
                                             onClick={() => handleReceiveOrder(order._id)}
                                             className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm"
@@ -154,6 +153,7 @@ const Bill = () => {
                                         </button>
                                     )}
                                 </div>
+
                             </div>
                         </div>
                     ))}
