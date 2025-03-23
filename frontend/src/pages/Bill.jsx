@@ -5,22 +5,18 @@ import "./Bill.css";
 
 const Bill = () => {
     const [orders, setOrders] = useState([]);
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userUID")?.replace(/"/g, "");
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch("http://localhost:5000/bill");
+                const response = await fetch(`http://localhost:3000/bill/api/${userId}`);
                 if (!response.ok) {
                     throw new Error("Error when getting order list");
                 }
                 const data = await response.json();
-
-                const userOrders = data
-                    .filter(order => order.userId === userId)
-                    .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-
-                setOrders(userOrders);
+                console.log("Orders:", data);
+                setOrders(data);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -32,10 +28,10 @@ const Bill = () => {
     const handleCancelOrder = async (orderId) => {
         if (window.confirm("Are you sure you want to cancel this order?")) {
             try {
-                await fetch(`http://localhost:5000/bill/${orderId}`, {
+                await fetch(`http://localhost:3000/bill/api/delete/${orderId}`, {
                     method: "DELETE",
                 });
-                setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+                setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
             } catch (error) {
                 console.error("Error deleting order:", error);
             }
@@ -45,7 +41,7 @@ const Bill = () => {
     const handleReceiveOrder = async (orderId) => {
         if (window.confirm("Are you sure you received the item?")) {
             try {
-                await fetch(`http://localhost:5000/bill/${orderId}`, {
+                await fetch(`http://localhost:3000/bill/api/update/${orderId}`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ status: "Shipped" }),
@@ -53,7 +49,7 @@ const Bill = () => {
 
                 setOrders(prevOrders =>
                     prevOrders.map(order =>
-                        order.id === orderId ? { ...order, status: "Shipped" } : order
+                        order._id === orderId ? { ...order, status: "Shipped" } : order
                     )
                 );
             } catch (error) {
@@ -72,7 +68,7 @@ const Bill = () => {
                 <div className="bill space-y-6">
                     {orders.map((order) => (
                         <div
-                            key={order.id}
+                            key={order._id}
                             className="bill-element relative bg-white p-4 rounded-lg border space-y-2"
                         >
                             {order.status === "Shipped" && (
@@ -81,7 +77,7 @@ const Bill = () => {
 
                             <div className="flex justify-between items-center border-b pb-2">
                                 <h3 className="text-lg font-semibold" style={{ color: "#fb9dab" }}>
-                                    ID: #{order.id.slice(-6)}
+                                    ID: #{order._id.slice(-6)}
                                 </h3>
                                 <p className="text-gray-500 text-sm">
                                     {new Date(order.orderDate).toLocaleString()}
@@ -104,7 +100,7 @@ const Bill = () => {
                                             </div>
                                             <div>
                                                 <p className="text-gray-700 font-medium">{item.productName}</p>
-                                                <p className="text-gray-500">Qty: {item.quantity}</p>
+                                                <p className="text-gray-500">Quantity: {item.quantity}</p>
                                             </div>
                                         </div>
                                         <p className="text-gray-500">
@@ -122,9 +118,10 @@ const Bill = () => {
                                 <div className="flex justify-between text-lg font-bold" style={{ color: "#fb9dab" }}>
                                     <span>Total: ({order.paymentMethod})</span>
                                     <span className="text-right">
-                                        ${parseFloat(order.totalPrice || 0).toFixed(2)}
-                                    </span>
+                                        ${parseFloat(order.totalPrice.replace(/[^0-9.]/g, "")).toFixed(2)}
 
+                                        {/* Money: {order.totalPrice} */}
+                                    </span>
 
                                 </div>
                             </div>
@@ -137,7 +134,7 @@ const Bill = () => {
 
                                 <div className="flex gap-4">
                                     <button
-                                        onClick={() => handleCancelOrder(order.id)}
+                                        onClick={() => handleCancelOrder(order._id)}
                                         className={`flex items-center gap-2 px-3 py-1 rounded-md text-sm ${order.status === "Shipped"
                                             ? "bg-gray-400 cursor-not-allowed"
                                             : "bg-red-500 hover:bg-red-600 text-white"
@@ -150,7 +147,7 @@ const Bill = () => {
 
                                     {order.status !== "Shipped" && (
                                         <button
-                                            onClick={() => handleReceiveOrder(order.id)}
+                                            onClick={() => handleReceiveOrder(order._id)}
                                             className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm"
                                         >
                                             <FaBoxOpen /> Received

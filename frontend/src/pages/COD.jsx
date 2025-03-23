@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import shoppingCartIcon from "../assets/shopping-cart-18-svgrepo-com.svg";
 import "./COD.css";
 import Loading from "../components/loading";
@@ -8,12 +8,35 @@ import { FaTimes } from "react-icons/fa";
 const COD = ({ show, onClose, selectedItems, cartItems, userId, selectedAddress, onOrderSuccess }) => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const calculateTotalPrice = (selectedProducts, shippingFee = 4.00) => {
-        return selectedProducts.reduce((total, item) => {
+    const calculateTotalPrice = (selectedItems, shippingFee = 4.00) => {
+        return selectedItems.reduce((total, item) => {
             const priceNumber = parseFloat(item.price.replace(/[^0-9.]/g, ""));
             return total + priceNumber * item.quantity;
         }, shippingFee).toFixed(2);
     };
+
+    // const fetchProductDetails = async (productIds) => {
+    //     try {
+    //         const response = await fetch("http://localhost:3000/cosmetic/api", {  // Đổi API URL nếu cần
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({ productIds }), // Gửi productIds dưới dạng JSON
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+
+    //         const data = await response.json();
+    //         return data; // Trả về danh sách sản phẩm đầy đủ
+    //     } catch (error) {
+    //         console.error("❌ Error fetching products:", error);
+    //         return [];
+    //     }
+    // };
+
 
     const sendOrderEmail = async (orderId, userEmail, orderItems, totalCost) => {
         if (!userEmail) {
@@ -69,9 +92,12 @@ const COD = ({ show, onClose, selectedItems, cartItems, userId, selectedAddress,
         }
     };
 
+    useEffect(() => {
+        console.log("🛒 Selected Items:", selectedItems);
+    }, [selectedItems])
     const handleOrderConfirmation = async () => {
-        if (!selectedItems.length) {
-            alert("No products selected!");
+        if (!selectedItems || !selectedItems.length) {
+            alert("Giỏ hàng của bạn đang trống!");
             return;
         }
 
@@ -81,74 +107,105 @@ const COD = ({ show, onClose, selectedItems, cartItems, userId, selectedAddress,
         setIsLoading(false);
 
         try {
-            const selectedProducts = cartItems.filter(item => selectedItems.includes(item.id));
-            const totalPrice = calculateTotalPrice(selectedProducts);
+            const totalPrice = calculateTotalPrice(selectedItems);
             const orderDate = new Date().toISOString();
+            let userPhone = "";
+            let userEmail = "";
 
-            //Lấy thông tin người dùng (email + phone)
-            const userResponse = await fetch(`http://localhost:5000/user/${userId}`);
-            if (!userResponse.ok) throw new Error("Error getting user information");
-            const userData = await userResponse.json();
-            const userEmail = userData.email;
-            const userPhone = userData.phone;
-            if (!userEmail) throw new Error("User email not found!");
-            if (!userPhone) throw new Error("User phone number not found!");
+            // Lấy thông tin user
+            try {
+                const userResponse = await fetch(`http://localhost:3000/customer/api/user?id=${userId}`);
+                if (!userResponse.ok) throw new Error(`Error getting user information: ${userResponse.statusText}`);
 
-            //Lấy địa chỉ giao hàng
-            const addressResponse = await fetch("http://localhost:5000/address");
-            if (!addressResponse.ok) throw new Error("Error getting address list");
-            const addressData = await addressResponse.json();
-            const userAddress = addressData.find(entry => String(entry.id) === String(userId));
-            if (!userAddress || !Array.isArray(userAddress.addresses)) throw new Error("No valid address found!");
-            const selectedAddressInfo = userAddress.addresses.find(addr => String(addr.id) === String(selectedAddress));
-            if (!selectedAddressInfo) throw new Error("Address not found!");
+                const userData = await userResponse.json();
 
-            //Chuẩn bị dữ liệu đơn hàng
-            const orderData = selectedProducts.map(item => ({
-                productId: item.id.includes("_") ? item.id.split("_")[0] : item.id,
+                userEmail = userData.email?.trim();
+                userPhone = userData.phone?.trim();
+
+                if (!userEmail || !userPhone) throw new Error("Missing user email or phone!");
+            } catch (error) {
+                console.error("Fetch user error:", error.message);
+                alert(error.message);
+                return;
+            }
+
+            // Lấy địa chỉ giao hàng
+            let selectedAddressInfo = null;
+            try {
+                const addressResponse = await fetch(`http://localhost:3000/address/api/${userId}`);
+                if (!addressResponse.ok) throw new Error("Error getting address list");
+
+                const addressData = await addressResponse.json();
+
+                if (!Array.isArray(addressData) || addressData.length === 0) {
+                    throw new Error("No valid address data found!");
+                }
+
+                selectedAddressInfo = addressData.find(addr => String(addr._id) === String(selectedAddress)) ||
+                    addressData.find(addr => addr.default === true);
+
+                if (!selectedAddressInfo) throw new Error("No valid address found for this user!");
+            } catch (error) {
+                console.error("Error:", error.message);
+                alert(error.message);
+                return;
+            }
+
+            // Chuẩn bị dữ liệu đơn hàng
+            const orderData = selectedItems.map(item => ({
+                productId: item.productId,
                 productName: item.title,
                 image: item.image,
                 quantity: item.quantity,
                 price: item.price,
             }));
 
+            if (!selectedAddressInfo || !selectedAddressInfo.address) {
+                alert("No valid shipping address found!");
+                return;
+            }
+
             const billData = {
                 bills: orderData,
-                userId: userId,
+                userId,
                 address: selectedAddressInfo.address,
                 paymentMethod: "COD",
-                status: "Shipping",
+                status: "Pending",
                 orderDate,
                 totalPrice,
-                phone: userPhone, // ➡ Thêm số điện thoại
+                phone: userPhone,
             };
 
-            //Gửi đơn hàng lên server
-            const response = await fetch("http://localhost:5000/bill", {
+            console.log("📦 Sending order data:", billData);
+
+            const response = await fetch("http://localhost:3000/bill/api/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(billData),
             });
-            if (!response.ok) throw new Error(`Order error: ${response.statusText}`);
 
             const responseData = await response.json();
-            const orderId = responseData.orderId;
+            console.error("🚨 Server response:", responseData);
 
-            //Gửi email xác nhận
-            // await sendOrderEmail(orderId, userEmail, orderData, totalPrice, userPhone);
+            if (!response.ok) throw new Error(`Order error: ${response.statusText}`);
 
-            //Xóa sản phẩm khỏi giỏ hàng
-            await Promise.all(selectedProducts.map(item =>
-                fetch(`http://localhost:5000/cart/${item.id}`, { method: "DELETE" })
+            const orderId = responseData.bill._id;
+
+            // Gửi email xác nhận
+            await sendOrderEmail(orderId, userEmail, orderData, totalPrice);
+
+            // Xóa sản phẩm khỏi giỏ hàng
+            await Promise.all(selectedItems.map(item =>
+                fetch(`http://localhost:3000/cart/api/delete/${userId}/${item.productId}`, { method: "DELETE" })
             ));
 
             alert(`Order successful! Total order value: ${totalPrice}₫`);
             onOrderSuccess();
-            await sendOrderEmail(orderId, userEmail, orderData, totalPrice, userPhone);
         } catch (error) {
             alert(error.message);
         }
     };
+
 
 
     return (

@@ -8,7 +8,8 @@ import RelatedProducts from "../components/RelatedProduct";
 
 
 const Cart = () => {
-  const uid = localStorage.getItem("userUID");
+  const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
+
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [user, setUser] = useState(null);
@@ -22,40 +23,39 @@ const Cart = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/address/api");
+        const response = await fetch(`http://localhost:3000/address/api/${uid}`);
         const data = await response.json();
 
-        // console.log("Dữ liệu từ API:", data);
-        // console.log("UID hiện tại:", uid, typeof uid);
-
-        // Tìm thông tin địa chỉ của user
-        const userAddress = data.find((entry) => String(entry.id) === String(uid));
-
-        if (!userAddress || !Array.isArray(userAddress.addresses)) {
-          console.warn("Không tìm thấy địa chỉ hợp lệ.");
+        // Kiểm tra nếu dữ liệu trả về không phải là mảng
+        if (!Array.isArray(data)) {
+          console.warn("Dữ liệu API không hợp lệ:", data);
           setAddresses([]);
           return;
         }
 
-        console.log("Địa chỉ tìm thấy:", userAddress.addresses);
+        console.log("Địa chỉ tìm thấy:", data);
 
         // Cập nhật danh sách địa chỉ
-        setAddresses(userAddress.addresses);
+        setAddresses(data);
 
         // Chọn địa chỉ mặc định hoặc địa chỉ đầu tiên
-        const defaultAddress = userAddress.addresses.find((addr) => addr.default) || userAddress.addresses[0];
-        setSelectedAddress(defaultAddress?.id || "");
+        const defaultAddress = data.find((addr) => addr.default) || data[0];
+
+        setSelectedAddress(defaultAddress ? defaultAddress._id : "");
       } catch (error) {
         console.error("Lỗi khi tải địa chỉ:", error);
       } finally {
         setLoading(false);
       }
     };
-
     if (uid) {
       fetchAddresses();
     }
   }, [uid]);
+  useEffect(() => {
+    console.log("Địa chỉ mặc định đã chọn:", selectedAddress);
+  }, [selectedAddress]);
+
 
   useEffect(() => {
     if (!uid) {
@@ -64,30 +64,30 @@ const Cart = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/cart?userUID=${uid}`)
+    fetch(`http://localhost:3000/cart/api/${uid}`)
       .then((response) => response.json())
       .then((data) => setCartItems(data))
       .catch((error) => console.error("Lỗi khi lấy giỏ hàng:", error));
 
-    fetch(`http://localhost:5000/user?id=${uid}`)
+    fetch(`http://localhost:3000/customer/api/user?id=${uid}`)
       .then((response) => response.json())
       .then((data) => {
-        setUser(data[0]);
-        setLoadingUser(false);
+        console.log("Dữ liệu người dùng API trả về:", data);
+        setUser(data); // Không cần data[0] nếu API trả về object
       })
       .catch((error) => {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
-        setLoadingUser(false);
       });
   }, [uid]);
 
-  const updateQuantity = (id, amount) => {
+  const updateQuantity = (productId, amount) => {
     if (!uid) {
       console.error("Không tìm thấy UID của người dùng.");
       return;
     }
+
     // Tìm sản phẩm cần cập nhật
-    const productToUpdate = cartItems.find((item) => item.id === id && item.userUID === uid);
+    const productToUpdate = cartItems.find((item) => item.productId === productId && item.userId === uid);
     if (!productToUpdate) {
       console.error("Không tìm thấy sản phẩm trong giỏ hàng.");
       return;
@@ -98,70 +98,67 @@ const Cart = () => {
     // Cập nhật state trước
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.userUID === uid ? { ...item, quantity: newQuantity } : item
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
       )
     );
-    // Gửi request cập nhật lên JSON Server
-    fetch(`http://localhost:5000/cart/${id}`, { // Thay đổi URL API để cập nhật trực tiếp vào item có id cụ thể
-      method: "PATCH", // Dùng PATCH để cập nhật một phần dữ liệu
+
+    // Gửi request cập nhật lên backend
+    fetch(`http://localhost:3000/cart/api/update`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity: newQuantity }), // Chỉ cập nhật quantity
+      body: JSON.stringify({
+        userId: uid, // Gửi userId đúng theo yêu cầu của server
+        productId: productId,
+        quantity: newQuantity,
+      }),
     })
       .then((res) => res.json())
       .then((data) => console.log("Cập nhật thành công:", data))
       .catch((error) => console.error("Lỗi khi cập nhật số lượng:", error));
   };
 
-  const deleteCartItem = (id) => {
-    const uid = localStorage.getItem("userId"); // Lấy UID trực tiếp
-
+  const deleteCartItem = (productId) => {
     if (!uid) {
       console.error("Không tìm thấy UID của người dùng.");
       return;
     }
 
-    // Kiểm tra sản phẩm có tồn tại với UID của người dùng
-    fetch(`http://localhost:5000/cart?userUID=${uid}&id=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length === 0) {
-          console.error("Không tìm thấy sản phẩm trong giỏ hàng.");
-          return;
+    console.log(`🗑️ Xóa sản phẩm: ${productId} của user: ${uid}`);
+
+    fetch(`http://localhost:3000/cart/api/delete/${uid}/${productId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Lỗi khi xóa sản phẩm khỏi giỏ hàng.");
         }
-
-        // Lấy ID thực tế của sản phẩm trong database
-        const itemToDelete = data[0]; // Vì API trả về mảng
-
-        // Cập nhật lại state giỏ hàng trước khi xóa trên server
-        setCartItems((prevItems) =>
-          prevItems.filter((item) => !(item.id === id && item.userUID === uid))
-        );
-
-        // Gửi request DELETE để xóa sản phẩm khỏi database
-        fetch(`http://localhost:5000/cart/${itemToDelete.id}`, {
-          method: "DELETE",
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Lỗi khi xóa sản phẩm khỏi giỏ hàng.");
-            }
-            console.log("Xóa sản phẩm thành công.");
-          })
-          .catch((error) => console.error(error));
+        return res.json();
       })
-      .catch((error) => console.error("Lỗi khi tìm sản phẩm:", error));
+      .then((data) => {
+        console.log("Xóa thành công:", data);
+        setCartItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
+      })
+      .catch((error) => console.error("❌ Lỗi khi xóa sản phẩm:", error));
   };
 
-  const toggleSelectItem = (id) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((itemId) => itemId !== id) // Bỏ tích
-        : [...prevSelected, id] // Tích vào
-    );
+  const toggleSelectItem = (product) => {
+    setSelectedItems((prevSelected) => {
+      const exists = prevSelected.find((item) => item.productId === product.productId);
+      return exists
+        ? prevSelected.filter((item) => item.productId !== product.productId) // Bỏ tích
+        : [...prevSelected, product]; // Thêm toàn bộ thông tin sản phẩm
+    });
   };
+
+
+  useEffect(() => {
+    console.log("Sản phẩm đã chọn:", selectedItems);
+  }, [selectedItems]);
+
+
 
   const subtotal = cartItems
-    .filter((item) => selectedItems.includes(item.id))
+    .filter((item) => selectedItems.includes(item.productId))
     .reduce(
       (total, item) =>
         total + parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity,
@@ -201,16 +198,18 @@ const Cart = () => {
           {cartItems.length > 0 ? (
             <>
               <p className="mt-4 text-gray-500">
-                You have <span className="font-bold">{cartItems.length}</span> items in your cart.
+                You have <span className="font-bold">
+                  {cartItems.reduce((total, item) => total + item.quantity, 0)}
+                </span> items in your cart. items in your cart.
               </p>
               <div className="mt-6">
                 {cartItems.slice().reverse().map((item) => (
-                  <div key={item.id} className="cart-item flex items-center p-4 bg-white rounded-lg mb-4">
+                  <div key={item._id} className="cart-item flex items-center p-4 bg-white rounded-lg mb-4">
                     {/* Checkbox chọn sản phẩm */}
                     <input
                       type="checkbox"
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => toggleSelectItem(item.id)}
+                      checked={selectedItems.some(selected => selected.productId === item.productId)}
+                      onChange={() => toggleSelectItem(item)}
                       className="cart-input mr-4"
                     />
 
@@ -227,11 +226,11 @@ const Cart = () => {
                     </div>
 
                     <div className="flex items-center">
-                      <button onClick={() => updateQuantity(item.id, -1)} className="p-2 border">
+                      <button onClick={() => updateQuantity(item.productId, -1)} className="p-2 border">
                         <AiOutlineMinus />
                       </button>
                       <span className="mx-2">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)} className="p-2 border">
+                      <button onClick={() => updateQuantity(item.productId, 1)} className="p-2 border">
                         <AiOutlinePlus />
                       </button>
                     </div>
@@ -242,7 +241,7 @@ const Cart = () => {
                       ).toFixed(2)}
                     </p>
 
-                    <button onClick={() => deleteCartItem(item.id)} className="ml-4 text-red-500">
+                    <button onClick={() => deleteCartItem(item.productId)} className="ml-4 text-red-500">
                       <AiOutlineDelete />
                     </button>
                   </div>
@@ -259,27 +258,25 @@ const Cart = () => {
           <div className="w-1/3 bg-[#fb9dab] text-black p-6 rounded-lg">
             <h2 className="text-lg font-bold">Cart Details</h2>
 
-            {loadingUser ? (
-              <p className="mt-4">Loading information...</p>
-            ) : user ? (
+            {user ? (
               <div className="anh flex flex-col items-center my-4">
                 <img src={user.photoURL} alt="User Avatar" className="w-16 h-16 rounded-full mb-2" />
-                <p className="email text-sm">{user.email}</p>
-                <p className="email text-sm">{user.phone}</p>
+                <p className="email fw-medium text-sm">Email: <span className="fw-bold fs-6">{user.email}</span></p>
+                <p className="email text-sm">SĐT: <span className="fw-bold fs-6">{user.phone || "Chưa có số điện thoại"}</span></p>
+
                 {/* Danh sách địa chỉ */}
                 <div className="mt-4 w-full">
                   <p className="addr font-semibold">Shipping address:</p>
-                  {loading ? (
-                    <p>Đang tải địa chỉ...</p>
-                  ) : addresses.length > 0 ? (
+
+                  {addresses.length > 0 ? (
                     <select
                       className="mt-2 p-2 border rounded w-full"
-                      value={selectedAddress}
+                      value={selectedAddress || ""}
                       onChange={(e) => setSelectedAddress(e.target.value)}
                     >
                       {addresses.map((address) => (
-                        <option key={address.id} value={address.id} title={address.address}>
-                          {address.address.length > 30 ? address.address.slice(0, 30) + "..." : address.address}
+                        <option key={address._id} value={address._id}>
+                          {address.address}
                         </option>
                       ))}
                     </select>
@@ -287,12 +284,10 @@ const Cart = () => {
                     <p className="text-sm text-red-400">Không có địa chỉ nào được lưu.</p>
                   )}
                 </div>
-
               </div>
             ) : (
               <p className="mt-4 text-red-300">Unable to load user information.</p>
             )}
-
 
             <div className="mt-4">
               <p>Subtotal: ${subtotal.toFixed(2)}</p>
@@ -315,10 +310,10 @@ const Cart = () => {
               >
                 Cash on Delivery
               </button>
-
             </div>
           </div>
         )}
+
       </div>
       <Qr
         show={showQR}
@@ -327,7 +322,7 @@ const Cart = () => {
         cartItems={cartItems}
         userId={uid}
         selectedAddress={selectedAddress}
-        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item.id)))}
+        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item._id)))}
       />
       <COD
         show={showCOD}
@@ -336,7 +331,7 @@ const Cart = () => {
         cartItems={cartItems}
         userId={uid}
         selectedAddress={selectedAddress}
-        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item.id)))}
+        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item._id)))}
       />
     </div>
   );

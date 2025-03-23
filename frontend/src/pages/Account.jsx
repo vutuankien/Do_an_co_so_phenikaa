@@ -46,13 +46,13 @@ const Account = () => {
                 })
                 .catch((error) => console.error("Error while retrieving wishlist:", error));
 
-            axios.get(`http://localhost:5000/bill?userId=${userId}`)
+            axios.get(`http://localhost:3000/bill/api/${userId}`)
                 .then((response) => {
                     console.log("API Data:", response.data); // Debug
 
                     // Lọc chỉ lấy các đơn hàng (bỏ field "id")
                     const ordersArray = Object.keys(response.data)
-                        .filter(key => key !== "id") // Bỏ key "id"
+                        .filter(key => key !== "_id") // Bỏ key "id"
                         .map(key => ({ id: key, ...response.data[key] }));
 
                     console.log("Processed data:", ordersArray); // Debug

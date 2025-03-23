@@ -15,9 +15,15 @@ const ProductCard = ({
   const [quantities, setQuantities] = useState({});
   const navigate = useNavigate();
 
+
   const handleView = (product) => {
     setSelectedProduct(product);
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [product._id]: prevQuantities[product._id] ?? 1, // Nếu chưa có thì mặc định là 1
+    }));
   };
+
   const handleCloseDetail = () => {
     setSelectedProduct(null);
   };
@@ -26,12 +32,12 @@ const ProductCard = ({
     const quantity = Math.max(1, parseInt(e.target.value) || 1);
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [product.id]: quantity,
+      [product._id]: quantity,
     }));
     console.log(`Số lượng sản phẩm ${product.title}:`, quantity);
   };
   return (
-    <div key={product.id} className="product-card">
+    <div key={product._id} className="product-card">
       {product.onSale && <div className="product-sale-label">Sale!</div>}
       <img
         src={product.image}
@@ -45,7 +51,7 @@ const ProductCard = ({
         <div className="hover-btn-function">
           <button
             onClick={() => handleLike(product)}
-            className={`hover-btn like-btn ${likedProducts.has(String(product.id)) ? "liked" : ""
+            className={`hover-btn like-btn ${likedProducts.has(String(product._id)) ? "liked" : ""
               }`}
           >
             <img src={assets.like_icon} alt="like-icon" />
@@ -64,7 +70,7 @@ const ProductCard = ({
         <p className="product-category">{product.category.join(", ")}</p>
         <h3
           className="product-title"
-          onClick={() => navigate(`/product/${product.id}`)}
+          onClick={() => navigate(`/product/${product._id}`)}
           style={{ cursor: "pointer" }}
         >
           {product.title}
@@ -90,7 +96,7 @@ const ProductCard = ({
           ADD TO CART
         </button>
       </div>
-      {selectedProduct?.id === product.id && (
+      {selectedProduct?._id === product._id && (
         <div className="product-detail-modal">
           <div className="modal-content">
             <button className="close-btn" onClick={handleCloseDetail}>
@@ -124,9 +130,11 @@ const ProductCard = ({
                   type="number"
                   min="1"
                   className="quantity-input"
-                  value={quantities[selectedProduct.id] || 1}
+                  value={quantities[selectedProduct?._id] ?? 1} // Luôn đảm bảo giá trị hợp lệ
                   onChange={(e) => handleQuantityChange(e, selectedProduct)}
                 />
+
+
                 <button
                   onClick={() => handleAddToCart(selectedProduct)}
                   className="add-to-cart-btn2"

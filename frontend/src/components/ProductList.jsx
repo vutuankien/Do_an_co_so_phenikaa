@@ -11,8 +11,10 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   const [likedProducts, setLikedProducts] = useState(new Set());
 
   const fetchWishlist = async () => {
+
+    const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
     try {
-      const response = await fetch("http://localhost:3000/wishlist/api");
+      const response = await fetch(`http://localhost:3000/wishlist/api/${uid}`);
       const wishlist = await response.json();
       const likedSet = new Set(wishlist.map((item) => String(item.productId)));
       setLikedProducts(likedSet);
@@ -164,7 +166,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
   const handleAddToCart = async (product) => {
     try {
-      const quantity = quantities[product.id] || 1;
+      const quantity = quantities[product._id] || 1;
       const userUID = localStorage.getItem("userUID");
 
       if (!userUID) {
@@ -172,55 +174,38 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
         return;
       }
 
-      const cartId = `${product.id}_${userUID}`; // Tạo id mới theo format "id+uid"
+      console.log(` Thêm vào giỏ hàng: ${product.title} (Số lượng: ${quantity})`);
 
-      // Kiểm tra xem sản phẩm đã có trong giỏ hàng của user chưa
-      const response = await fetch(`http://localhost:5000/cart/${cartId}`, {
-        cache: "no-store",
+      const response = await fetch("http://localhost:3000/cart/api/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userUID,
+          productId: product._id,
+          title: product.title,
+          image: product.image,
+          price: product.onSale ? product.salePrice : product.price,
+          quantity: quantity,
+        }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        // Nếu sản phẩm đã tồn tại, cập nhật số lượng
-        const existingItem = await response.json();
-        console.log("Cập nhật số lượng sản phẩm:", existingItem);
-
-        await fetch(`http://localhost:5000/cart/${cartId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ quantity: existingItem.quantity + quantity }),
-        });
-
-        alert(`Cập nhật số lượng ${product.title} trong giỏ hàng.`);
-      } else {
-        console.log("Thêm sản phẩm mới vào giỏ hàng");
-
-        await fetch("http://localhost:5000/cart", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: cartId,
-            productId: product.id,
-            title: product.title,
-            image: product.image,
-            price: product.onSale ? product.salePrice : product.price,
-            quantity: quantity,
-            userUID: userUID,
-          }),
-        });
-
+        console.log("Thêm vào giỏ hàng thành công:", data);
         alert(`Đã thêm ${quantity} sản phẩm "${product.title}" vào giỏ hàng.`);
+      } else {
+        console.error("Lỗi:", data.message);
+        alert(`Lỗi: ${data.message}`);
       }
 
       // Reset lại số lượng nhập vào
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
-        [product.id]: 1,
+        [product._id]: 1,
       }));
-
-      // Tải lại trang sau khi thêm vào giỏ hàng
-      // window.location.reload();
     } catch (error) {
-      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      console.error("🔥 Lỗi khi thêm vào giỏ hàng:", error);
     }
   };
 
@@ -229,7 +214,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
     const quantity = Math.max(1, parseInt(e.target.value) || 1);
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [product.id]: quantity,
+      [product._id]: quantity,
     }));
     console.log(`Số lượng sản phẩm ${product.title}:`, quantity);
   };
@@ -239,7 +224,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
       {filteredProducts.length > 0 ? (
         filteredProducts.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             product={product}
             handleLike={handleLike}
             likedProducts={likedProducts}

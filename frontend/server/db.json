@@ -667,6 +667,24 @@
       "price": "$39.00",
       "quantity": 1,
       "userUID": "67dd21d08d8c024a1a4f62b7"
+    },
+    {
+      "id": "2_67de415e71499f88356ca546",
+      "productId": "2",
+      "title": "Eye-reviving dark circle concealer - beige chair",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Eye-reviving-dark-circle-concealer-beige-chair.png",
+      "price": "$33.00",
+      "quantity": 1,
+      "userUID": "67de415e71499f88356ca546"
+    },
+    {
+      "id": "1_67de415e71499f88356ca546",
+      "productId": "1",
+      "title": "Volumizing eyebrow mascara",
+      "image": "https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/Volumizing-eyebrow-mascara.png",
+      "price": "$21.00",
+      "quantity": 1,
+      "userUID": "67de415e71499f88356ca546"
     }
   ],
   "wishlist": [
