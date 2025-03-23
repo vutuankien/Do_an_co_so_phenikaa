@@ -4,18 +4,20 @@ const Schema = mongoose.Schema;
 const CartSchema = new Schema(
     {
         userId: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Customer',
             required: true,
         },
-        productId: { type: String, ref: 'Cosmetic', required: true },
-        title: { type: String, ref: 'Cosmetic' },
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Cosmetic',
+            required: true,
+        },
+        title: { type: String },
         image: { type: String },
         quantity: { type: Number, default: 1 },
-        price: { type: Number },
+        price: { type: String },
         totalPrice: { type: Number },
-        createdAt: { type: Date, default: Date.now() },
-        updatedAt: { type: Date, default: Date.now() },
     },
     {
         timestamps: true,

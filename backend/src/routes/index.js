@@ -9,8 +9,10 @@ const storeRouter = require('./stores');
 const adminAuth = require('../app/middlewares/adminAuth');
 const employeeRouter = require('./employee');
 const customerRouter = require('./customer');
+const cartRouter = require('./cart');
 const wishlistRouter = require('./wishlist');
 const addressRouter = require('./address');
+const billRouter = require('./bill');
 function route(app) {
     // Khi vào trang chủ (`/`), hiển thị trang đăng nhập
     app.get('/', (req, res) => {
@@ -28,6 +30,8 @@ function route(app) {
     app.use('/employee', employeeRouter);
     app.use('/stores', storeRouter);
     app.use('/wishlist', wishlistRouter);
+    app.use('/cart', cartRouter);
+    app.use('/bill', billRouter);
     app.use('/customer', customerRouter);
     app.use('/address', addressRouter);
 

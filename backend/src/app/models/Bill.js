@@ -1,29 +1,32 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const BillSchema = new Schema(
+const BillSchema = new mongoose.Schema(
     {
-        _id: { type: mongoose.Schema.Types.ObjectId },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId, // Đảm bảo đúng kiểu ObjectId
+            required: true, // Bắt buộc phải có userId
+            ref: 'User', // Liên kết với collection User
+        },
         bills: [
             {
-                productId: { type: String, ref: 'Cosmetic' },
-                quantity: { type: Number },
-                price: { type: Number, ref: 'Cosmetic' },
-                productName: { type: String, ref: 'Cosmetic' },
-                image: { type: String, ref: 'Cosmetic' },
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true,
+                },
+                productName: { type: String, required: true },
+                image: { type: String, required: true },
+                quantity: { type: Number, required: true },
+                price: { type: String, required: true },
             },
         ],
-        customerId: { type: String, ref: 'Customer' },
-        address: { type: String, ref: 'Address' },
-        paymentMethod: { type: String },
-        status: { type: String },
-        orderDate: { type: Date },
-        totalPrice: { type: Number },
-        phone: { type: String },
+        address: { type: String, required: true },
+        paymentMethod: { type: String, required: true },
+        status: { type: String, default: 'Pending' },
+        orderDate: { type: Date, default: Date.now },
+        totalPrice: { type: String, required: true },
+        phone: { type: String, required: true },
     },
-    {
-        timestamps: true,
-    },
+    { timestamps: true },
 );
 
-module.exports = mongoose.model('Bill', BillSchema, 'Bill');
+module.exports = mongoose.model('Bill', BillSchema);

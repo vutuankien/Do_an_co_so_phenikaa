@@ -22,9 +22,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '50mb' }));
 app.use(
     cors({
-        origin: 'http://localhost:5173', // Chỉ cho phép từ frontend
-        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các method được phép
-        credentials: true, // Nếu dùng cookie hoặc authentication
+        origin: 'http://localhost:5173', // Cho phép frontend React
+        methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS', // Thêm PATCH vào danh sách
+        allowedHeaders: 'Content-Type,Authorization',
+        credentials: true,
     }),
 );
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
