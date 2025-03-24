@@ -5,7 +5,7 @@ const BillSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId, // Đảm bảo đúng kiểu ObjectId
             required: true, // Bắt buộc phải có userId
-            ref: 'User', // Liên kết với collection User
+            ref: 'Customer', // Liên kết với collection User
         },
         bills: [
             {

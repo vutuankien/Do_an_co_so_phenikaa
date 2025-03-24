@@ -1,7 +1,9 @@
 const Bill = require('../models/Bill');
+const Customer = require('../models/Customer');
 const mongoose = require('mongoose');
 
 class BillController {
+    // TODO: API ROUTES
     async getBillByUserId(req, res, next) {
         try {
             const { userId } = req.params;
@@ -130,6 +132,21 @@ class BillController {
             .then((bills) => res.status(200).json(bills))
             .catch((err) => res.status(400).json('Error: ' + err));
     }
+
+
+
+    //TODO:UI RENDER
+    renderUI(req, res, next) {
+        Bill.find({})
+            .populate("userId") // Liên kết với bảng Customer
+            .lean()
+            .then((bills) => {
+                console.log("📌 Bills với userId đã populate:", bills);
+                res.render("Order/order_confirm", { bills });
+            })
+            .catch((err) => res.status(400).json("Error: " + err));
+    }
+
 }
 
 module.exports = new BillController();

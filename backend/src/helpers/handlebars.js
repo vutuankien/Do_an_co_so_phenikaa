@@ -31,4 +31,14 @@ module.exports = {
         );
     },
     formatDate: (date) => moment(date).format('DD/MM/YYYY'),
+    statusClass: function (status) {
+        switch (status) {
+            case "Pending": return "badge-warning";
+            case "Processing": return "badge-info";
+            case "Shipped": return "badge-primary";
+            case "Delivered": return "badge-success";
+            case "Cancelled": return "badge-danger";
+            default: return "badge-secondary";
+        }
+    },
 };

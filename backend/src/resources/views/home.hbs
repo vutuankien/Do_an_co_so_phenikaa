@@ -1,8 +1,184 @@
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="container mt-4">
+  <div class="row">
+    <!-- Tổng doanh thu -->
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3 shadow-lg">
+        <div class="card-body d-flex align-items-center">
+          <i class="bi bi-cash-stack fs-1 me-3"></i>
+          <div>
+            <h5 class="card-title">Tổng Doanh Thu</h5>
+            <p class="card-text fs-4 fw-bold">$ {{ revenueTotal }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Số đơn hàng -->
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3 shadow-lg">
+        <div class="card-body d-flex align-items-center">
+          <i class="bi bi-receipt fs-1 me-3"></i>
+          <div>
+            <h5 class="card-title">Số Đơn Hàng</h5>
+            <p class="card-text fs-4 fw-bold">{{ billCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Số bài viết đã đăng -->
+    <div class="col-md-4">
+      <div class="card text-white bg-info mb-3 shadow-lg">
+        <div class="card-body d-flex align-items-center">
+          <i class="bi bi-file-post fs-1 me-3"></i>
+          <div>
+            <h5 class="card-title">Số bài viết đã đăng</h5>
+            <p class="card-text fs-4 fw-bold">{{ blogCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Số nhân viên -->
+    <div class="col-md-6">
+      <div class="card text-white bg-secondary mb-3 shadow-lg">
+        <div class="card-body d-flex align-items-center">
+          <i class="bi bi-people-fill fs-1 me-3"></i>
+          <div>
+            <h5 class="card-title">Số nhân viên của cửa hàng</h5>
+            <p class="card-text fs-4 fw-bold">{{ employeeCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danh mục sản phẩm -->
+    <div class="col-md-6">
+      <div class="card text-white bg-warning mb-3 shadow-lg">
+        <div class="card-body d-flex align-items-center">
+          <i class="bi bi-box-seam fs-1 me-3"></i>
+          <div>
+            <h5 class="card-title">Danh mục sản phẩm</h5>
+            <p class="card-text fs-4 fw-bold">{{ cosmeticCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ đơn hàng và bài viết -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mt-3 shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title">Số đơn hàng theo tháng</h5>
+          <canvas id="orderBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card mt-3 shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title">Bài viết đã đăng theo tháng</h5>
+          <canvas id="blogBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ danh mục sản phẩm và số nhân viên -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mt-3 shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title">Tỷ lệ danh mục sản phẩm</h5>
+          <canvas id="cosmeticPieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card mt-3 shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title">Số nhân viên theo thời gian</h5>
+          <canvas id="employeeLineChart"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Import Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<!-- Import Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Chuyển dữ liệu từ server thành chuỗi JSON hợp lệ
+  const blogData = JSON.parse('{{{ blogData }}}');
+  const billData = JSON.parse('{{{ billData }}}');
+  const employeeData = JSON.parse('{{{ employeeData }}}');
+
+
+
+  console.log("Dữ liệu blogData:", blogData);
+
+  console.log("Dữ liệu billData:", billData);
+  console.log("Dữ liệu employeeData:", employeeData);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log(document.getElementById('orderBarChart'));
+    console.log(document.getElementById('blogBarChart'));
+    console.log(document.getElementById('employeeLineChart'));
+
+    const ctxOrder = document.getElementById('orderBarChart').getContext('2d');
+    new Chart(ctxOrder, {
+      type: 'bar',
+      data: {
+        labels: billData.labels,
+        datasets: [{
+          label: 'Số đơn hàng',
+          data: billData.values,
+          backgroundColor: 'rgba(255, 99, 132, 0.7)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      }
+    });
+
+    const ctxBlog = document.getElementById('blogBarChart').getContext('2d');
+    new Chart(ctxBlog, {
+      type: 'bar',
+      data: {
+        labels: blogData.labels,
+        datasets: [{
+          label: 'Bài viết đã đăng',
+          data: blogData.values,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      }
+    });
+
+
+
+    const ctxLine = document.getElementById('employeeLineChart').getContext('2d');
+    new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: employeeData.labels,
+        datasets: [{
+          label: 'Số nhân viên',
+          data: employeeData.values,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          fill: true
+        }]
+      }
+    });
+  });
+</script>

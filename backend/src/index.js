@@ -62,6 +62,6 @@ app.set('views', path.join(__dirname, 'resources/views'));
 route(app);
 
 // **Chạy server**
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, "0.0.0.0", () => {
     console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });

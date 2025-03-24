@@ -35,9 +35,7 @@ function route(app) {
     app.use('/customer', customerRouter);
     app.use('/address', addressRouter);
 
-    app.get('/home', adminAuth, (req, res) => {
-        res.render('layouts/main', { layout: 'main' });
-    });
+    app.use('/home', adminAuth, homeRouter);
     app.get('/logout', (req, res) => {
         req.session.destroy(() => {
             res.redirect('/');

@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="row">
+        {{#each bills}}
+        <div class="col-md-12 col-lg-12">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    {{#if this.userId}}
+                    <h6 class="fs-3 fw-bold">Customer Info</h6>
+                    <p><strong>Name:</strong> {{this.userId.name}}</p>
+                    <p><strong>Email:</strong> {{this.userId.email}}</p>
+                    <p><strong>Phone:</strong> {{this.userId.phone}}</p>
+                    {{else}}
+                    <p class="text-danger"><strong>Customer:</strong> Not Found</p>
+                    {{/if}}
+
+                    <button class="btn btn-primary w-100" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse_{{this._id}}" aria-expanded="false">
+                        View Details
+                    </button>
+
+                    <div class="collapse mt-2" id="collapse_{{this._id}}">
+                        <div class="card card-body">
+                            <p class="fs-4 fw-medium">Order Info</p>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Order Date</th>
+                                        <th>Shipping Address</th>
+                                        <th>Payment Method</th>
+                                        <th>Status</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each this.bills}}
+                                    <tr>
+                                        <td>{{this.productName}}</td>
+                                        <td>{{this.quantity}}</td>
+                                        <td>{{formatDate ../orderDate}}</td>
+                                        <td>{{../address}}</td>
+                                        <td>{{../paymentMethod}}</td>
+                                        <td>
+                                            <span id="status_{{../_id}}" class="badge 
+                                                {{#if (eq ../status 'Pending')}} bg-warning 
+                                                {{else if (eq ../status 'Shipping')}} bg-info 
+                                                {{else if (eq ../status 'Shipped')}} bg-success 
+                                                {{/if}}">
+                                                {{../status}}
+                                            </span>
+                                        </td>
+                                        <td>{{../totalPrice}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+
+                            {{#if (eq this.status "Pending")}}
+                            <button class="btn btn-success btn-sm update-status" data-bill-id="{{this._id}}">
+                                Xác Nhận Đơn Hàng
+                            </button>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".update-status").forEach(button => {
+            button.addEventListener("click", async function () {
+                const billId = this.getAttribute("data-bill-id"); // Lấy _id của đơn hàng (bill)
+
+                try {
+                    const response = await fetch(`http://localhost:3000/bill/api/update/${billId}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: "Shipping" })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Cập nhật trạng thái của tất cả sản phẩm trong đơn hàng
+                        document.querySelectorAll(`[id^="status_${billId}"]`).forEach(statusElement => {
+                            statusElement.textContent = "Shipping";
+                            statusElement.classList.remove("bg-warning");
+                            statusElement.classList.add("bg-info");
+                        });
+
+
+                        this.remove();
+                    } else {
+                        alert(`Lỗi: ${data.error}`);
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi cập nhật trạng thái đơn hàng:", error);
+                }
+            });
+        });
+    });
+
+</script>
