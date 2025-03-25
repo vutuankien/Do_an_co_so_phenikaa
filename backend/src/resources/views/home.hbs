@@ -68,47 +68,43 @@
     </div>
   </div>
 
-  <!-- Biểu đồ đơn hàng và bài viết -->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card mt-3 shadow-lg">
+
+  <div class="container mt-4">
+    <div class=" d-flex justify-content-between gap-2">
+      <div class="card shadow-lg mb-4 col-md-6">
         <div class="card-body">
-          <h5 class="card-title">Số đơn hàng theo tháng</h5>
-          <canvas id="orderBarChart"></canvas>
+          <h5 class="card-title">Tổng Doanh Thu Theo Tháng</h5>
+          <canvas id="revenueBarChart"></canvas>
+        </div>
+      </div>
+
+
+      <div class="card shadow-lg mb-4 col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">Số Lượng Đơn Hàng Theo Tháng</h5>
+          <canvas id="billCountChart"></canvas>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="card mt-3 shadow-lg">
+    <div class="d-flex justify-content-between gap-2">
+      <div class="card shadow-lg mb-4 col-md-6">
         <div class="card-body">
-          <h5 class="card-title">Bài viết đã đăng theo tháng</h5>
-          <canvas id="blogBarChart"></canvas>
+          <h5 class="card-title">Số Bài Viết Theo Tháng</h5>
+          <canvas id="blogPostChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Biểu đồ danh mục sản phẩm -->
+      <div class="card shadow-lg mb-4 col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">Phân Loại Sản Phẩm Theo Danh Mục</h5>
+          <canvas id="productCategoryChart"></canvas>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Biểu đồ danh mục sản phẩm và số nhân viên -->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card mt-3 shadow-lg">
-        <div class="card-body">
-          <h5 class="card-title">Tỷ lệ danh mục sản phẩm</h5>
-          <canvas id="cosmeticPieChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card mt-3 shadow-lg">
-        <div class="card-body">
-          <h5 class="card-title">Số nhân viên theo thời gian</h5>
-          <canvas id="employeeLineChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Import Bootstrap Icons -->
@@ -116,69 +112,193 @@
 
 <!-- Import Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-  // Chuyển dữ liệu từ server thành chuỗi JSON hợp lệ
-  const blogData = JSON.parse('{{{ blogData }}}');
-  const billData = JSON.parse('{{{ billData }}}');
-  const employeeData = JSON.parse('{{{ employeeData }}}');
-
-
-
-  console.log("Dữ liệu blogData:", blogData);
-
-  console.log("Dữ liệu billData:", billData);
-  console.log("Dữ liệu employeeData:", employeeData);
-
   document.addEventListener("DOMContentLoaded", function () {
-    console.log(document.getElementById('orderBarChart'));
-    console.log(document.getElementById('blogBarChart'));
-    console.log(document.getElementById('employeeLineChart'));
+    try {
+      // Parse dữ liệu JSON từ server
+      const revenueData = JSON.parse('{{{ revenueData }}}');
+      const billCountData = JSON.parse('{{{ billCountData }}}');
+      const blogPostData = JSON.parse('{{{ blogPostData }}}');
+      const productCategoryData = JSON.parse('{{{ productCategoryData }}}');
 
-    const ctxOrder = document.getElementById('orderBarChart').getContext('2d');
-    new Chart(ctxOrder, {
-      type: 'bar',
-      data: {
-        labels: billData.labels,
-        datasets: [{
-          label: 'Số đơn hàng',
-          data: billData.values,
-          backgroundColor: 'rgba(255, 99, 132, 0.7)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
-        }]
+      console.log("Dữ liệu revenueData nhận được:", revenueData);
+
+
+
+
+      const ctxRevenue = document.getElementById("revenueBarChart").getContext("2d");
+
+      // Kiểm tra nếu biểu đồ đã tồn tại thì hủy trước khi tạo mới
+      if (window.revenueChart) {
+        window.revenueChart.destroy();
       }
-    });
 
-    const ctxBlog = document.getElementById('blogBarChart').getContext('2d');
-    new Chart(ctxBlog, {
-      type: 'bar',
-      data: {
-        labels: blogData.labels,
-        datasets: [{
-          label: 'Bài viết đã đăng',
-          data: blogData.values,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
+      // Kiểm tra nếu có dữ liệu để hiển thị
+      if (revenueData.labels.length === 0) {
+        console.warn("Không có dữ liệu doanh thu để hiển thị!");
+        return;
       }
-    });
+
+      // Tạo biểu đồ cột
+      window.revenueChart = new Chart(ctxRevenue, {
+        type: "bar",
+        data: {
+          labels: revenueData.labels, // Các tháng
+          datasets: [{
+            label: "Tổng Doanh Thu ($)",
+            data: revenueData.values, // Doanh thu theo tháng
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
 
 
+      // Biểu đồ đơn hàng
+      const ctxBillCountChart = document.getElementById("billCountChart").getContext("2d");
 
-    const ctxLine = document.getElementById('employeeLineChart').getContext('2d');
-    new Chart(ctxLine, {
-      type: 'line',
-      data: {
-        labels: employeeData.labels,
-        datasets: [{
-          label: 'Số nhân viên',
-          data: employeeData.values,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          fill: true
-        }]
+
+      if (window.billChart) {
+        window.billChart.destroy();
       }
-    });
+
+      // Kiểm tra nếu có dữ liệu để hiển thị
+      if (billCountData.labels.length === 0) {
+        console.warn("Không có dữ liệu đơn hàng để hiển thị!");
+        return;
+      }
+
+      // Tạo biểu đồ cột
+      window.billChart = new Chart(ctxBillCountChart, {
+        type: "bar",
+        data: {
+          labels: billCountData.labels, // Các tháng
+          datasets: [{
+            label: "Tổng số đơn hàng",
+            data: billCountData.values,
+            backgroundColor: "rgba(255, 159, 64, 0.6)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+
+      const ctxBlogPost = document.getElementById("blogPostChart").getContext("2d");
+
+      // Kiểm tra nếu biểu đồ đã tồn tại thì hủy trước khi tạo mới
+      if (window.blogChart) {
+        window.blogChart.destroy();
+      }
+
+      // Kiểm tra nếu có dữ liệu để hiển thị
+      if (blogPostData.labels.length === 0) {
+        console.warn("Không có dữ liệu doanh thu để hiển thị!");
+        return;
+      }
+
+      // Tạo biểu đồ cột
+      window.blogChart = new Chart(ctxBlogPost, {
+        type: "line",
+        data: {
+          labels: blogPostData.labels, // Các tháng
+          datasets: [{
+            label: "Tần suất đăng bài ($)",
+            data: blogPostData.values, // Doanh thu theo tháng
+            backgroundColor: "rgba(255, 206, 86, 0.6)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      //
+      const ctxCategory = document.getElementById("productCategoryChart").getContext("2d");
+
+      // Kiểm tra nếu biểu đồ đã tồn tại thì hủy trước khi tạo mới
+      if (window.categoryChart) {
+        window.categoryChart.destroy();
+      }
+
+      // Kiểm tra nếu có dữ liệu để hiển thị
+      if (productCategoryData.labels.length === 0) {
+        console.warn("Không có dữ liệu doanh thu để hiển thị!");
+        return;
+      }
+
+      // Tạo biểu đồ cột
+      window.categoryChart = new Chart(ctxCategory, {
+        type: "pie",
+        data: {
+          labels: productCategoryData.labels, // Tên danh mục
+          datasets: [{
+            label: "Số lượng sản phẩm",
+            data: productCategoryData.values, // Số lượng theo danh mục
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.6)",   // Đỏ
+              "rgba(54, 162, 235, 0.6)",   // Xanh dương
+              "rgba(255, 206, 86, 0.6)",   // Vàng
+              "rgba(75, 192, 192, 0.6)",   // Xanh lá
+              "rgba(153, 102, 255, 0.6)",  // Tím
+              "rgba(255, 159, 64, 0.6)"    // Cam
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)"
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          }
+        }
+      });
+
+
+    } catch (error) {
+      console.error("Lỗi khi xử lý dữ liệu biểu đồ:", error);
+    }
   });
 </script>

@@ -6,116 +6,125 @@ const Cosmetic = require('../models/Cosmetic');
 
 class HomeController {
     async index(req, res) {
-        const convertBillChartData = (bills) => {
-            let monthCount = {}; // Đếm số đơn hàng theo tháng
-            bills.forEach(bill => {
-                let month = new Date(bill.orderDate).getMonth() + 1; // Lấy tháng (1-12)
-                monthCount[month] = (monthCount[month] || 0) + 1;
-            });
-
-            return {
-                labels: Object.keys(monthCount).map(m => `Tháng ${m}`),
-                values: Object.values(monthCount)
-            };
-        };
-        const convertEmployeeChartData = (employees) => {
-            let monthCount = {}; // Đếm số đơn hàng theo tháng
-            employees.forEach(employee => {
-                let month = new Date(employee.createdAt).getMonth() + 1; // Lấy tháng (1-12)
-                monthCount[month] = (monthCount[month] || 0) + 1;
-            });
-
-            return {
-                labels: Object.keys(monthCount).map(m => `Tháng ${m}`),
-                values: Object.values(monthCount)
-            };
-        };
-
-
-        const convertBlogChartData = (blogs) => {
-            let monthCount = {}; // Đếm số đơn hàng theo tháng
-            blogs.forEach(blog => {
-                let month = new Date(blog.createdAt).getMonth() + 1; // Lấy tháng (1-12)
-                monthCount[month] = (monthCount[month] || 0) + 1;
-            });
-
-            return {
-                labels: Object.keys(monthCount).map(m => `Tháng ${m}`),
-                values: Object.values(monthCount)
-            };
-        };
         try {
-            // Lấy số lượng khách hàng, nhân viên, mỹ phẩm, bài viết
-            const customers = await Customer.countDocuments({});
-            const employees = await Employee.countDocuments({});
-            const cosmetics = await Cosmetic.countDocuments({});
-            const blogs = await Blog.countDocuments({});
+            // Đếm số lượng khách hàng, nhân viên, mỹ phẩm, bài viết
+            const [customers, employees, cosmetics, blogs, bills] =
+                await Promise.all([
+                    Customer.countDocuments(),
+                    Employee.countDocuments(),
+                    Cosmetic.countDocuments(),
+                    Blog.countDocuments(),
+                    Bill.countDocuments(),
+                ]);
 
-
-            const employeeData = await Employee.find({}).lean();
-            const BillData = await Bill.find({}).lean();
-            const blogData = await Blog.find({}).lean();
-
-            // Lấy số lượng đơn hàng
-            const bills = await Bill.countDocuments({});
-
-            // Lấy danh sách tổng giá trị hóa đơn
-            const billsData = await Bill.find({}, { totalPrice: 1, createdAt: 1 }).lean();
-            console.log("Danh sách Bills:", billsData);
-
-            // Chuyển đổi tổng giá thành số, tránh lỗi khi xử lý aggregation
-            const revenue = await Bill.aggregate([
+            // Lấy dữ liệu doanh thu theo tháng
+            const revenueAggregation = await Bill.aggregate([
                 {
-                    $match: { createdAt: { $exists: true, $ne: null } }
+                    $match: { orderDate: { $exists: true, $ne: null } },
                 },
                 {
                     $project: {
-                        month: { $month: "$createdAt" },
+                        month: { $month: '$orderDate' },
                         totalPrice: {
-                            $toDouble: { $substrBytes: ["$totalPrice", 1, -1] } // Cắt bỏ ký tự đầu tiên ('$')
-                        }
-                    }
+                            $toDouble: {
+                                $substrBytes: [
+                                    { $toString: '$totalPrice' },
+                                    1,
+                                    -1,
+                                ], // Chuyển về số, bỏ ký tự '$' nếu có
+                            },
+                        },
+                    },
                 },
                 {
                     $group: {
-                        _id: "$month",
-                        total: { $sum: "$totalPrice" }
-                    }
+                        _id: '$month',
+                        total: { $sum: '$totalPrice' },
+                    },
                 },
-                { $sort: { _id: 1 } }
+                { $sort: { _id: 1 } },
             ]);
 
+            const revenueData = {
+                labels: revenueAggregation.map((item) => `Tháng ${item._id}`),
+                values: revenueAggregation.map((item) => item.total.toFixed(2)), // Định dạng số có 2 chữ số sau dấu thập phân
+            };
 
-            // Kiểm tra nếu không có dữ liệu
-            const revenueData = revenue.length > 0 ? {
-                labels: revenue.map(item => `Tháng ${item._id}`),
-                values: revenue.map(item => item.total)
-            } : { labels: [], values: [] };
+            // Kiểm tra dữ liệu trước khi render
 
-            console.log("Dữ liệu revenueData:", JSON.stringify(revenueData, null, 2));
-            console.log("employeeData", JSON.stringify(convertEmployeeChartData(employeeData), null, 2));
-            console.log("billChartData", JSON.stringify(convertBillChartData(BillData), null, 2));
-            console.log("blogData", JSON.stringify(convertBlogChartData(blogData), null, 2));
+            const billCountAggregation = await Bill.aggregate([
+                { $match: { orderDate: { $exists: true, $ne: null } } },
+                {
+                    $group: {
+                        _id: { $month: '$orderDate' },
+                        count: { $sum: 1 },
+                    },
+                },
+                { $sort: { _id: 1 } },
+            ]);
 
+            const billCountData = {
+                labels: billCountAggregation.map((item) => `Tháng ${item._id}`),
+                values: billCountAggregation.map((item) => item.count),
+            };
+
+            const blogPostAggregation = await Blog.aggregate([
+                {
+                    $group: {
+                        _id: { $month: '$createdAt' },
+                        count: { $sum: 1 },
+                    },
+                },
+                { $sort: { _id: 1 } },
+            ]);
+
+            const blogPostData = {
+                labels: blogPostAggregation.map((item) => `Tháng ${item._id}`),
+                values: blogPostAggregation.map((item) => item.count),
+            };
+
+            const productCategoryAggregation = await Cosmetic.aggregate([
+                {
+                    $group: {
+                        _id: '$category',
+                        count: { $sum: 1 },
+                    },
+                },
+            ]);
+
+            const productCategoryData = {
+                labels: productCategoryAggregation.map((item) => item._id),
+                values: productCategoryAggregation.map((item) => item.count),
+            };
+
+            console.log('Dữ liệu doanh thu gửi về frontend:', revenueData);
+            console.log('Dữ liệu bài viết gửi về frontend:', blogPostData);
+            console.log(
+                'Dữ liệu product gửi về frontend:',
+                productCategoryData,
+            );
+            console.log('Dữ liệu bill gửi về frontend:', billCountData);
             res.render('home', {
                 customerCount: customers || 0,
                 billCount: bills || 0,
                 blogCount: blogs || 0,
                 cosmeticCount: cosmetics || 0,
                 employeeCount: employees || 0,
-                revenueTotal: revenue.reduce((acc, item) => acc + item.total, 0).toFixed(2) || 0,
+                revenueTotal:
+                    revenueAggregation
+                        .reduce((acc, item) => acc + item.total, 0)
+                        .toFixed(2) || 0,
                 revenueData: JSON.stringify(revenueData),
-                // customerData: JSON.stringify(customerData),
-                employeeData: JSON.stringify(convertEmployeeChartData(employeeData)),
-                billChartData: JSON.stringify(convertBillChartData(BillData)),
-                blogData: JSON.stringify(convertBlogChartData(blogData)),
-
+                billCountData: JSON.stringify(billCountData),
+                blogPostData: JSON.stringify(blogPostData),
+                productCategoryData: JSON.stringify(productCategoryData),
             });
-
-
         } catch (error) {
-            console.error("Lỗi khi lấy dữ liệu:", error);
-            res.status(500).send("Lỗi server");
+            console.error('Lỗi khi lấy dữ liệu:', error);
+            res.status(500).json({
+                message: 'Lỗi server',
+                error: error.message,
+            });
         }
     }
 }
