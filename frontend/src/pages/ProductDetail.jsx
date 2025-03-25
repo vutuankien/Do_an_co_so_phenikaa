@@ -17,21 +17,14 @@ const ProductDetail = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
+
     const fetchWishlist = async () => {
+
+      const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
       try {
-        const userId = localStorage.getItem("userUID"); // Lấy userId từ localStorage
-        if (!userId) {
-          console.warn("Không tìm thấy userId trong localStorage");
-          return;
-        }
-
-        const response = await fetch("http://localhost:3000/wishlist/api");
+        const response = await fetch(`http://localhost:3000/wishlist/api/${uid}`);
         const wishlist = await response.json();
-
-        // Lọc danh sách wishlist theo userId
-        const userWishlist = wishlist.filter(item => item.userUID === userId);
-        const likedSet = new Set(userWishlist.map((item) => String(item.productId)));
-
+        const likedSet = new Set(wishlist.map((item) => String(item.productId)));
         setLikedProducts(likedSet);
       } catch (error) {
         console.error("Lỗi khi tải wishlist:", error);
@@ -74,28 +67,33 @@ const ProductDetail = () => {
 
   const handleLike = async (product) => {
     try {
-      const userUID = localStorage.getItem("userUID")?.replace(/"/g, "");
+      const userUID = localStorage.getItem("userUID");
       if (!userUID) {
         console.error("Không tìm thấy UID của người dùng.");
         return;
       }
 
-      // Kiểm tra xem sản phẩm đã có trong wishlist chưa
+      // Gọi API lấy danh sách wishlist
       const response = await fetch(`http://localhost:3000/wishlist/api/${userUID}`, {
         cache: "no-store",
       });
-      const wishlist = await response.json();
 
-      // Tìm sản phẩm theo `productId`
+      const wishlistData = await response.json();
+      console.log("🚀 Wishlist data:", wishlistData);
+
+      // Đảm bảo wishlist là một mảng
+      const wishlist = Array.isArray(wishlistData) ? wishlistData : wishlistData.wishlist || [];
+
+      // Kiểm tra xem sản phẩm đã tồn tại trong wishlist chưa
       const existingItem = wishlist.find((item) => item.productId === product._id);
 
       if (existingItem) {
-        // Nếu sản phẩm đã tồn tại, xóa nó
-        await fetch(`http://localhost:3000/wishlist/api/remove/userId=${userUID}&productId=${product._id}`, {
+        console.log(`🔴 Xóa sản phẩm ${product._id} khỏi wishlist`);
+        await fetch(`http://localhost:3000/wishlist/api/remove?userId=${userUID}&productId=${product._id}`, {
           method: "DELETE",
         });
       } else {
-        // Nếu chưa có, thêm vào wishlist
+        console.log(`🟢 Thêm sản phẩm ${product._id} vào wishlist`);
         await fetch("http://localhost:3000/wishlist/api/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -103,15 +101,16 @@ const ProductDetail = () => {
             title: product.title,
             image: product.image,
             price: product.onSale ? product.salePrice : product.price,
-            userId: userUID, // Đồng nhất với database
+            userId: userUID,
             productId: product._id,
           }),
         });
       }
 
-      fetchWishlist(); // Cập nhật lại danh sách wishlist
+      // Cập nhật lại danh sách wishlist
+      fetchWishlist();
     } catch (error) {
-      console.error("Lỗi khi thêm vào danh sách yêu thích:", error);
+      console.error("Lỗi khi thêm/xóa khỏi danh sách yêu thích:", error);
     }
   };
 

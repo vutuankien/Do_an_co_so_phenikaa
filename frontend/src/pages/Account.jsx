@@ -83,7 +83,7 @@ const Account = () => {
         console.log("📌 userId gửi lên:", userId);
 
         try {
-            const response = await axios.put(`http://localhost:3000/customer/api/update/${userId}`, userData);
+            const response = await axios.patch(`http://localhost:3000/customer/api/update/${userId}`, userData);
             alert("Update successful!");
             setUser(response.data);
         } catch (error) {

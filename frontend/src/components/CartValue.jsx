@@ -31,11 +31,11 @@ const CartValue = () => {
         fetchCartCount(); // Fetch ngay khi uid thay đổi
 
         // Cập nhật mỗi 5 giây
-        // const intervalId = setInterval(fetchCartCount, 1000);
+        const intervalId = setInterval(fetchCartCount, 1000);
 
         return () => {
             isMounted = false;
-            // clearInterval(intervalId); // Xóa interval khi component unmount
+            clearInterval(intervalId); // Xóa interval khi component unmount
         };
     }, [uid]); // Chỉ chạy khi uid thay đổi
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ProductCard from "./ProductCard";
 import "./ProductList.css";
-
+import "../components/ProductCard.css"
 const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -148,7 +148,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
       }
 
       // Cập nhật lại danh sách wishlist
-      fetchWishlist();
+      await fetchWishlist();
     } catch (error) {
       console.error("Lỗi khi thêm/xóa khỏi danh sách yêu thích:", error);
     }

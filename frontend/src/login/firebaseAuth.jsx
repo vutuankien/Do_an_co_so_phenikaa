@@ -1,11 +1,11 @@
 import app from "./firebaseConfig";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  sendEmailVerification ,
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
   sendPasswordResetEmail
 } from "firebase/auth";
 
@@ -37,7 +37,7 @@ export const registerWithEmailPassword = async (email, password) => {
 
     // Gửi email xác minh
     await sendEmailVerification(user);
-    
+
     console.log("User registered:", user);
     console.log("Verification email sent to:", user.email);
 

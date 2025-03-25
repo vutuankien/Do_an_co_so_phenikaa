@@ -101,6 +101,11 @@ const Cart = () => {
         item.productId === productId ? { ...item, quantity: newQuantity } : item
       )
     );
+    setSelectedItems((prevItems) =>
+      prevItems.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
 
     // Gửi request cập nhật lên backend
     fetch(`http://localhost:3000/cart/api/update`, {
@@ -137,6 +142,7 @@ const Cart = () => {
       .then((data) => {
         console.log("Xóa thành công:", data);
         setCartItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
+        setSelectedItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
       })
       .catch((error) => console.error("❌ Lỗi khi xóa sản phẩm:", error));
   };
@@ -155,15 +161,25 @@ const Cart = () => {
     console.log("Sản phẩm đã chọn:", selectedItems);
   }, [selectedItems]);
 
+  useEffect(() => {
+    console.log("CartItems:", cartItems);
+  }, [cartItems]);
 
 
-  const subtotal = cartItems
-    .filter((item) => selectedItems.includes(item.productId))
-    .reduce(
-      (total, item) =>
-        total + parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity,
-      0
-    );
+
+
+  // const subtotal = selectedItems.reduce((total, item) => {
+  //   const price = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 0; // Chuyển đổi giá thành số
+  //   return total + price * (item.quantity || 1); // Tính tổng giá trị dựa trên số lượng
+  // }, 0);
+  const subtotal = selectedItems.reduce(
+    (total, item) => total + parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity,
+    0
+  );
+
+
+  console.log("Subtotal:", subtotal);
+
 
   const handleCheckout = (method) => {
     if (selectedItems.length === 0) {

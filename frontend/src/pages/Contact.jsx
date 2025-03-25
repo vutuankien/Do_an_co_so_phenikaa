@@ -8,7 +8,7 @@ const admins = [
   {
     name: "Tuấn Kiên",
     fbLink: "https://www.facebook.com/tuan.kien.878874",
-    avatar: "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-1/476106946_1414692866579407_7229718211801302194_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=wUZv4EOc524Q7kNvgHXBOvT&_nc_oc=Adi9buUzjek-wkNpPn8a-7QYD1B7vlN1QTCWpviGzQbJ99lwDoxjBgd87DX6hK025FYFDfoZvYjnr1-q4-1mddKK&_nc_zt=24&_nc_ht=scontent.fhan14-2.fna&_nc_gid=tvoVsq42Z8g392chgj1vDQ&oh=00_AYFdbsYirzaX6TZrcc2kGxsDVsY0CBzc2PrYwddK5q5XbQ&oe=67DAE23E"
+    avatar: "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-liox3plt71eafd"
   },
   {
     name: "Hồng Đăng",
