@@ -4,8 +4,6 @@ import "./Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
 import Qr from "./QR";
 import COD from "./COD";
-import RelatedProducts from "../components/RelatedProduct";
-
 
 const Cart = () => {
   const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
@@ -23,7 +21,9 @@ const Cart = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/address/api/${uid}`);
+        const response = await fetch(
+          `http://localhost:3000/address/api/${uid}`
+        );
         const data = await response.json();
 
         // Kiểm tra nếu dữ liệu trả về không phải là mảng
@@ -56,6 +56,26 @@ const Cart = () => {
     console.log("Địa chỉ mặc định đã chọn:", selectedAddress);
   }, [selectedAddress]);
 
+  useEffect(() => {
+    if (!uid) {
+      console.error("Không tìm thấy UID.");
+      setLoadingUser(false);
+      return;
+    }
+
+    const fetchCart = () => {
+      fetch(`http://localhost:3000/cart/api/${uid}`)
+        .then((response) => response.json())
+        .then((data) => setCartItems(data))
+        .catch((error) => console.error("Lỗi khi lấy giỏ hàng:", error));
+    };
+
+    fetchCart(); // Gọi ngay khi component mount
+
+    const interval = setInterval(fetchCart, 2000); // Gọi lại mỗi 2 giây
+
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+  }, [uid]);
 
   useEffect(() => {
     if (!uid) {
@@ -64,16 +84,11 @@ const Cart = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/cart/api/${uid}`)
-      .then((response) => response.json())
-      .then((data) => setCartItems(data))
-      .catch((error) => console.error("Lỗi khi lấy giỏ hàng:", error));
-
     fetch(`http://localhost:3000/customer/api/user?id=${uid}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Dữ liệu người dùng API trả về:", data);
-        setUser(data); // Không cần data[0] nếu API trả về object
+        setUser(data);
       })
       .catch((error) => {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
@@ -87,7 +102,9 @@ const Cart = () => {
     }
 
     // Tìm sản phẩm cần cập nhật
-    const productToUpdate = cartItems.find((item) => item.productId === productId && item.userId === uid);
+    const productToUpdate = cartItems.find(
+      (item) => item.productId === productId && item.userId === uid
+    );
     if (!productToUpdate) {
       console.error("Không tìm thấy sản phẩm trong giỏ hàng.");
       return;
@@ -141,21 +158,26 @@ const Cart = () => {
       })
       .then((data) => {
         console.log("Xóa thành công:", data);
-        setCartItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
-        setSelectedItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
+        setCartItems((prevItems) =>
+          prevItems.filter((item) => item.productId !== productId)
+        );
+        setSelectedItems((prevItems) =>
+          prevItems.filter((item) => item.productId !== productId)
+        );
       })
       .catch((error) => console.error("❌ Lỗi khi xóa sản phẩm:", error));
   };
 
   const toggleSelectItem = (product) => {
     setSelectedItems((prevSelected) => {
-      const exists = prevSelected.find((item) => item.productId === product.productId);
+      const exists = prevSelected.find(
+        (item) => item.productId === product.productId
+      );
       return exists
         ? prevSelected.filter((item) => item.productId !== product.productId) // Bỏ tích
         : [...prevSelected, product]; // Thêm toàn bộ thông tin sản phẩm
     });
   };
-
 
   useEffect(() => {
     console.log("Sản phẩm đã chọn:", selectedItems);
@@ -165,21 +187,17 @@ const Cart = () => {
     console.log("CartItems:", cartItems);
   }, [cartItems]);
 
-
-
-
   // const subtotal = selectedItems.reduce((total, item) => {
   //   const price = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 0; // Chuyển đổi giá thành số
   //   return total + price * (item.quantity || 1); // Tính tổng giá trị dựa trên số lượng
   // }, 0);
   const subtotal = selectedItems.reduce(
-    (total, item) => total + parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity,
+    (total, item) =>
+      total + parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity,
     0
   );
 
-
   console.log("Subtotal:", subtotal);
-
 
   const handleCheckout = (method) => {
     if (selectedItems.length === 0) {
@@ -214,55 +232,79 @@ const Cart = () => {
           {cartItems.length > 0 ? (
             <>
               <p className="mt-4 text-gray-500">
-                You have <span className="font-bold">
+                You have{" "}
+                <span className="font-bold">
                   {cartItems.reduce((total, item) => total + item.quantity, 0)}
-                </span> items in your cart. items in your cart.
+                </span>{" "}
+                items in your cart. items in your cart.
               </p>
               <div className="mt-6">
-                {cartItems.slice().reverse().map((item) => (
-                  <div key={item._id} className="cart-item flex items-center p-4 bg-white rounded-lg mb-4">
-                    {/* Checkbox chọn sản phẩm */}
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.some(selected => selected.productId === item.productId)}
-                      onChange={() => toggleSelectItem(item)}
-                      className="cart-input mr-4"
-                    />
+                {cartItems
+                  .slice()
+                  .reverse()
+                  .map((item) => (
+                    <div
+                      key={item._id}
+                      className="cart-item flex items-center p-4 bg-white rounded-lg mb-4"
+                    >
+                      {/* Checkbox chọn sản phẩm */}
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.some(
+                          (selected) => selected.productId === item.productId
+                        )}
+                        onChange={() => toggleSelectItem(item)}
+                        className="cart-input mr-4"
+                      />
 
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-16 h-16 rounded-lg cursor-pointer"
-                      onClick={() => window.location.href = `http://localhost:5173/product/${item.productId}`}
-                    />
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-16 h-16 rounded-lg cursor-pointer"
+                        onClick={() =>
+                          (window.location.href = `http://localhost:5173/product/${item.productId}`)
+                        }
+                      />
 
-                    <div className="title l-4 flex-1">
-                      <h3 className="font-semibold text-lg">{item.title}</h3>
-                      <p className="text-gray-500 text-sm">{item.description}</p>
-                    </div>
+                      <div className="title l-4 flex-1">
+                        <h3 className="font-semibold text-lg">{item.title}</h3>
+                        <p className="text-gray-500 text-sm">
+                          {item.description}
+                        </p>
+                      </div>
 
-                    <div className="flex items-center">
-                      <button onClick={() => updateQuantity(item.productId, -1)} className="p-2 border">
-                        <AiOutlineMinus />
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => updateQuantity(item.productId, -1)}
+                          className="p-2 border"
+                        >
+                          <AiOutlineMinus />
+                        </button>
+                        <span className="mx-2">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.productId, 1)}
+                          className="p-2 border"
+                        >
+                          <AiOutlinePlus />
+                        </button>
+                      </div>
+
+                      <p className="cart-price ml-4 font-semibold">
+                        $
+                        {(
+                          parseFloat(item.price.replace(/[^0-9.]/g, "")) *
+                          item.quantity
+                        ).toFixed(2)}
+                      </p>
+
+                      <button
+                        onClick={() => deleteCartItem(item.productId)}
+                        className="ml-4 text-red-500"
+                      >
+                        <AiOutlineDelete />
                       </button>
-                      <span className="mx-2">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.productId, 1)} className="p-2 border">
-                        <AiOutlinePlus />
-                      </button>
                     </div>
-
-                    <p className="cart-price ml-4 font-semibold">
-                      ${(
-                        parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity
-                      ).toFixed(2)}
-                    </p>
-
-                    <button onClick={() => deleteCartItem(item.productId)} className="ml-4 text-red-500">
-                      <AiOutlineDelete />
-                    </button>
-                  </div>
-                ))}
-
+                  ))}
               </div>
             </>
           ) : (
@@ -276,9 +318,20 @@ const Cart = () => {
 
             {user ? (
               <div className="anh flex flex-col items-center my-4">
-                <img src={user.photoURL} alt="User Avatar" className="w-16 h-16 rounded-full mb-2" />
-                <p className="email fw-medium text-sm">Email: <span className="fw-bold fs-6">{user.email}</span></p>
-                <p className="email text-sm">SĐT: <span className="fw-bold fs-6">{user.phone || "Chưa có số điện thoại"}</span></p>
+                <img
+                  src={user.photoURL}
+                  alt="User Avatar"
+                  className="w-16 h-16 rounded-full mb-2"
+                />
+                <p className="email fw-medium text-sm">
+                  Email: <span className="fw-bold fs-6">{user.email}</span>
+                </p>
+                <p className="email text-sm">
+                  SĐT:{" "}
+                  <span className="fw-bold fs-6">
+                    {user.phone || "Chưa có số điện thoại"}
+                  </span>
+                </p>
 
                 {/* Danh sách địa chỉ */}
                 <div className="mt-4 w-full">
@@ -297,18 +350,24 @@ const Cart = () => {
                       ))}
                     </select>
                   ) : (
-                    <p className="text-sm text-red-400">Không có địa chỉ nào được lưu.</p>
+                    <p className="text-sm text-red-400">
+                      Không có địa chỉ nào được lưu.
+                    </p>
                   )}
                 </div>
               </div>
             ) : (
-              <p className="mt-4 text-red-300">Unable to load user information.</p>
+              <p className="mt-4 text-red-300">
+                Unable to load user information.
+              </p>
             )}
 
             <div className="mt-4">
               <p>Subtotal: ${subtotal.toFixed(2)}</p>
               <p>Shipping: $4.00</p>
-              <p className="font-bold">Total (Tax incl.): ${(subtotal + 4).toFixed(2)}</p>
+              <p className="font-bold">
+                Total (Tax incl.): ${(subtotal + 4).toFixed(2)}
+              </p>
             </div>
 
             <div className="mt-6">
@@ -329,7 +388,6 @@ const Cart = () => {
             </div>
           </div>
         )}
-
       </div>
       <Qr
         show={showQR}
@@ -338,7 +396,11 @@ const Cart = () => {
         cartItems={cartItems}
         userId={uid}
         selectedAddress={selectedAddress}
-        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item._id)))}
+        onOrderSuccess={() =>
+          setCartItems(
+            cartItems.filter((item) => !selectedItems.includes(item._id))
+          )
+        }
       />
       <COD
         show={showCOD}
@@ -347,7 +409,11 @@ const Cart = () => {
         cartItems={cartItems}
         userId={uid}
         selectedAddress={selectedAddress}
-        onOrderSuccess={() => setCartItems(cartItems.filter(item => !selectedItems.includes(item._id)))}
+        onOrderSuccess={() =>
+          setCartItems(
+            cartItems.filter((item) => !selectedItems.includes(item._id))
+          )
+        }
       />
     </div>
   );

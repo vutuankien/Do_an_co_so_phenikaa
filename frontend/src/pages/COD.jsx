@@ -47,29 +47,8 @@ const COD = ({ show, onClose, selectedItems, cartItems, userId, selectedAddress,
         const costShipping = 4;
         const costTax = 0;
 
-        function createProductArray() {
-            return [
-                "Volumizing-eyebrow-mascara-",
-                "Eye-reviving-dark-circle-concealer-beige-chair-",
-                "Waterproof-eyeliner-",
-                "Long-wear-cream-eyeliner-noir-",
-                "Waterproof-vinyl-eyeliner-prune-1-",
-                "Perfect-gaze-dark-circle-concealer-biscuit-2-",
-                "Eye-shadow-base-",
-                "Fluid-foundation-",
-                "Concealer-pistache-",
-                "Shimmering-",
-                "Eye-shadows-palette-smokey-shades-",
-                "Ultra-matte-lipstick-",
-                "Skin-perfector-foundation-",
-                "Shimmering-illuminating-powder-"
-            ];
-        }
-
-        const productNamesArray = createProductArray();
-
         const ordersArray = orderItems.map(item => ({
-            image_url: `https://ld-wp73.template-help.com/woocommerce/prod_16812/v4/wp-content/uploads/2018/01/${productNamesArray[item.productId - 1]}400x400.png`,
+            image_url: item.image,
             name: item.productName,
             units: item.quantity,
             price: `$${parseFloat(item.price.toString().replace(/[^0-9.]/g, "")).toFixed(2)}`
