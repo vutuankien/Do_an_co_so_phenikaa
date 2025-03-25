@@ -36,23 +36,37 @@ const ProductDetail = () => {
   }, []);
 
   useEffect(() => {
+    if (!product) return; // Nếu chưa có sản phẩm, không chạy
+
     fetch("http://localhost:3000/cosmetic/api")
       .then((res) => res.json())
       .then((data) => {
-        if (!product) return;
+        if (!Array.isArray(data)) {
+          console.error("Dữ liệu API không hợp lệ:", data);
+          return;
+        }
 
-        const related = data.filter(
-          (item) =>
-            item._id !== product._id &&
-            (item.category.some((cat) => product.category.includes(cat)) ||
-              item.tags.some((tag) => product.tags.includes(tag)))
-        );
+        // Chuyển đổi category từ chuỗi thành mảng nếu cần
+        const normalizeCategories = (categories) =>
+          categories.flatMap((cat) => cat.split(",").map((c) => c.trim()));
 
-        setRelatedProducts(related.slice(0, 4)); // Lấy tối đa 4 sản phẩm liên quan
+        const productCategories = normalizeCategories(product.category);
+
+        const related = data.filter((item) => {
+          if (item._id === product._id) return false;
+
+          const itemCategories = normalizeCategories(item.category);
+          const itemTags = item.tags || [];
+
+          return (
+            itemCategories.some((cat) => productCategories.includes(cat)) ||
+            itemTags.some((tag) => product.tags.includes(tag))
+          );
+        });
+
+        setRelatedProducts(related.slice(0, 4)); // Giới hạn 4 sản phẩm liên quan
       })
-      .catch((error) =>
-        console.error("Lỗi khi tải danh sách sản phẩm:", error)
-      );
+      .catch((error) => console.error("Lỗi khi tải danh sách sản phẩm:", error));
   }, [product]);
 
   useEffect(() => {

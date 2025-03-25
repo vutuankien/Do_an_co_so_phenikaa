@@ -8,12 +8,12 @@ const admins = [
   {
     name: "Tuấn Kiên",
     fbLink: "https://www.facebook.com/tuan.kien.878874",
-    avatar: "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-liox3plt71eafd"
+    avatar: "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/469222246_1370506087664752_6999540447022209537_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeHRxi1chtId_Iuz55-xih11kuJ5CUYrqeeS4nkJRiup5248UpKwCXhr9P3ZdDBmkXpBvjTURmbx1VynZrMkTzId&_nc_ohc=mnnp9C874GQQ7kNvgF0rv9z&_nc_oc=Adm4VpphbS1eZxOLSNd5SH26o2aUUlZZ-QBfDq9z7UD1i2cnzn8wcu35F3xH1t9uYtA&_nc_zt=23&_nc_ht=scontent.fhan18-1.fna&_nc_gid=YPTbME77rkLw854MPjHvQg&oh=00_AYHxmEoAecWBsfOuMlQg3JLeKwV8PVMK6VExXLMIATYu6w&oe=67E8CC59"
   },
   {
     name: "Hồng Đăng",
     fbLink: "https://www.facebook.com/angvu.541695/",
-    avatar: "https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-1/114181015_106053464528327_4385031049838430609_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHiaasevL0DDmvgM6vobL_eN0fTqJgXETM3R9OomBcRMyVp4pWvZC__flobiye7-AMa27iDNHqdprdjMKVuZRla&_nc_ohc=3H_gloDQG0kQ7kNvgEfvE3e&_nc_oc=AditDmorqxmNpaiiL1wTUVlcvYZ59mriW0dr5hyJtMcUp_dcx6GPfkwi1HiHKU8GiJkU5aT2yUHVslgga8IM3cVI&_nc_zt=24&_nc_ht=scontent.fhan2-4.fna&_nc_gid=AJGXXA67iDT0Vsvs5hRcDco&oh=00_AYBpHTPxnLWasDL2refaocZgK7p4Cou-2gUN3LDveU4eqw&oe=67D64BED"
+    avatar: "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.6435-1/114181015_106053464528327_4385031049838430609_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHiaasevL0DDmvgM6vobL_eN0fTqJgXETM3R9OomBcRMyVp4pWvZC__flobiye7-AMa27iDNHqdprdjMKVuZRla&_nc_ohc=_1_axekrybAQ7kNvgGgi_9m&_nc_oc=AdnhNRKjskvM2YPksoumjFnmzmKwUhr0B8xLiH5epOemL4hOel8XiYnlYqTfCZw0TibZupKRSw-aM8VVxN9E2TiO&_nc_zt=24&_nc_ht=scontent.fhan14-1.fna&_nc_gid=uLalyOV5qNQ7IM2gu4EtQg&oh=00_AYGJn4UfHiOegicIiM_-IngmRG2qON6wNNWvyND2OErQMg&oe=680A5F2D"
   },
   {
     name: "Thế Hưng",

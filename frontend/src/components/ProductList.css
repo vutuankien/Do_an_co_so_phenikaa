@@ -5,3 +5,9 @@
   justify-content: center;
   padding: 20px;
 }
+
+.product-image {
+  width: 234.6px;
+  height: 234.6px;
+  object-fit: cover;
+}
