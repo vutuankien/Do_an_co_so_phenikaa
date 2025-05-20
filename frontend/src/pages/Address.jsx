@@ -10,7 +10,7 @@ const Address = () => {
     useEffect(() => {
         if (!uid) return;
 
-        axios.get(`http://localhost:3000/address/api/${uid}`)
+        axios.get(`https://do-an-co-so-phenikaa.onrender.com/address/api/${uid}`)
             .then(response => {
                 console.log("API Response:", response.data); // Kiểm tra dữ liệu trả về
 
@@ -23,7 +23,7 @@ const Address = () => {
             })
             .catch(error => {
                 if (error.response && error.response.status === 404) {
-                    // axios.post(`http://localhost:3000/address/api/create`, {
+                    // axios.post(`https://do-an-co-so-phenikaa.onrender.com/address/api/create`, {
                     //     userId: uid,
                     //     address: []
                     // })
@@ -40,7 +40,7 @@ const Address = () => {
     const fetchAddresses = () => {
         if (!uid) return;
 
-        axios.get(`http://localhost:3000/address/api/${uid}`)
+        axios.get(`https://do-an-co-so-phenikaa.onrender.com/address/api/${uid}`)
             .then(response => {
                 console.log("Fetch API Response:", response.data); // Kiểm tra dữ liệu
 
@@ -66,7 +66,7 @@ const Address = () => {
             { id: Date.now(), address: newAddress, default: addresses.length === 0 }
         ];
 
-        axios.put(`http://localhost:3000/address/api/update/${uid}`, { addresses: updatedAddresses })
+        axios.put(`https://do-an-co-so-phenikaa.onrender.com/address/api/update/${uid}`, { addresses: updatedAddresses })
             .then(() => {
                 setNewAddress("");  // Xóa ô input
                 fetchAddresses();   // Gọi lại API để lấy danh sách mới nhất
@@ -86,7 +86,7 @@ const Address = () => {
             ({ ...addr, default: addr.id === id })
         );
 
-        axios.put(`http://localhost:3000/address/api/setDefault/${uid}`, { addresses: updatedAddresses })
+        axios.put(`https://do-an-co-so-phenikaa.onrender.com/address/api/setDefault/${uid}`, { addresses: updatedAddresses })
             .then(() => setAddresses(updatedAddresses))
             .catch(error => console.error("Lỗi khi đặt địa chỉ mặc định:", error));
     };
@@ -98,7 +98,7 @@ const Address = () => {
             return;
         }
 
-        axios.delete(`http://localhost:3000/address/api/delete/${uid}/${id}`)
+        axios.delete(`https://do-an-co-so-phenikaa.onrender.com/address/api/delete/${uid}/${id}`)
             .then(response => {
                 setAddresses(response.data.address); // Cập nhật danh sách sau khi xóa
             })

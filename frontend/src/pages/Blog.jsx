@@ -5,7 +5,7 @@ import BlogCard from "../components/BlogCard";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const blogAPI = "http://localhost:3000/blog/api";
+  const blogAPI = "https://do-an-co-so-phenikaa.onrender.com/blog/api";
   useEffect(() => {
     fetch(blogAPI)
       .then((response) => response.json())

@@ -10,7 +10,7 @@ const Bill = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/bill/api/${userId}`);
+                const response = await fetch(`https://do-an-co-so-phenikaa.onrender.com/bill/api/${userId}`);
                 if (!response.ok) {
                     throw new Error("Error when getting order list");
                 }
@@ -28,7 +28,7 @@ const Bill = () => {
     const handleCancelOrder = async (orderId) => {
         if (window.confirm("Are you sure you want to cancel this order?")) {
             try {
-                await fetch(`http://localhost:3000/bill/api/delete/${orderId}`, {
+                await fetch(`https://do-an-co-so-phenikaa.onrender.com/bill/api/delete/${orderId}`, {
                     method: "DELETE",
                 });
                 setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
@@ -41,7 +41,7 @@ const Bill = () => {
     const handleReceiveOrder = async (orderId) => {
         if (window.confirm("Are you sure you received the item?")) {
             try {
-                await fetch(`http://localhost:3000/bill/api/update/${orderId}`, {
+                await fetch(`https://do-an-co-so-phenikaa.onrender.com/bill/api/update/${orderId}`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ status: "Shipped" }),

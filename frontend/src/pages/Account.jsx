@@ -24,7 +24,7 @@ const Account = () => {
             return;
         }
 
-        axios.get(`http://localhost:3000/customer/api/user?id=${uid}`)
+        axios.get(`https://do-an-co-so-phenikaa.onrender.com/customer/api/user?id=${uid}`)
             .then((response) => {
                 if (response.data) {  // Kiểm tra object thay vì mảng
                     setUser(response.data);
@@ -40,13 +40,13 @@ const Account = () => {
 
     useEffect(() => {
         if (userId) {
-            axios.get(`http://localhost:3000/wishlist/api/${userId}`)
+            axios.get(`https://do-an-co-so-phenikaa.onrender.com/wishlist/api/${userId}`)
                 .then((response) => {
                     setWishlist(response.data); // Dữ liệu API đã lọc sẵn theo userId
                 })
                 .catch((error) => console.error("Error while retrieving wishlist:", error));
 
-            axios.get(`http://localhost:3000/bill/api/${userId}`)
+            axios.get(`https://do-an-co-so-phenikaa.onrender.com/bill/api/${userId}`)
                 .then((response) => {
                     console.log("API Data:", response.data); // Debug
 
@@ -83,7 +83,7 @@ const Account = () => {
         console.log("📌 userId gửi lên:", userId);
 
         try {
-            const response = await axios.patch(`http://localhost:3000/customer/api/update/${userId}`, userData);
+            const response = await axios.patch(`https://do-an-co-so-phenikaa.onrender.com/customer/api/update/${userId}`, userData);
             alert("Update successful!");
             setUser(response.data);
         } catch (error) {
@@ -93,7 +93,7 @@ const Account = () => {
     };
 
     const handleRemoveFromWishlist = (id) => {
-        axios.delete(`http://localhost:3000/wishlist/api/remove?userId=${userId}&productId=${id}`)
+        axios.delete(`https://do-an-co-so-phenikaa.onrender.com/wishlist/api/remove?userId=${userId}&productId=${id}`)
             .then(() => {
                 setWishlist(wishlist.filter(item => item.productId !== id));
             })

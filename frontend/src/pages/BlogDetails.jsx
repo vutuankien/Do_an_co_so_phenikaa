@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const BlogDetails = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
-    const blogAPI = `http://localhost:3000/blog/api/${id}`;
+    const blogAPI = `https://do-an-co-so-phenikaa.onrender.com/blog/api/${id}`;
 
     useEffect(() => {
         fetch(blogAPI)

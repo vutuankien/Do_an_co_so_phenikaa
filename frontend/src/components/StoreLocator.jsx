@@ -18,7 +18,7 @@ const StoreLocator = () => {
     const [mapCenter, setMapCenter] = useState([21.0285, 105.8542]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/stores/api")
+        fetch("https://do-an-co-so-phenikaa.onrender.com/stores/api")
             .then((response) => response.json())
             .then((data) => {
                 setStores(data);

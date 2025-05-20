@@ -22,7 +22,7 @@ const Cart = () => {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/address/api/${uid}`
+          `https://do-an-co-so-phenikaa.onrender.com/address/api/${uid}`
         );
         const data = await response.json();
 
@@ -64,7 +64,7 @@ const Cart = () => {
     }
 
     const fetchCart = () => {
-      fetch(`http://localhost:3000/cart/api/${uid}`)
+      fetch(`https://do-an-co-so-phenikaa.onrender.com/cart/api/${uid}`)
         .then((response) => response.json())
         .then((data) => setCartItems(data))
         .catch((error) => console.error("Lỗi khi lấy giỏ hàng:", error));
@@ -84,7 +84,7 @@ const Cart = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/customer/api/user?id=${uid}`)
+    fetch(`https://do-an-co-so-phenikaa.onrender.com/customer/api/user?id=${uid}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Dữ liệu người dùng API trả về:", data);
@@ -125,7 +125,7 @@ const Cart = () => {
     );
 
     // Gửi request cập nhật lên backend
-    fetch(`http://localhost:3000/cart/api/update`, {
+    fetch(`https://do-an-co-so-phenikaa.onrender.com/cart/api/update`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -147,7 +147,7 @@ const Cart = () => {
 
     console.log(`🗑️ Xóa sản phẩm: ${productId} của user: ${uid}`);
 
-    fetch(`http://localhost:3000/cart/api/delete/${uid}/${productId}`, {
+    fetch(`https://do-an-co-so-phenikaa.onrender.com/cart/api/delete/${uid}/${productId}`, {
       method: "DELETE",
     })
       .then((res) => {

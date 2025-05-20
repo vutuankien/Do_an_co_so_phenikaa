@@ -16,7 +16,7 @@ const CartValue = () => {
 
         const fetchCartCount = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/cart/api/${uid}`);
+                const response = await axios.get(`https://do-an-co-so-phenikaa.onrender.com/cart/api/${uid}`);
                 if (isMounted) {
                     const totalQuantity = response.data.reduce((sum, item) => sum + item.quantity, 0);
                     setCartCount(totalQuantity);

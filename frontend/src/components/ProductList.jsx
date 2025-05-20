@@ -14,7 +14,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
     const uid = localStorage.getItem("userUID")?.replace(/"/g, "");
     try {
-      const response = await fetch(`http://localhost:3000/wishlist/api/${uid}`);
+      const response = await fetch(`https://do-an-co-so-phenikaa.onrender.com/wishlist/api/${uid}`);
       const wishlist = await response.json();
       const likedSet = new Set(wishlist.map((item) => String(item.productId)));
       setLikedProducts(likedSet);
@@ -29,7 +29,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/cosmetic/api")
+    fetch("https://do-an-co-so-phenikaa.onrender.com/cosmetic/api")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched Products:", data);
@@ -114,7 +114,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
       }
 
       // Gọi API lấy danh sách wishlist
-      const response = await fetch(`http://localhost:3000/wishlist/api/${userUID}`, {
+      const response = await fetch(`https://do-an-co-so-phenikaa.onrender.com/wishlist/api/${userUID}`, {
         cache: "no-store",
       });
 
@@ -129,12 +129,12 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
       if (existingItem) {
         console.log(`🔴 Xóa sản phẩm ${product._id} khỏi wishlist`);
-        await fetch(`http://localhost:3000/wishlist/api/remove?userId=${userUID}&productId=${product._id}`, {
+        await fetch(`https://do-an-co-so-phenikaa.onrender.com/wishlist/api/remove?userId=${userUID}&productId=${product._id}`, {
           method: "DELETE",
         });
       } else {
         console.log(`🟢 Thêm sản phẩm ${product._id} vào wishlist`);
-        await fetch("http://localhost:3000/wishlist/api/add", {
+        await fetch("https://do-an-co-so-phenikaa.onrender.com/wishlist/api/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -176,7 +176,7 @@ const ProductList = ({ activeFilters, sortOption, searchQuery }) => {
 
       console.log(` Thêm vào giỏ hàng: ${product.title} (Số lượng: ${quantity})`);
 
-      const response = await fetch("http://localhost:3000/cart/api/add", {
+      const response = await fetch("https://do-an-co-so-phenikaa.onrender.com/cart/api/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -27,7 +27,7 @@ const Qr = ({
 
     // const fetchProductDetails = async (productIds) => {
     //     try {
-    //         const response = await fetch("http://localhost:3000/cosmetic/api", {  // Đổi API URL nếu cần
+    //         const response = await fetch("https://do-an-co-so-phenikaa.onrender.com/cosmetic/api", {  // Đổi API URL nếu cần
     //             method: "POST",
     //             headers: {
     //                 "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const Qr = ({
             // Lấy thông tin user
             try {
                 const userResponse = await fetch(
-                    `http://localhost:3000/customer/api/user?id=${userId}`
+                    `https://do-an-co-so-phenikaa.onrender.com/customer/api/user?id=${userId}`
                 );
                 if (!userResponse.ok)
                     throw new Error(
@@ -132,7 +132,7 @@ const Qr = ({
             let selectedAddressInfo = null;
             try {
                 const addressResponse = await fetch(
-                    `http://localhost:3000/address/api/${userId}`
+                    `https://do-an-co-so-phenikaa.onrender.com/address/api/${userId}`
                 );
                 if (!addressResponse.ok) throw new Error("Error getting address list");
 
@@ -182,7 +182,7 @@ const Qr = ({
 
             console.log("📦 Sending order data:", billData);
 
-            const response = await fetch("http://localhost:3000/bill/api/create", {
+            const response = await fetch("https://do-an-co-so-phenikaa.onrender.com/bill/api/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(billData),
@@ -202,7 +202,7 @@ const Qr = ({
             await Promise.all(
                 selectedItems.map((item) =>
                     fetch(
-                        `http://localhost:3000/cart/api/delete/${userId}/${item.productId}`,
+                        `https://do-an-co-so-phenikaa.onrender.com/cart/api/delete/${userId}/${item.productId}`,
                         { method: "DELETE" }
                     )
                 )

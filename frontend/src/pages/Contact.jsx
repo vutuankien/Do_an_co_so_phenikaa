@@ -18,7 +18,7 @@ const admins = [
   {
     name: "Thế Hưng",
     fbLink: "https://www.facebook.com/thienquoc.hoang.52",
-    avatar: "https://scontent.fhan2-5.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeH4M_NObfnpBzSavDcGrThSWt9TLzuBU1Ba31MvO4FTUAURZLnVcZqwICZFT8EyI9a8b9_lUJ5-TdGVlv1gV8Xt&_nc_ohc=y_2d5iWHAR8Q7kNvgEjHH3T&_nc_oc=AdhxQnnyDI47YjkjjP5y0MndayvGTtd4B6WYWviD6w5yQ4ohJExZg7TTEx0cDzJRnuZraEkK1kymGhHXYighWUUT&_nc_zt=24&_nc_ht=scontent.fhan2-5.fna&_nc_gid=AcQJ1-867bVzkDqeWBQfScQ&oh=00_AYB_0Mso8hEouWA7pCUmag62z7L_8KaocFG3kqfAynXIvA&oe=67D6213A"
+    avatar: "https://scontent.fhan20-1.fna.fbcdn.net/v/t1.15752-9/485877597_3496533307146198_3674561285638338859_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeG_MGgrfzyPZAMiGSvhjkF2sHALYkXJH3uwcAtiRckfexeP__jGokY0RFXFgyfotiDZW3gtyyCRPvUSIDz4u4rZ&_nc_ohc=e_l7fDsk7wcQ7kNvgEfRFnT&_nc_oc=Adn4_RltmJoJg9JMJHhp2dK1y2OIXjc2mtmbv3g6pSzuU3FBZr1-fS2RB5nIXL6WnE0&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&oh=03_Q7cD1wGkIbxskZ5ppfShZeJa3Kl1hPi1-tlhue9LtdsQQuYVkw&oe=680ABC8F"
   },
 ];
 
