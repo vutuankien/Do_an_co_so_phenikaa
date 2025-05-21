@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '50mb' }));
 app.use(
     cors({
-        origin: 'http://localhost:5173', // Cho phép frontend React
+        origin: ['https://vite-react-ecommerce-fr-git-50e2dd-kien-tuans-projects-984365e8.vercel.app'], // Cho phép frontend React
         methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS', // Thêm PATCH vào danh sách
         allowedHeaders: 'Content-Type,Authorization',
         credentials: true,
