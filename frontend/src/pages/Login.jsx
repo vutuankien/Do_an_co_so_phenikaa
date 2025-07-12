@@ -29,7 +29,7 @@ const Login = ({ onLogin }) => {
     try {
       console.log("Sending data:", { email, password });
 
-      const response = await axios.post("https://do-an-co-so-phenikaa.onrender.com/customer/api/register", {
+      const response = await axios.post("http://localhost:3000/customer/api/register", {
         email,
         password,
         name: "User", // Giá trị mặc định
@@ -63,13 +63,15 @@ const Login = ({ onLogin }) => {
       let response;
       try {
         // Gọi API đăng nhập không cần password
-        response = await axios.post("https://do-an-co-so-phenikaa.onrender.com/customer/api/login", {
+        response = await axios.post("http://localhost:3000/customer/api/login", {
           email: user.email,
           name: user.displayName,
           photoURL: user.photoURL,
           phone: "",
           dob: "",
           password: user.password
+        }, {
+          withCredentials: true // Thêm tùy chọn này nếu cần thiết
         });
 
         localStorage.setItem("uid", JSON.stringify(response.data.user._id));
@@ -80,14 +82,17 @@ const Login = ({ onLogin }) => {
       } catch (error) {
         if (error.response?.status === 404) {
           // Nếu user chưa tồn tại, đăng ký mới
-          const registerResponse = await axios.post("https://do-an-co-so-phenikaa.onrender.com/customer/api/register", {
+          const registerResponse = await axios.post("http://localhost:3000/customer/api/register", {
             email: user.email,
             name: user.displayName,
             photoURL: user.photoURL,
             password: user.password,
             phone: "",
             dob: ""
-          });
+          },
+            {
+              withCredentials: true // Thêm tùy chọn này nếu cần thiết
+            });
 
           localStorage.setItem("uid", JSON.stringify(response.data.user._id));
           localStorage.setItem("userUID", JSON.stringify(response.data.user._id));
@@ -114,8 +119,10 @@ const Login = ({ onLogin }) => {
     setMessage("");
 
     try {
-      const response = await axios.post("https://do-an-co-so-phenikaa.onrender.com/customer/api/login", {
+      const response = await axios.post("http://localhost:3000/customer/api/login", {
         email, password  // Chỉ gửi email, bỏ password
+      }, {
+        withCredentials: true // Thêm tùy chọn này nếu cần thiết
       });
 
       setMessage("Đăng nhập thành công!");
