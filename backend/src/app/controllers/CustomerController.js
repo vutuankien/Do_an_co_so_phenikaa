@@ -44,10 +44,14 @@ class CustomerController {
         }
     }
 
-    // Đăng nhập (chỉ kiểm tra email, không kiểm tra mật khẩu)
+    // Đăng nhập (kiểm tra cả email và password)
     async login(req, res, next) {
         try {
-            const { email } = req.body;
+            const { email, password } = req.body;
+
+            if (!email || !password) {
+                return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu!', user: null });
+            }
 
             const customer = await Customer.findOne({ email });
 
@@ -55,6 +59,12 @@ class CustomerController {
                 return res
                     .status(404)
                     .json({ message: 'Email không tồn tại!', user: null });
+            }
+
+            if (customer.password !== password) {
+                return res
+                    .status(401)
+                    .json({ message: 'Mật khẩu không đúng!', user: null });
             }
 
             res.status(200).json({

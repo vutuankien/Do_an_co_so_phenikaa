@@ -17,17 +17,20 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'default_secret_key'; // Th
 db.connect();
 connectCloudinary();
 
+// **CORS middleware (must be before any routes or static middleware)**
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
+        optionsSuccessStatus: 200,
+    })
+);
+
 // **Middleware**
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '50mb' }));
-app.use(
-    cors({
-        origin: ['https://vite-react-ecommerce-fr-git-50e2dd-kien-tuans-projects-984365e8.vercel.app'], // Cho phép frontend React
-        methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS', // Thêm PATCH vào danh sách
-        allowedHeaders: 'Content-Type,Authorization',
-        credentials: true,
-    }),
-);
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(methodOverride('_method'));
 app.use(SortMiddleware);
