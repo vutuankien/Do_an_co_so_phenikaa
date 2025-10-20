@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const SortMiddleware = require("./app/middlewares/SortMiddleware");
 const connectCloudinary = require("./config/cloudinary");
 const cors = require("cors");
+const fs = require("fs");
 require("dotenv").config();
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "default_secret_key"; // Thêm giá trị mặc định
@@ -27,7 +28,7 @@ app.use(methodOverride("_method"));
 // --- CORS động (chỉ dùng 1 lần, trước routes) ---
 const allowedOrigins = process.env.FRONTEND_URL
   ? process.env.FRONTEND_URL.split(",").map((u) => u.trim())
-  : ["http://localhost:5173", "http://localhost:3000"];
+  : ["http://localhost:5173", "http://localhost:3000", "http://localhost:5000"];
 
 console.log("Allowed CORS origins:", allowedOrigins);
 
@@ -78,6 +79,15 @@ app.engine(
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resources/views"));
+
+// Serve frontend production build nếu tồn tại (giữ same-origin để cookies hoạt động)
+const frontendDist = path.join(__dirname, "../../frontend/dist");
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+}
 
 // **Khai báo route**
 route(app);
