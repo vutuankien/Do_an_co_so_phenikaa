@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretty": "lint-staged",
-    "watch": "node-sass src/resources/sass -o src/public/css --watch"
+    "watch": "sass src/resources/sass -o src/public/css --watch"
   },
   "keywords": [
     "nodejs",
@@ -44,10 +44,10 @@
     "mongoose-sequence": "^6.0.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "node-sass": "^9.0.0",
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "razorpay": "^2.9.5",
+    "sass": "^1.89.1",
     "short-unique-id": "^5.2.0",
     "slugify": "^1.6.6",
     "stripe": "^17.5.0",

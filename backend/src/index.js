@@ -1,70 +1,90 @@
-const express = require('express');
+// ...existing code...
+const express = require("express");
 const app = express();
-const session = require('express-session');
-const path = require('path');
-const handlebars = require('express-handlebars').engine;
-const route = require('./routes');
-const db = require('./config/db/index');
-const methodOverride = require('method-override');
-const SortMiddleware = require('./app/middlewares/SortMiddleware');
-const connectCloudinary = require('./config/cloudinary');
-const cors = require('cors');
-require('dotenv').config();
+const session = require("express-session");
+const path = require("path");
+const handlebars = require("express-handlebars").engine;
+const route = require("./routes");
+const db = require("./config/db/index");
+const methodOverride = require("method-override");
+const SortMiddleware = require("./app/middlewares/SortMiddleware");
+const connectCloudinary = require("./config/cloudinary");
+const cors = require("cors");
+require("dotenv").config();
 
-const SESSION_SECRET = process.env.SESSION_SECRET || 'default_secret_key'; // Thêm giá trị mặc định
+const SESSION_SECRET = process.env.SESSION_SECRET || "default_secret_key"; // Thêm giá trị mặc định
 
 // **Kết nối database & Cloudinary**
 db.connect();
 connectCloudinary();
 
-// **CORS middleware (must be before any routes or static middleware)**
+// --- Static + body parsers ---
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(methodOverride("_method"));
+
+// --- CORS động (chỉ dùng 1 lần, trước routes) ---
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map((u) => u.trim())
+  : ["http://localhost:5173", "http://localhost:3000"];
+
+console.log("Allowed CORS origins:", allowedOrigins);
+
 app.use(
-    cors({
-        origin: 'http://localhost:5173',
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        credentials: true,
-        optionsSuccessStatus: 200,
-    })
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (curl, Postman)
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes("*") ||
+        allowedOrigins.indexOf(origin) !== -1
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS: " + origin));
+    },
+    methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
+  })
 );
 
-// **Middleware**
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(methodOverride('_method'));
+// ...existing code...
 app.use(SortMiddleware);
 
 // **Cấu hình session**
 app.use(
-    session({
-        secret: SESSION_SECRET, // Chuỗi bí mật (có giá trị mặc định)
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }, // Để test trên localhost
-    }),
+  session({
+    secret: SESSION_SECRET, // Chuỗi bí mật (có giá trị mặc định)
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Để test trên localhost
+  })
 );
 
 // **Cấu hình Handlebars**
 app.engine(
-    'hbs',
-    handlebars({
-        extname: '.hbs',
-        defaultLayout: 'main',
-        helpers: require('./helpers/handlebars'),
-        runtimeOptions: {
-            allowProtoMethodsByDefault: true,
-        },
-    }),
+  "hbs",
+  handlebars({
+    extname: ".hbs",
+    defaultLayout: "main",
+    helpers: require("./helpers/handlebars"),
+    runtimeOptions: {
+      allowProtoMethodsByDefault: true,
+    },
+  })
 );
 
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "resources/views"));
 
 // **Khai báo route**
 route(app);
 
 // **Chạy server**
-app.listen(process.env.PORT, "0.0.0.0", () => {
-    console.log(`Server is running on http://localhost:${process.env.PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+// ...existing code...
